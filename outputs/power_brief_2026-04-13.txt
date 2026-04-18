@@ -1,0 +1,38 @@
+US POWER MARKETS BRIEF — 2026-04-13
+21 signals (0 RED, 19 AMBER, 2 GREEN)
+
+WHAT MOVED IN US POWER MARKETS TODAY
+PJM proposed an emergency procurement for up to 15 GW of new generation via bilateral contracts and central procurement, running September 2026 through March 2027 — the largest single capacity action driven by data center load growth. Negative DA price hours fired across CAISO 10h, Ercot 10h, CAISO 2h, CAISO 10h — solar oversupply compressing merchant revenue. SPP expanded its service territory into the Western Interconnection, reshaping transmission access for Mountain West generators. EIA projects solar generation up 17% this summer, reinforcing the curtailment thesis in CAISO and ERCOT West.
+
+RTO SNAPSHOT
+  PJM: Emergency procurement for 15 GW new generation (Sep 26 – Mar 27). Bilateral + central procurement. Driven by DC load.
+  ERCOT: HB_WEST: 10 negative DA hours, avg $10.27/MWh. Solar oversupply in west Texas.
+  CAISO: SP15: 10 neg hours; NP15: 2 neg hours. Grizzly III PPA revenue directly compressed. Solar duck curve deepening.
+  SPP: Expanded service territory into Western Interconnection. New transmission access for Mountain West projects.
+
+PRICE SIGNALS
+  Grizzly III CAISO SP15 curtail: 10 neg hours
+  Ercot HB_WEST: avg $10.27/MWh, 10 neg hours
+  CAISO TH_NP15_GEN-APND: avg $15.05/MWh, 2 neg hours
+  CAISO TH_SP15_GEN-APND: avg $9.22/MWh, 10 neg hours
+  Henry Hub: $3.04/MMBtu | 7d +3.4% 30d -3.5% 90d -17.8% !! 90d
+
+GENERATION MIX SIGNALS
+  Rehlko, INNIO Have Deal For 1.25 GW of Gas Engine Capacity
+    -> 1.25 GW gas engine procurement signals distributed generation demand. Competes with utility-scale gas for capacity value.
+  Renewables Reenvisioned: How Linea Energy Built a 7-GW Renewable Pipeline i
+    -> Large renewable pipeline build-out pressures interconnection queues and may widen congestion spreads.
+  Grizzly III CAISO SP15 curtailment exposure — 10 negative DA price hours di
+    -> Direct revenue compression on solar PPAs priced off DA settlement. Shape risk accelerating.
+  Solar generation to rise 17% this summer: EIA
+    -> 17% solar growth reinforces midday oversupply in CAISO/ERCOT. Negative price hours trend worsens for merchant solar.
+
+DEAL EXPOSURE
+  Three Amigos: 1.25 GW gas engine deal (Rehlko/INNIO) signals distributed generation demand that competes with utility-scale gas for capacity value. Indirect pressure on Three Amigos project economics.
+  Storybook WI: We Energies rate case cites $1.9B in DC-driven grid costs. If approved, sets precedent for cost allocation that changes interconnection economics for Storybook WI.
+  Utah Solar Topaz: SPP expansion into Western Interconnection opens new transmission pathways. May improve deliverability and reduce basis risk for Utah Solar Topaz.
+  Grizzly III: CAISO SP15 posted 10 negative DA hours — direct revenue compression on Grizzly III's solar PPA. As-produced settlement hits zero or negative during those windows. Shape risk is the underwriting question.
+  GT-108: PJM emergency auction targets 15 GW — if clearing prices come in above forward curve, GT-108's capacity contract value reprices upward. Watch auction design rules in Q2.
+
+ONE THING TO ACT ON THIS WEEK
+PJM's emergency procurement (Sep 2026 – Mar 2027) for 15 GW is the largest single capacity action in a decade, driven entirely by DC load growth. GT-108 (SB Energy Ohio) sits in PJM — if auction clears above the forward capacity curve, it reprices the deal's revenue line. The auction design rules drop in Q2 — that's when you'll know whether bilateral or central procurement favors existing gas assets vs. new build. Get ahead of it.

@@ -1,0 +1,61 @@
+GROUNDTRUTH DAILY DIGEST — 2026-04-14
+29 signals | 3 RED | 26 AMBER | 0 GREEN
+
+REGIME PULSE
+Active regime: R0 — Compound Stress. Today's signal flow dominated by Commodities, Oil & Gas, Renewables/Grid. 3 RED alerts flagged — elevated stress across multiple vectors.
+Pending binary events: BE-001 (2026-04-29), BE-002 (2026-04-30), BE-003 (2026-07-04).
+
+TOP SIGNALS BY ALERT LEVEL
+
+  RED (3)
+  * BP hails ‘exceptional’ quarter for oil traders as Iran war stokes volatility
+    Energy price signal transmits through fuel cost to operating margins and offtaker economics on weeks to months timeline under R0 Compound Stress (Horm
+  * Young trader who made $250mn on Russian crude sets sights on Guyana
+    Energy price signal transmits through fuel cost to operating margins and offtaker economics on weeks to months timeline under R0 Compound Stress (Horm
+  * FirstFT: Predictions of an ‘exceptionally strong’ earnings season
+    Policy/legislative signal affects tax credit eligibility and developer IRR requirements on days timeline under R0 Compound Stress (Hormuz crisis Day 4
+
+  AMBER (26)
+  - Excelerate secures Guantanamo LNG supply contract  |  Federal regulatory action affects permitting timelines and compliance cost assumptions on weeks to m
+  - Honeywell secures Rio Grande LNG gig  |  Federal regulatory action affects permitting timelines and compliance cost assumptions on weeks to m
+  - Wallenbergs rescue Swedish green steel project with €1.4bn funding deal  |  Rate/macro signal affects WACC assumptions and refinancing economics. 2020-21 vintage faces +375bps 
+  - Iran, US Weigh Fresh Talks as Trump Blockade Underway  |  Energy price signal transmits through fuel cost to operating margins and offtaker economics on weeks
+  - The Vix indicator of the time to buy  |  Rate/macro signal affects WACC assumptions and refinancing economics. 2020-21 vintage faces +375bps 
+  - How Am I Supposed to Live Without You – U.S. Refiners Using Persian Gulf Crude Seek A  |  Energy price signal transmits through fuel cost to operating margins and offtaker economics on weeks
+  - China’s gas imports drop in March  |  Energy price signal transmits through fuel cost to operating margins and offtaker economics on weeks
+  - Premier Energies secures 1.6GW solar cell and module supply orders  |  Federal regulatory action affects permitting timelines and compliance cost assumptions on weeks to m
+  ... and 18 more AMBER signals
+
+SECTOR BREAKDOWN
+  C08 Commodities: 15 RED/AMBER signals ** HOT ZONE **
+  C05 Oil & Gas: 14 RED/AMBER signals ** HOT ZONE **
+  C06 Renewables/Grid: 10 RED/AMBER signals ** HOT ZONE **
+  C04 Nuclear: 6 RED/AMBER signals ** HOT ZONE **
+  C02 Regulatory: 6 RED/AMBER signals ** HOT ZONE **
+  C07 Banking/Finance: 4 RED/AMBER signals ** HOT ZONE **
+  C12 Credit/BDC: 4 RED/AMBER signals ** HOT ZONE **
+  C14 Digital Infra: 4 RED/AMBER signals ** HOT ZONE **
+
+DEAL WATCH HITS
+  [AMBER] XGS Energy, CC Power sign 115MW geothermal development agreement  |  Signal touches Project Marici via C04|C06|C07 tag overlap under R0 Compound Stre
+  [AMBER] Oil Traders Bet on Diplomacy Even as Physical Supply Tightens  |  Signal touches Project Edged DC Javelin 2, GT-109 SB Energy Milam, Project Commo
+
+PRICE MOVES
+  wti_usd_bbl: 114.58 $/bbl  |  7d +19.1%  30d +72.7%  90d +93.8% !! 7d move
+  brent_usd_bbl: 138.21 $/bbl  |  7d +26.6%  30d +90.0%  90d +116.0% !! 7d move
+  henry_hub_usd_mmbtu: 3.04 $/MMBtu  |  7d +3.4%  30d -3.5%  90d -17.8% !! 90d move
+  ust_10y_pct: 4.31 %  |  7d -0.0%  30d +0.3%  90d +0.2%
+  sofr_pct: 3.61 %  |  7d -0.1%  30d -0.1%  90d -0.5%
+  bbb_oas_bps: 1.04 %  |  7d -0.1%  30d -0.0%  90d +0.0%
+  hy_spread_bps: 2.94 %  |  7d -0.2%  30d -0.2%  90d +0.1%
+  aluminum_usd_mt: 3550.0 $/MT  |  7d +4.1%  30d +14.2%  90d n/a !! 30d move
+  copper_usd_mt: 13329.13 $/MT  |  7d +8.7%  30d +2.6%  90d n/a !! 7d move
+  steel_hrc_index: 405.31 index  |  7d +8.0%  30d +4.2%  90d +60.6% !! 7d move
+  Threshold breaches: {'field': 'wti_usd_bbl', 'window': '7d', 'value': 114.58, 'delta': 19.13, 'threshold': 8.0, 'type': 'pct'}, {'field': 'wti_usd_bbl', 'window': '30d', 'value': 114.58, 'delta': 72.66, 'threshold': 15.0, 'type': 'pct'}, {'field': 'brent_usd_bbl', 'window': '7d', 'value': 138.21, 'delta': 26.64, 'threshold': 8.0, 'type': 'pct'}, {'field': 'brent_usd_bbl', 'window': '30d', 'value': 138.21, 'delta': 89.98, 'threshold': 15.0, 'type': 'pct'}, {'field': 'copper_usd_mt', 'window': '7d', 'value': 13329.13, 'delta': 8.68, 'threshold': 8.0, 'type': 'pct'}
+
+ONE NON-OBVIOUS THING
+  From: BP hails ‘exceptional’ quarter for oil traders as Iran war stokes volatility
+  Energy price signal transmits through fuel cost to operating margins and offtaker economics on weeks to months timeline under R0 Compound Stress (Hormuz crisis Day 42+). Secondary: Solar market signal affects module pricing, EPC costs, and development pipeline economics.
+
+Generated: 2026-04-14 05:19 ET  |  Regime: R0 — Compound Stress
+Signals DB: 29 active  |  Binary events: 4 open

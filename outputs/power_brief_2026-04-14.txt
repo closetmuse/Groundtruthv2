@@ -1,0 +1,24 @@
+US POWER MARKETS BRIEF — 2026-04-14
+3 signals (0 RED, 3 AMBER, 0 GREEN)
+
+WHAT MOVED IN US POWER MARKETS TODAY
+negative DA price hours fired across Ercot 9h, CAISO 5h, CAISO 10h — solar oversupply compressing merchant revenue.
+
+RTO SNAPSHOT
+  ERCOT: HB_WEST: 9 negative DA hours, avg $10.27/MWh. Solar oversupply in west Texas.
+  CAISO: NP15: 5 neg hours; SP15: 10 neg hours. Solar duck curve deepening.
+
+PRICE SIGNALS
+  Ercot HB_WEST: avg $2.33/MWh, 9 neg hours
+  CAISO TH_NP15_GEN-APND: avg $11.99/MWh, 5 neg hours
+  CAISO TH_SP15_GEN-APND: avg $8.19/MWh, 10 neg hours
+  Henry Hub: $3.04/MMBtu | 7d +3.4% 30d -3.5% 90d -17.8% !! 90d
+
+GENERATION MIX SIGNALS
+  No generation mix signals today.
+
+DEAL EXPOSURE
+  No direct deal transmission paths identified today.
+
+ONE THING TO ACT ON THIS WEEK
+Ercot HB_WEST: 9 negative price hours DA 2026-04-14 — review for capital stack transmission.

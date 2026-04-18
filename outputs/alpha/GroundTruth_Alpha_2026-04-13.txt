@@ -1,0 +1,35 @@
+GROUNDTRUTH
+Infrastructure Intelligence Platform
+ALPHA DEMONSTRATION
+April 13, 2026  |  Four signals. One day. All public. None priced.
+1.  THE GRID COST THAT WILL SURPRISE YOUR CLIENT
+We Energies filed a rate case in Wisconsin today citing $1.9 billion in grid upgrade costs attributable directly to data center load growth. The filing is public record. It will affect interconnection timelines and cost allocation for every generator seeking grid access in Wisconsin's service territory.
+Project Storybook WI has exposure to this filing. The client does not know yet.
+When the client calls — in days or weeks — to discuss interconnection assumptions, the We Energies filing will already be in the record. The gap between today and that call is a measured verification latency event. The information is not hidden. It is sitting in a public regulatory document filed this morning. The capital stack has not processed it.
+This is also a precedent signal beyond Wisconsin. Utilities in other RTO territories are watching whether We Energies succeeds in pushing DC-driven grid costs back to ratepayers. If the rate case is approved, it changes the interconnection cost calculus for greenfield projects across PJM, MISO, and SPP. That second-order implication is not in any current underwriting model.
+Estimated Verification Latency
+2–6 weeks to client recognition. 60–90 days to underwriting model update across the market.
+2.  THE CAPACITY REPRICING NO ONE HAS MODELLED YET
+PJM filed for an emergency procurement of up to 15 GW of new generation today, running September 2026 through March 2027. The filing is public. The auction design rules drop in Q2.
+Most project finance models for gas generation assets in PJM territory are running off the existing forward capacity curve. They have not been updated for an emergency auction at this scale. If the auction clears above that curve — which emergency procurement historically does — every gas asset in the PJM queue gets a revenue line restatement.
+GT-108 sits in PJM. The capital stack does not know this yet. The auction design rules will tell you whether bilateral or central procurement favors existing gas over new build. That distinction determines whether this is an upside event or a neutral one for existing assets. The rules drop in Q2. You have roughly 60 days to get ahead of this before it becomes consensus.
+Estimated Verification Latency
+45–60 days.
+3.  THE FEEDGAS ASSUMPTION THAT HAS NOT BEEN STRESS-TESTED
+Henry Hub is down 17.8% over 90 days despite Hormuz. The reason is Permian oversupply — Waha basis is deeply negative and takeaway capacity is constrained at 22 Bcf/d. That basis discount is currently insulating Gulf Coast gas-fired generation from the Hormuz fuel cost spike.
+New Permian pipeline capacity is approaching FID. When it reaches FID and construction begins, Waha basis will normalize. When Waha normalizes, Henry Hub will move. When Henry Hub moves, every Gulf Coast operating model underwritten at current fuel cost assumptions faces a revision.
+Most project finance models have not updated Waha assumptions because the basis discount has been stable. The leading indicator — Waha narrowing — is visible in the price feed today. The capital stack revision is 20–40 days behind it.
+Estimated Verification Latency
+20–40 days from Waha normalization.
+4.  THE DEMAND DESTRUCTION SIGNAL FOR US LNG BEING MISREAD
+The Eni CEO called publicly today for the EU to suspend its planned January 2027 ban on Russian LNG imports, citing Hormuz disruption as justification. The market is reading Hormuz as unambiguously bullish for US LNG export economics — widening HH-JKM spread, Asian buyers scrambling for non-Gulf supply, FID conversations accelerating for Delfin and Commonwealth.
+That read is correct in the short term. It is potentially wrong in the medium term.
+If Brussels responds to Eni's call and suspends the Russian LNG ban, it introduces a third supply option for European and Asian buyers who were expected to sign long-term HOAs with US terminals. The FID thesis for Commonwealth and Delfin depends on those signatures. A policy reversal in Brussels — which is now a live possibility, publicly flagged, with named advocacy — removes a structural demand driver that is baked into most US LNG project finance models.
+The signal is public today. The FID-level implication will not be priced until EU policy responds. That gap is the alpha window.
+Estimated Verification Latency
+30–60 days.
+WHAT THIS DEMONSTRATES
+Four findings. All sourced from public filings, regulatory documents, and executive statements captured and classified this morning. None of them are in any project finance model updated this week.
+The average gap between when information like this becomes observable and when it reaches the capital stack is 13 months across 47 years of infrastructure stress events. In these four cases the gap is measured in days to weeks — because the platform is running daily, the signals are classified against named deals, and the transmission mechanisms are stated explicitly.
+That gap — between observation and institutional recognition — is where the alpha lives.
+GroundTruth  |  April 13, 2026  |  Private & Confidential

@@ -1,0 +1,58 @@
+GROUNDTRUTH
+Infrastructure Intelligence Platform
+ALPHA DEMONSTRATION
+April 14, 2026  |  Three signals. One day. All public. None priced.
+
+1.  THE INTERCONNECTION QUEUE PRESSURE NOBODY IS MODELLING AT GT-108
+
+Karis is evaluating a new data center site in central Ohio, reported today by a regional trade source and classified as GS-422. No application has been submitted yet. The signal is pre-application, which is why it is interesting.
+
+Project GT-108 SB Energy Ohio sits in the PJM interconnection queue in the same service territory. The GT-108 underwriting model was built against a queue position and a cost allocation baseline that reflected the named applicants as of queue cutoff. Karis adds a new large-load applicant to that queue. Under the FERC Large Load Rule that drops April 30 — T-16 — cost allocation for loads over 100MW is about to be restructured, and the cost basis will depend on the composition of the queue at the moment of the decision.
+
+The transmission mechanism is that every new large-load applicant in the queue shifts the cost allocation math for every other applicant. GT-108 interconnection cost is a function of queue composition. Karis moving from public speculation to queue application to published queue position changes GT-108 number. The application has not been filed. When it is filed — likely days to weeks, given the public reporting — GT-108 interconnection cost assumption should be re-run.
+
+The alpha window is from today (announcement) to application filing to queue publication to FERC LLR decision on April 30. That is a sequence of four distinct events compressing into 16 days. Sri is the only desk in the pipeline book with both GT-108 specifically and a working deal-match engine pointing at this signal.
+
+Estimated Verification Latency
+7-21 days to Karis application filing. 30-45 days to revised GT-108 interconnection cost basis in the underwriting model. FERC LLR on April 30 is the hard truncation on the window.
+
+
+2.  THE CAPTURE RATE ASSUMPTION THAT IS BEING INVALIDATED HOURLY
+
+CAISO SP15 printed 10 negative-price hours today. Day-ahead peak average ran $2.20 per MWh while off-peak averaged $20.18 per MWh — an inverted peak-offpeak spread of minus $17.98. The platform curtailment signal fired RED. This is not a scarcity event. It is the opposite — structural over-supply in the middle of the day, driven by the same solar fleet that Project Grizzly III is part of.
+
+Project Grizzly III is a utility-scale solar asset on CAISO SP15. The operating model carries a P50 capture rate assumption that determines the merchant-tail revenue beyond the PPA window. That assumption was set against historical CAISO SP15 behavior. Today CAISO SP15 data is outside the distribution most P50 assumptions are built against — not because prices are zero once, but because the frequency of hours at or below zero is climbing, not falling, as the solar fleet grows.
+
+The transmission mechanism is that every additional negative-price hour compresses the realised capture rate below the modelled capture rate. When the gap persists for a quarter, the model is stale and the NPV is overstated. The leading indicator — daily negative-hour count — is visible in the DB today via the negative_price_hours field in the snapshot blob. The model revision is whatever happens on the next mark-to-market cycle, which could be weeks or a quarter-end, depending on the deal structure.
+
+What makes this alpha is that the raw data is already captured by fetch_rto_prices on every run. No additional sourcing is required. The platform own schema is just not reading it. A one-line check against Grizzly III model answers whether the assumption is still valid.
+
+Estimated Verification Latency
+10-30 days from the next mark-to-market run. The data is available daily; the revision is gated on the model refresh cycle.
+
+
+3.  THE 90-DAY STEEL MOVE THAT IS NOT IN THE OBBBA ARITHMETIC
+
+Steel HRC is up 61.49% over 90 days. Copper is up 9.48% over 7 days and broke its threshold today. Aluminum is up 12.82% over 30 days. Three of the four construction inputs for utility-scale solar are running hot simultaneously, and none of them is responding to the Hormuz oil reversal because they are being driven by construction demand pull, not by fuel cost pass-through.
+
+Project Vega is a solar-plus-storage deal with two active binary events pointing at it: OBBBA BOC deadline July 4 (T-81) and FOMC April 28-29 (T-15). OBBBA requires demonstrated beginning-of-construction by July 4 to preserve full-value ITC/PTC eligibility. BOC is measured in dollars committed and physical work performed, which means the cost base used for BOC qualification is the live cost base, not the underwritten one. A project whose BOC dollars get redirected to cover unplanned steel inflation is a project running its BOC headroom down.
+
+The transmission mechanism is that Vega BOC economics are being eroded by the 61% steel move on the same calendar that the BOC deadline is counting down. Every week between now and July 4 that steel stays at current levels is a week of cost-base drift against a fixed-date deadline. A 200bps IRR compression from cost-stack inflation against an 81-day hard calendar is the kind of event that turns a clearly-financeable deal into a marginal one, and it does not require any external bad news to happen.
+
+This is alpha because the OBBBA deadline conversation today is about legislative risk (will the deadline be extended) and political risk (will Treasury guidance soften). It is not about construction-cost arithmetic, which is the input that is actually moving. The political question is noisy and uncertain; the cost-stack question is observable and trending. The second question is where the platform has an informational edge.
+
+Estimated Verification Latency
+30-60 days from cost-stack observation to BOC re-underwriting decision. Truncated by July 4 OBBBA deadline — the latency window closes when the binary event fires, regardless of where the model is.
+
+
+WHAT THIS DEMONSTRATES
+
+Three findings. All sourced from the platform own database — price snapshot, signal flow, deal matches, binary events — captured and classified in the 20:33 ET run on April 14. Finding 1 is a named competitive-entry signal with a 16-day alpha window truncated by FERC. Finding 2 is a capture-rate observation produced by the platform own RTO fetch and visible only because the negative_price_hours field is already in the snapshot schema. Finding 3 is a construction-cost observation that connects a 90-day commodity move to a deal with a hard calendar deadline.
+
+None of the three findings requires external data sourcing beyond what the 06:00 ET scheduled run already fetches. The alpha is in the synthesis across the commodity, regulatory, and deal layers — layers the platform holds in the same database but does not currently cross-reference automatically.
+
+The average gap between when information like this becomes observable and when it reaches the capital stack is 13 months across 47 years of infrastructure stress events. In these three cases the gap is measured in days to weeks — because the platform is running daily, the signals are classified against named deals, and the transmission mechanisms are stated explicitly.
+
+That gap — between observation and institutional recognition — is where the alpha lives.
+
+GroundTruth  |  April 14, 2026  |  Private & Confidential

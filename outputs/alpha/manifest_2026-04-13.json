@@ -1,0 +1,35 @@
+{
+  "date": "2026-04-13",
+  "type": "alpha_demonstration",
+  "title": "GroundTruth Alpha Demonstration \u2014 April 13 2026",
+  "signals_referenced": [
+    "GS-175",
+    "GS-156",
+    "GS-252",
+    "GS-187",
+    "GS-238"
+  ],
+  "deals_referenced": [
+    "Project Storybook WI",
+    "GT-108 SB Energy Ohio",
+    "GT-109 SB Energy Milam",
+    "Project Delfin",
+    "Project Commonwealth"
+  ],
+  "vl_estimates": {
+    "GS-175": "2-6 weeks client, 60-90 days market",
+    "GS-156": "45-60 days",
+    "GS-187": "20-40 days",
+    "GS-238": "30-60 days"
+  },
+  "files": {
+    "docx": "GroundTruth_Alpha_2026-04-13.docx",
+    "txt": "GroundTruth_Alpha_2026-04-13.txt"
+  },
+  "generated_from": [
+    "dc_brief_2026-04-13.txt",
+    "power_brief_2026-04-13.txt",
+    "lng_brief_2026-04-13.txt"
+  ],
+  "archived_at": "2026-04-13 21:01 ET"
+}

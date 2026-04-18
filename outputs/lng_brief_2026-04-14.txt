@@ -1,0 +1,29 @@
+US LNG & NATURAL GAS BRIEF — 2026-04-14
+15 signals (3 RED, 12 AMBER, 0 GREEN)
+
+WHAT MOVED IN US LNG AND GAS TODAY
+Thin day for LNG-specific signals — macro and geopolitical noise dominated.
+
+HORMUZ STATUS
+  Truce talks active — crude pared gains on peace deal hopes, but no breakthrough. (7 Hormuz-related signals today.)
+
+US EXPORT TERMINAL SNAPSHOT
+  Commonwealth: Oil Traders Bet on Diplomacy Even as Physical Supply Tighten
+
+PRICE SIGNALS
+  Henry Hub: 3.04 $/MMBtu | 7d +3.4% 30d -3.5% 90d -17.8% !! 90d
+  WTI: 114.58 $/bbl | 7d +19.1% 30d +72.7% 90d +93.8% !! 7d
+  Brent: 138.21 $/bbl | 7d +26.6% 30d +90.0% 90d +116.0% !! 7d
+  HH-JKM spread: Not available in price snapshot. Signals indicate JKM soaring on Gulf supply disruption — spread widening supports US export economics.
+
+SUPPLY CHAIN AND SHIPPING
+  3 shipping signals — review for route and insurance cost impacts.
+
+DEAL EXPOSURE
+  No direct deal transmission paths identified today.
+
+VERIFICATION LATENCY WATCH
+  No high-confidence VL candidates today.
+
+ONE THING TO ACT ON THIS WEEK
+The physical supply gap from Hormuz is about to become real — last pre-blockade cargoes are unloading now. Once refinery inventories start drawing down (1-2 weeks), expect spot LNG repricing and potential force majeure declarations from Gulf-sourced contracts. For Delfin and Commonwealth, this is the moment the export spread thesis either proves out or gets overwhelmed by shipping risk. Track Asian buyer behavior — if they start signing new HOAs with US terminals, that's your signal to accelerate FID conversations.

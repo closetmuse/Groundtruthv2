@@ -1,0 +1,402 @@
+GROUNDTRUTH SECTOR DIGEST — DATA CENTER & DIGITAL INFRASTRUCTURE
+Date: 2026-04-13  |  43 signals matched  |  1 RED  29 AMBER  13 GREEN
+Filter: C11, C14 tags + 14 keywords + 7 named deals
+
+  [RED] GS-263
+  Farage and Kwarteng’s bitcoin treasury company has just one non-executive director. Who is she?
+  The mysterious oil tycoon in charge of board oversight at Stack BTC
+  Second Order: Rate/macro signal affects WACC assumptions and refinancing economics. 2020-21 vintage faces +375bps vs underwriting on weeks to months timeline under R0 Compound Stress (Hormuz crisis Day 42+). Direct
+  Tags: ["C01", "C02", "C04", "C05", "C12"] | no anchor
+  Deal match: Signal touches Project Delta Stack via C01|C02|C04|C05|C12 tag overlap under R0 Compound Stress (Hor
+  Match reason: deal 'Delta Stack'
+  ---
+
+  [AMBER] GS-266
+  LVMH sales hit as Middle East conflict delays luxury recovery
+  US and Israel’s war on Iran dented sales growth at world’s biggest luxury group
+  Second Order: Geopolitical signal transmits through energy supply chain disruption and shipping cost escalation on weeks to months timeline under R0 Compound Stress (Hormuz crisis Day 42+). Secondary: Credit market
+  Tags: ["C07", "C08", "C12", "C14"] | no anchor
+  Deal match: NONE
+  Match reason: c_tag C14
+  ---
+
+  [AMBER] GS-267
+  Former Lafarge chief sentenced to six years in jail for financing terrorism
+  Paris court finds cement maker guilty of paying jihadis to keep operations running in Syria after civil war broke out
+  Second Order: Geopolitical signal transmits through energy supply chain disruption and shipping cost escalation on weeks to months timeline under R0 Compound Stress (Hormuz crisis Day 42+). Secondary: Credit market
+  Tags: ["C07", "C08", "C12", "C14"] | no anchor
+  Deal match: NONE
+  Match reason: c_tag C14
+  ---
+
+  [AMBER] GS-350
+  Print proves its staying power for jewellery branding
+  Paper catalogues are enjoying a revival as an immersive, tactile marketing tool, with high production values to express quality
+  Second Order: Credit market signal transmits through lender cost of funds and credit committee risk appetite. E01 GFC pattern: financing breaks before assets on weeks to months timeline under R0 Compound Stress (Ho
+  Tags: ["C07", "C12", "C14"] | no anchor
+  Deal match: NONE
+  Match reason: c_tag C14
+  ---
+
+  [AMBER] GS-306
+  Customs sets up refund process for Trump’s unlawful global tariffs
+  <p>U.S. Customs and Border Protection (CBP) has released details on how it will process refunds to President Donald Trump&#8217;s global tariffs, which the U.S.
+  Second Order: Solar market signal affects module pricing, EPC costs, and development pipeline economics on weeks to months timeline under R0 Compound Stress (Hormuz crisis Day 42+). Secondary: Geopolitical signal t
+  Tags: ["C06", "C08", "C09", "C14"] | no anchor
+  Deal match: NONE
+  Match reason: c_tag C14
+  ---
+
+  [AMBER] GS-205
+  The Pipeline: Gigaclear lenders’ haircut, Church Commissioners expands timberland strategy and Blackstone’s Rowan minori
+  Creditors take over Gigaclear, Church Commissioners’ value-add strategy and Blackstone buys into Rowan Digital Infra. Welcome to The Pipeline, the start-the-week briefing for our valued subscribers on
+  Second Order: Energy price signal transmits through fuel cost to operating margins and offtaker economics on weeks to months timeline under R0 Compound Stress (Hormuz crisis Day 42+). Secondary: Digital infrastruct
+  Tags: ["C05", "C11", "C12", "C14"] | no anchor
+  Deal match: NONE
+  Match reason: c_tag C11
+  ---
+
+  [AMBER] GS-175
+  We Energies Submits Rate Proposal to Support Grid Upgrades and Energy Reliability in WI
+  The request includes more than $225 million in savings from federal tax credits and earnings sharing, nearly $1.9 billion in costs attributed to data centers, and investments in Wisconsin’s energy gri
+  Second Order: Rate/macro signal affects WACC assumptions and refinancing economics. 2020-21 vintage faces +375bps vs underwriting on weeks to months timeline under R0 Compound Stress (Hormuz crisis Day 42+). Direct
+  Tags: ["C01", "C03", "C04", "C09", "C11", "C15"] | no anchor
+  Deal match: Signal touches Project Storybook WI via C01|C03|C04|C09|C11|C15 tag overlap under R0 Compound Stress
+  Match reason: c_tag C11
+  ---
+
+  [AMBER] GS-255
+  From risk to resilience: Securing continuity in UK data centers
+  <p>Resilience is no longer about avoiding failure entirely. It is about maintaining control when failure happens</p>
+  Second Order: Federal regulatory action affects permitting timelines and compliance cost assumptions on weeks to months timeline under R0 Compound Stress (Hormuz crisis Day 42+). Secondary: Digital infrastructure s
+  Tags: ["C02", "C11", "C14"] | no anchor
+  Deal match: NONE
+  Match reason: c_tag C11
+  ---
+
+  [AMBER] GS-276
+  UK Bets on Small Nuclear Reactors With £599 Million Rolls-Royce Investment
+  Rachel Reeves’ flagship wealth fund has announced a fresh heap of financing for Rolls-Royce SMR following its tie-up with Ed Miliband’s state-owned energy company. The National Wealth Fund has reveale
+  Second Order: Policy/legislative signal affects tax credit eligibility and developer IRR requirements on weeks to months timeline under R0 Compound Stress (Hormuz crisis Day 42+). Secondary: Energy price signal tra
+  Tags: ["C04", "C05", "C08", "C12", "C14"] | no anchor
+  Deal match: NONE
+  Match reason: c_tag C14
+  ---
+
+  [AMBER] GS-131
+  Inside AMPERA’s Bet on Subcritical Thorium Microreactors
+  <p>A Florida-based startup intends to build factory-produced nuclear systems designed to fit in shipping containers and run for 30 years without refueling. Here’s how the technology works—and where it
+  Second Order: Federal regulatory action affects permitting timelines and compliance cost assumptions on weeks to months timeline under R0 Compound Stress (Hormuz crisis Day 42+). Secondary: Energy price signal tran
+  Tags: ["C02", "C05", "C11", "C15"] | no anchor
+  Deal match: NONE
+  Match reason: c_tag C11
+  ---
+
+  [AMBER] GS-301
+  South Africa's Necsa seeks SMR partnership
+  The South African Nuclear Energy Corporation has launched an Expression of Interest process which &quot;aims to identify capable technology partners &hellip; to advance a fit-for-purpose SMR technolog
+  Second Order: Federal regulatory action affects permitting timelines and compliance cost assumptions on weeks to months timeline under R0 Compound Stress (Hormuz crisis Day 42+). Secondary: Policy/legislative signa
+  Tags: ["C02", "C04", "C14"] | no anchor
+  Deal match: NONE
+  Match reason: c_tag C14
+  ---
+
+  [AMBER] GS-231
+  Mortenson acquires Nor-Cal Controls to bolster utility-scale solar integration capabilities
+  The acquisition of Nor-Cal Controls allows Mortenson to internalize power plant control and SCADA engineering, targeting the technical bottlenecks that often delay project commissioning and grid synch
+  Second Order: Solar market signal affects module pricing, EPC costs, and development pipeline economics on weeks to months timeline under R0 Compound Stress (Hormuz crisis Day 42+). Secondary: Construction commodit
+  Tags: ["C06", "C09", "C14", "C15"] | no anchor
+  Deal match: NONE
+  Match reason: c_tag C14
+  ---
+
+  [AMBER] GS-185
+  Eyes of the Ranger – How the Iran War Reshapes Global Gas and LNG This Year and Beyond
+  U.S. LNG has been on the fast track as new export capacity along the Texas and Louisiana Gulf Coast draws in increasing volumes of U.S.
+  Second Order: Energy price signal transmits through fuel cost to operating margins and offtaker economics on weeks to months timeline under R0 Compound Stress (Hormuz crisis Day 42+). Direct pipeline exposure: GT-1
+  Tags: ["C05", "C08"] | no anchor
+  Deal match: Signal touches GT-109 SB Energy Milam, Project Delfin, Project Commonwealth via C05|C08 tag overlap 
+  Match reason: deal 'GT-109'
+  ---
+
+  [AMBER] GS-281
+  Kroenig interviewed on NPR on Iran’s state-sponsored piracy
+  <p>On April 11, Atlantic Council vice president and Scowcroft Center senior director Matthew Kroenig was interviewed on NPR on Iran's state-sponsored piracy in the Straight of Hormuz.</p>
+<p>The post 
+  Second Order: Policy/legislative signal affects tax credit eligibility and developer IRR requirements on weeks to months timeline under R0 Compound Stress (Hormuz crisis Day 42+). Secondary: Geopolitical signal tra
+  Tags: ["C04", "C08", "C14"] | no anchor
+  Deal match: NONE
+  Match reason: c_tag C14
+  ---
+
+  [AMBER] GS-183
+  China wants AI to prepare school lessons and mark homework
+  <h4>PLUS: Toyota wheels out basketball bot; Arm scores AI server win with SK Telecom; India ponders payment pauses to foil fraudsters; And more!</h4> <p><strong>Asia In Brief</strong>  China’s Nationa
+  Second Order: Federal regulatory action affects permitting timelines and compliance cost assumptions on weeks to months timeline under R0 Compound Stress (Hormuz crisis Day 42+). Secondary: Energy price signal tran
+  Tags: ["C02", "C05", "C11", "C14"] | no anchor
+  Deal match: NONE
+  Match reason: c_tag C11
+  ---
+
+  [AMBER] GS-310
+  Oman’s Naqaa Sustainable Energy to lead 500MW Botswana PV project—reports
+  Oman-based renewables firm Naqaa Sustainable Energy has been named as the lead developer of a 500MW PV plant in Botswana.
+  Second Order: Policy/legislative signal affects tax credit eligibility and developer IRR requirements on weeks to months timeline under R0 Compound Stress (Hormuz crisis Day 42+). Secondary: Solar market signal aff
+  Tags: ["C04", "C06", "C14"] | no anchor
+  Deal match: NONE
+  Match reason: c_tag C14
+  ---
+
+  [AMBER] GS-236
+  TotalEnergies Strikes Oil and Gas at Congo's Moho License
+  TotalEnergies has found oil and gas on a license which it has been developing offshore the Republic of Congo, the French supermajor said on Monday. TotalEnergies EP Congo, which operates the Moho lice
+  Second Order: Policy/legislative signal affects tax credit eligibility and developer IRR requirements on weeks to months timeline under R0 Compound Stress (Hormuz crisis Day 42+). Direct pipeline exposure: Project 
+  Tags: ["C04", "C05", "C08", "C14"] | no anchor
+  Deal match: Signal touches Project TotalEnergies via C04|C05|C08|C14 tag overlap under R0 Compound Stress (Hormu
+  Match reason: c_tag C14
+  ---
+
+  [AMBER] GS-230
+  Goldman bond traders take shine off bumper quarter
+  Equities unit powers bank’s earnings, while fixed income, currencies and commodities business fell well short
+  Second Order: Credit market signal transmits through lender cost of funds and credit committee risk appetite. E01 GFC pattern: financing breaks before assets on weeks to months timeline under R0 Compound Stress (Ho
+  Tags: ["C07", "C12", "C14"] | no anchor
+  Deal match: NONE
+  Match reason: c_tag C14
+  ---
+
+  [AMBER] GS-158
+  Sponsored: It’s a win-win: Applying industrial lessons to AI infrastructure
+  <p>Aveva’s Arti Garg explores why knowledge sharing between sectors is central to continued data center optimization – sustainably and at scale</p>
+  Second Order: Federal regulatory action affects permitting timelines and compliance cost assumptions on weeks to months timeline under R0 Compound Stress (Hormuz crisis Day 42+). Secondary: Digital infrastructure s
+  Tags: ["C02", "C11", "C14"] | no anchor
+  Deal match: NONE
+  Match reason: c_tag C11
+  ---
+
+  [AMBER] GS-195
+  Vineyard Wind sues GE Vernova as US offshore wind dispute flares
+  Vineyard Wind has sued its partner GE Vernova to try and block it from abandoning the developer’s 806MW project off Massachusetts. Meanwhile, the turbine maker has claimed it is owed hundreds of milli
+  Second Order: Construction commodity price movement affects EPC budget assumptions and contingency adequacy. Moody's construction phase CDR 0.94%/yr, LGD 27.5% anchor risk assessment on weeks to months timeline und
+  Tags: ["C07", "C09", "C13", "C14"] | no anchor
+  Deal match: NONE
+  Match reason: c_tag C14
+  ---
+
+  [AMBER] GS-196
+  Hexicon sells pioneering UK floating wind project for £1 after power deal scrapped
+  Swedish developer Hexicon has completed the sale of its 32MW Twinhub floating offshore wind project in the UK for a total of just £1 (around €1.15) after losing its power deal earlier this week.
+  Second Order: Construction commodity price movement affects EPC budget assumptions and contingency adequacy. Moody's construction phase CDR 0.94%/yr, LGD 27.5% anchor risk assessment on weeks to months timeline und
+  Tags: ["C07", "C09", "C14"] | no anchor
+  Deal match: NONE
+  Match reason: c_tag C14
+  ---
+
+  [AMBER] GS-167
+  Viktor Orbán ousted after 16 years in landslide defeat for anti-EU torchbearer
+  Also in this newsletter: Brussels’ energy crisis remedies and Green Deal architect returns
+  Second Order: Credit market signal transmits through lender cost of funds and credit committee risk appetite. E01 GFC pattern: financing breaks before assets on weeks to months timeline under R0 Compound Stress (Ho
+  Tags: ["C07", "C12", "C14"] | no anchor
+  Deal match: Signal touches Project Torch Clean Energy via C07|C12|C14 tag overlap under R0 Compound Stress (Horm
+  Match reason: c_tag C14
+  ---
+
+  [AMBER] GS-190
+  Data centers are straining the grid. Can they be forced to pay for it?
+  As backlash grows, a nationwide search is underway for solutions to the AI energy crunch.
+  Second Order: Solar market signal affects module pricing, EPC costs, and development pipeline economics on weeks to months timeline under R0 Compound Stress (Hormuz crisis Day 42+). Secondary: Digital infrastructur
+  Tags: ["C06", "C07", "C11"] | no anchor
+  Deal match: NONE
+  Match reason: c_tag C11
+  ---
+
+  [AMBER] GS-337
+  Macquarie Upgrades CoreWeave to Outperform, Raises PT to $125
+  CoreWeave (GPU cloud infrastructure) upgraded by Macquarie from Neutral to Outperform. PT raised to $125 from $90.
+  Second Order: Digital infrastructure signal affects power procurement strategy and interconnection queue dynamics on weeks to months timeline under R0 Compound Stress (Hormuz crisis Day 42+). Secondary: Credit mark
+  Tags: ["C11", "C12", "C14"] | no anchor
+  Deal match: NONE
+  Match reason: c_tag C11
+  ---
+
+  [AMBER] GS-225
+  Construction’s economic outlook is increasingly cloudy beyond data centers
+  <figure><div><img src="https://imgproxy.divecdn.com/ThZR8muDiidMAObm08Lk2xCKwfCi58i52x7OFUu5ZLw/g:ce/rs:fill:1600:900:1/Z3M6Ly9kaXZlc2l0ZS1zdG9yYWdlL2RpdmVpbWFnZS9HZXR0eUltYWdlcy0yMjQyMjkyNjQ5LmpwZw==
+  Second Order: Construction commodity price movement affects EPC budget assumptions and contingency adequacy. Moody's construction phase CDR 0.94%/yr, LGD 27.5% anchor risk assessment on months timeline under R0 Com
+  Tags: ["C09", "C10", "C11"] | no anchor
+  Deal match: NONE
+  Match reason: c_tag C11
+  ---
+
+  [AMBER] GS-260
+  Suffolk tapped as construction manager for $1.2B student housing project
+  <figure><div><img src="https://imgproxy.divecdn.com/mi8P-WqrId5l0aH966C-iBMIte9BCHywjGQiiYwYpmg/g:ce/rs:fill:1600:900:1/Z3M6Ly9kaXZlc2l0ZS1zdG9yYWdlL2RpdmVpbWFnZS9jYW1wdXNfcmVjX2Ryb25lLmpwZy5qcGc=.web
+  Second Order: Construction commodity price movement affects EPC budget assumptions and contingency adequacy. Moody's construction phase CDR 0.94%/yr, LGD 27.5% anchor risk assessment on weeks to months timeline und
+  Tags: ["C09", "C10"] | no anchor
+  Deal match: Signal touches Project Delta Stack via C09|C10 tag overlap under R0 Compound Stress (Hormuz crisis D
+  Match reason: deal 'Delta Stack'
+  ---
+
+  [AMBER] GS-156
+  PJM targeting up to 15GW of new generation as part of emergency auction to meet growing data center demand
+  <p>Process expected to take place from September through March 2027</p>
+  Second Order: Digital infrastructure signal affects power procurement strategy and interconnection queue dynamics on months timeline under R0 Compound Stress (Hormuz crisis Day 42+). Direct pipeline exposure: GT-10
+  Tags: ["C03", "C11", "C14"] | no anchor
+  Deal match: Signal touches GT-108 SB Energy Ohio via C03|C11|C14 tag overlap under R0 Compound Stress (Hormuz cr
+  Match reason: c_tag C11
+  ---
+
+  [AMBER] GS-241
+  UK defense startup to supply drone interceptors for Britain and allies
+  <h4>MoD plans rapid procurement of Cambridge Aerospace's Skyhammer system at home and abroad</h4> <p>Britain is set to buy interceptors from a homegrown startup to counter Iranian Shahed-style attack 
+  Second Order: Geopolitical signal transmits through energy supply chain disruption and shipping cost escalation on weeks to months timeline under R0 Compound Stress (Hormuz crisis Day 42+). Secondary: Digital infra
+  Tags: ["C08", "C11", "C14"] | no anchor
+  Deal match: NONE
+  Match reason: c_tag C11
+  ---
+
+  [AMBER] GS-252
+  PJM proposes adding 14.9 GW with bilateral contracts, central procurement
+  <figure><div><img src="https://imgproxy.divecdn.com/MYpBrebvm542bjtpvswbMEWOctoc3NFjYmP7Gi-3n9Q/g:ce/rs:fill:1600:900:1/Z3M6Ly9kaXZlc2l0ZS1zdG9yYWdlL2RpdmVpbWFnZS82STVBMzQzNWIuanBn.webp" /></div></fig
+  Second Order: Policy/legislative signal affects tax credit eligibility and developer IRR requirements on weeks to months timeline under R0 Compound Stress (Hormuz crisis Day 42+). Direct pipeline exposure: GT-108 S
+  Tags: ["C03", "C04", "C06", "C11", "C15"] | no anchor
+  Deal match: Signal touches GT-108 SB Energy Ohio via C03|C04|C06|C11|C15 tag overlap under R0 Compound Stress (H
+  Match reason: c_tag C11
+  ---
+
+  [AMBER] GS-105
+  Federal permitting creates roadblocks for 11 GW of clean energy, report finds
+  A new survey by Crux shows that 94% of delayed projects cited federal review as a factor, with many developers now siting projects specifically to avoid the process.
+  Second Order: Rate/macro signal affects WACC assumptions and refinancing economics. 2020-21 vintage faces +375bps vs underwriting on weeks to months timeline under R0 Compound Stress (Hormuz crisis Day 42+). Second
+  Tags: ["C01", "C06", "C09", "C14"] | no anchor
+  Deal match: NONE
+  Match reason: c_tag C14
+  ---
+
+  [GREEN] GS-141
+  Infra secondaries buyers seek scarce opportunities – II Global Summit
+  Buyers have the opportunity to enter into unique assets that are harder to get access to in the primary markets, panellists said at PEI Group’s Infrastructure Investor Global Summit 2026.
+  Second Order: Federal regulatory action affects permitting timelines and compliance cost assumptions on weeks to months timeline under R0 Compound Stress (Hormuz crisis Day 42+). Secondary: Credit market signal tra
+  Tags: ["C02", "C12", "C14"] | no anchor
+  Deal match: NONE
+  Match reason: c_tag C14
+  ---
+
+  [GREEN] GS-142
+  Renewable energy has a ‘scaling paradox’
+  The remarkable pace of project deployment in the renewable energy sector is not being matched by advances in operational sophistication argues Power Factors' chief strategy officer Deborah Beatty.
+  Second Order: Federal regulatory action affects permitting timelines and compliance cost assumptions on weeks to months timeline under R0 Compound Stress (Hormuz crisis Day 42+). Secondary: Credit market signal tra
+  Tags: ["C02", "C12", "C14"] | no anchor
+  Deal match: NONE
+  Match reason: c_tag C14
+  ---
+
+  [GREEN] GS-253
+  Vertiv acquires prefab enclosure maker BMarko
+  <p>Latest deal to help Vertiv with prefabricated data centers</p>
+  Second Order: Digital infrastructure signal affects power procurement strategy and interconnection queue dynamics on weeks to months timeline under R0 Compound Stress (Hormuz crisis Day 42+).
+  Tags: ["C11", "C14"] | no anchor
+  Deal match: NONE
+  Match reason: c_tag C11
+  ---
+
+  [GREEN] GS-254
+  How Foresight prevented $100M in delays and cut reporting overhead by 90% for a global data center portfolio
+  <p>From blind spots to breakthroughs</p>
+  Second Order: Digital infrastructure signal affects power procurement strategy and interconnection queue dynamics on weeks to months timeline under R0 Compound Stress (Hormuz crisis Day 42+).
+  Tags: ["C11", "C14"] | no anchor
+  Deal match: NONE
+  Match reason: c_tag C11
+  ---
+
+  [GREEN] GS-250
+  Vineyard Wind sues to force GE Renewables to complete work on 800-MW offshore project
+  <p>The GE Vernova subsidiary is threatening to walk over a payment dispute. The developers say their contract allows them to withhold payment to offset costs incurred by the supplier&rsquo;s defective
+  Second Order: Solar market signal affects module pricing, EPC costs, and development pipeline economics on weeks to months timeline under R0 Compound Stress (Hormuz crisis Day 42+).
+  Tags: ["C03", "C06", "C07", "C14", "C15"] | no anchor
+  Deal match: NONE
+  Match reason: c_tag C14
+  ---
+
+  [GREEN] GS-220
+  Microsoft commits to "multi-billion-dollar" investment in AI infrastructure in Ontario, Canada
+  <p>Part of previously announced $19bn investment in the country</p>
+  Second Order: Digital infrastructure signal affects power procurement strategy and interconnection queue dynamics on weeks to months timeline under R0 Compound Stress (Hormuz crisis Day 42+).
+  Tags: ["C11", "C13", "C14"] | no anchor
+  Deal match: NONE
+  Match reason: c_tag C11
+  ---
+
+  [GREEN] GS-221
+  Report: India’s Data Center Boom
+  <p>The power behind India's data center investment supercycle</p>
+  Second Order: Digital infrastructure signal affects power procurement strategy and interconnection queue dynamics on weeks to months timeline under R0 Compound Stress (Hormuz crisis Day 42+).
+  Tags: ["C11", "C14"] | no anchor
+  Deal match: NONE
+  Match reason: c_tag C11
+  ---
+
+  [GREEN] GS-223
+  Blackstone files for data center REIT IPO
+  <p>New publicly-listed unit to focus on stabilized, newly-constructed data centers in Tier 1 markets</p>
+  Second Order: Digital infrastructure signal affects power procurement strategy and interconnection queue dynamics on weeks to months timeline under R0 Compound Stress (Hormuz crisis Day 42+).
+  Tags: ["C11", "C14"] | no anchor
+  Deal match: NONE
+  Match reason: c_tag C11
+  ---
+
+  [GREEN] GS-224
+  Two former Green Mountain CEOs set up new Nordic data center company
+  <p>Heim to target sites in Finland and Sweden, but few details shared</p>
+  Second Order: Digital infrastructure signal affects power procurement strategy and interconnection queue dynamics on weeks to months timeline under R0 Compound Stress (Hormuz crisis Day 42+).
+  Tags: ["C11", "C14"] | no anchor
+  Deal match: NONE
+  Match reason: c_tag C11
+  ---
+
+  [GREEN] GS-114
+  Oil Prices Surge Past $100 as Trump Threatens to Blockade the Strait of Hormuz
+  Oil prices surged back above $100 a barrel in early Asian trade following the collapse of U.S.-Iran negotiations and Trump's announcement that the U.S. would blockade the Strait of Hormuz.
+  Second Order: Energy price signal transmits through fuel cost to operating margins and offtaker economics on weeks to months timeline under R0 Compound Stress (Hormuz crisis Day 42+). Direct pipeline exposure: GT-1
+  Tags: ["C05", "C08"] | no anchor
+  Deal match: Signal touches GT-109 SB Energy Milam, Project Commonwealth via C05|C08 tag overlap under R0 Compoun
+  Match reason: deal 'GT-109'
+  ---
+
+  [GREEN] GS-157
+  20MW data center proposed at former Eon office site in Nottinghamshire, UK
+  <p>Portal Group proposed new data center on site of demolished office and data center building</p>
+  Second Order: Digital infrastructure signal affects power procurement strategy and interconnection queue dynamics on weeks to months timeline under R0 Compound Stress (Hormuz crisis Day 42+).
+  Tags: ["C11", "C14"] | no anchor
+  Deal match: NONE
+  Match reason: c_tag C11
+  ---
+
+  [GREEN] GS-139
+  Asset management takes centre stage
+  Proactive asset management at a company and portfolio level has never been more important, three industry professionals tell Infrastructure Investor.
+  Second Order: Credit market signal transmits through lender cost of funds and credit committee risk appetite. E01 GFC pattern: financing breaks before assets on weeks to months timeline under R0 Compound Stress (Ho
+  Tags: ["C12", "C14"] | no anchor
+  Deal match: Signal touches Project Three Amigos via C12|C14 tag overlap under R0 Compound Stress (Hormuz crisis 
+  Match reason: c_tag C14
+  ---
+
+  [GREEN] GS-290
+  Trump Signals High Gas Prices Through November Midterms
+  U.S. President Donald Trump has acknowledged that gasoline prices might remain high through the November 2026 midterm elections, a rare admission of the potential political fallout from the ongoing wa
+  Second Order: Energy price signal transmits through fuel cost to operating margins and offtaker economics on months timeline under R0 Compound Stress (Hormuz crisis Day 42+). Direct pipeline exposure: Project Edged
+  Tags: ["C05", "C08"] | no anchor
+  Deal match: Signal touches Project Edged DC Javelin 2 via C05|C08 tag overlap under R0 Compound Stress (Hormuz c
+  Match reason: deal 'Edged DC Javelin'
+  ---
+
+
+SYNTHESIS
+  Power demand: PJM emergency auction targeting 15 GW of new generation; grid strain from DC load growth driving rate proposals and reliability reviews.
+  Supply chain: tariff uncertainty on imported equipment; GPU/AI infrastructure build-out accelerating; prefab/modular DC supply chain consolidating (Vertiv-BMarko).
+  Financing: Blackstone DC REIT IPO filing signals institutional capital rotating into stabilized DC assets; credit market signals active — lender cost of funds under R0 stress.
+  Named deals: Direct hits on Delta Stack, Edged DC Javelin, GT-108, GT-109, Storybook (8 signals). Review risk_alert_rationale for transmission paths.
+  Actionable: We Energies Submits Rate Proposal to Support Grid Upgrades and Energy  — Rate/macro signal affects WACC assumptions and refinancing economics. 2020-21 vintage faces +375bps vs underwriting on w
+
+Generated: 2026-04-13 20:22 ET
+Total DB signals today: 181  |  Sector filter: 43 matched (24%)

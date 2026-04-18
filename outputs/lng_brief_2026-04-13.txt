@@ -1,0 +1,37 @@
+US LNG & NATURAL GAS BRIEF — 2026-04-13
+74 signals (3 RED, 59 AMBER, 12 GREEN)
+
+WHAT MOVED IN US LNG AND GAS TODAY
+The last pre-blockade tankers from the Gulf are reaching refineries now — once those cargoes unload, the physical supply gap from Hormuz closure becomes real. Permian gas takeaway constraints persist at 22 Bcf/d with Waha basis deeply negative, but new pipeline capacity is finally approaching FID. Port Arthur LNG terminal construction advancing on schedule. Cove Point LNG seeking regulatory approval for re-exports — a play to arbitrage the Hormuz premium by redirecting imported cargoes. Eni CEO called for suspending the EU's planned Jan 2027 ban on Russian LNG, citing Hormuz disruption — if Brussels blinks, it undercuts the US export premium thesis. Asian LNG imports have plunged to Covid-era lows as Gulf supply is trapped behind the blockade, with JKM spot prices soaring. IEA signaling readiness for additional strategic reserve releases.
+
+HORMUZ STATUS
+  Last pre-blockade Gulf cargoes reaching refineries — physical supply gap imminent. Iran threatening Gulf ports in response to US blockade. Truce talks active — crude pared gains on peace deal hopes, but no breakthrough. UK explicitly declined to support US blockade. UN urging all parties to respect Hormuz navigation rights. (38 Hormuz-related signals today.)
+
+US EXPORT TERMINAL SNAPSHOT
+  Port Arthur LNG: Construction progressing. On track.
+  Cove Point: Seeking regulatory OK for re-exports — Hormuz arbitrage play.
+  Delfin: Mentioned in Iran war/LNG reshaping analysis. Export window widening.
+  Commonwealth: Mentioned in Iran war/LNG reshaping analysis. Export window widening.
+
+PRICE SIGNALS
+  Henry Hub: 3.04 $/MMBtu | 7d +3.4% 30d -3.5% 90d -17.8% !! 90d
+  HH-JKM spread: Not available in price snapshot. Signals indicate JKM soaring on Gulf supply disruption — spread widening supports US export economics.
+
+SUPPLY CHAIN AND SHIPPING
+  Last pre-blockade cargoes unloading — Gulf shipping lane effectively closed to Iranian exports. Insurance costs remain elevated.
+  LNG carrier fleet expanding (Indonesia's Buana Lintas added second steam carrier) — but vessel availability remains tight on Atlantic basin routes.
+  UN urging navigation rights — diplomatic signal but no enforcement mechanism.
+  Jones Act suspension by Trump hasn't eased energy prices — domestic shipping relief insufficient against global supply squeeze.
+
+DEAL EXPOSURE
+  GT-109 SB Energy Milam: Henry Hub down 17.8% 90d despite Hormuz — Permian oversupply and Waha basis discount insulating GT-109's fuel cost. But if Hormuz persists and HH normalizes upward, the fuel cost assumption in the operating model needs stress-testing.
+  Project Delfin: Hormuz blockade widens the HH-JKM spread — positive for Delfin's FLNG export economics in the near term. But sustained Gulf disruption raises questions about long-term Asian buyer appetite for US-sourced LNG vs. diversifying to Qatar post-crisis.
+  Project Commonwealth: Same spread dynamic as Delfin. Commonwealth's FID timeline may accelerate if Asian buyers are signing contracts to lock in non-Gulf supply. Watch for new HOA/SPA announcements in the next 60 days.
+
+VERIFICATION LATENCY WATCH
+  Cove Point re-export application: Regulatory filing is public today but the arbitrage implication (redirecting imported cargoes at Hormuz premium) won't reach most capital stacks for 2-4 weeks. Est. VL: 15-25 days.
+  Permian gas takeaway expansion approaching FID: Waha basis discount is the leading indicator — when it narrows, feedgas economics shift for Gulf Coast terminals. Most project finance models haven't updated Waha assumptions. Est. VL: 20-40 days.
+  Eni CEO calling to suspend EU Russian LNG ban: If Brussels acts, it removes a key demand driver for US Gulf Coast projects. The policy signal is public but the FID-level implication won't be priced until EU policy response. Est. VL: 30-60 days.
+
+ONE THING TO ACT ON THIS WEEK
+The physical supply gap from Hormuz is about to become real — last pre-blockade cargoes are unloading now. Once refinery inventories start drawing down (1-2 weeks), expect spot LNG repricing and potential force majeure declarations from Gulf-sourced contracts. For Delfin and Commonwealth, this is the moment the export spread thesis either proves out or gets overwhelmed by shipping risk. Track Asian buyer behavior — if they start signing new HOAs with US terminals, that's your signal to accelerate FID conversations.

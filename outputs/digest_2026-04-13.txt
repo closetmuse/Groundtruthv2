@@ -1,0 +1,83 @@
+GROUNDTRUTH DAILY DIGEST — 2026-04-13
+181 signals | 5 RED | 146 AMBER | 30 GREEN
+
+REGIME PULSE
+Active regime: R0 — Compound Stress. Today's signal flow dominated by Commodities, Oil & Gas, Renewables/Grid. 5 RED alerts flagged — elevated stress across multiple vectors.
+Pending binary events: BE-001 (2026-04-29), BE-002 (2026-04-30), BE-003 (2026-07-04).
+
+TOP SIGNALS BY ALERT LEVEL
+
+  RED (5)
+  * Oil supply crunch intensifies as last Hormuz tankers reach refineries
+    Federal regulatory action affects permitting timelines and compliance cost assumptions on weeks to months timeline under R0 Compound Stress (Hormuz cr
+  * Farage and Kwarteng’s bitcoin treasury company has just one non-executive director. Who is
+    Rate/macro signal affects WACC assumptions and refinancing economics. 2020-21 vintage faces +375bps vs underwriting on weeks to months timeline under 
+  * Files proving legitimate expenses ‘disappeared’, ex-Opec chief tells court
+    Rate/macro signal affects WACC assumptions and refinancing economics. 2020-21 vintage faces +375bps vs underwriting on weeks to months timeline under 
+  * U.S. coal-fired generating capacity retired in 2025 was the least in 15 years
+    Federal regulatory action affects permitting timelines and compliance cost assumptions on months timeline under R0 Compound Stress (Hormuz crisis Day 
+  * British households to be offered payments to use more electricity
+    Energy price signal transmits through fuel cost to operating margins and offtaker economics on weeks to months timeline under R0 Compound Stress (Horm
+
+  AMBER (146)
+  - Hormuz blockade could deepen world’s worst energy crisis — and risk a dangerous misst  |  Rate/macro signal affects WACC assumptions and refinancing economics. 2020-21 vintage faces +375bps 
+  - ‘He knows how to get his way’: Labour’s survivor, Ed Miliband  |  Federal regulatory action affects permitting timelines and compliance cost assumptions on weeks to m
+  - Opec production falls more than a quarter as Iran war hits oil exports  |  Energy price signal transmits through fuel cost to operating margins and offtaker economics on weeks
+  - Jewellers take a shine to alternatives as precious metal prices soar  |  Rate/macro signal affects WACC assumptions and refinancing economics. 2020-21 vintage faces +375bps 
+  - LVMH sales hit as Middle East conflict delays luxury recovery  |  Geopolitical signal transmits through energy supply chain disruption and shipping cost escalation on
+  - Former Lafarge chief sentenced to six years in jail for financing terrorism  |  Geopolitical signal transmits through energy supply chain disruption and shipping cost escalation on
+  - SEC boss tells retail investors to ‘stay out of the kitchen’ on private credit  |  Rate/macro signal affects WACC assumptions and refinancing economics. 2020-21 vintage faces +375bps 
+  - Print proves its staying power for jewellery branding  |  Credit market signal transmits through lender cost of funds and credit committee risk appetite. E01 
+  ... and 138 more AMBER signals
+
+  GREEN (30)
+  Routine flow across Commodities, Digital Infra, Oil & Gas. Top sources: Data Center Dynamics (7), Oil Price (5), Infrastructure Investor (3).
+
+SECTOR BREAKDOWN
+  C08 Commodities: 71 RED/AMBER signals ** HOT ZONE **
+  C05 Oil & Gas: 69 RED/AMBER signals ** HOT ZONE **
+  C09 Construction: 47 RED/AMBER signals ** HOT ZONE **
+  C06 Renewables/Grid: 45 RED/AMBER signals ** HOT ZONE **
+  C02 Regulatory: 44 RED/AMBER signals ** HOT ZONE **
+  C04 Nuclear: 37 RED/AMBER signals ** HOT ZONE **
+  C12 Credit/BDC: 25 RED/AMBER signals ** HOT ZONE **
+  C07 Banking/Finance: 22 RED/AMBER signals ** HOT ZONE **
+
+DEAL WATCH HITS
+  [RED] Farage and Kwarteng’s bitcoin treasury company has just one non-execut  |  Signal touches Project Delta Stack via C01|C02|C04|C05|C12 tag overlap under R0 
+  [AMBER] Rehlko, INNIO Have Deal For 1.25 GW of Gas Engine Capacity  |  Signal touches Project Three Amigos via C02|C04|C05|C15 tag overlap under R0 Com
+  [AMBER] We Energies Submits Rate Proposal to Support Grid Upgrades and Energy   |  Signal touches Project Storybook WI via C01|C03|C04|C09|C11|C15 tag overlap unde
+  [AMBER] US Equity Indexes Rise; Crude Oil Pares Gains on Hopes of Iran Peace D  |  Signal touches Project Three Amigos via C01|C05|C08|C12 tag overlap under R0 Com
+  [AMBER] Federal appeals court allows White House ballroom construction to resu  |  Signal touches Project Three Amigos via C01|C02|C04|C09|C10 tag overlap under R0
+  [AMBER] Eyes of the Ranger – How the Iran War Reshapes Global Gas and LNG This  |  Signal touches GT-109 SB Energy Milam, Project Delfin, Project Commonwealth via 
+  [AMBER] Israeli forces kill three Palestinians in Gaza, arrest dozens in West   |  Signal touches Project Three Amigos via C05|C08|C12 tag overlap under R0 Compoun
+  [AMBER] TotalEnergies Strikes Oil and Gas at Congo's Moho License  |  Signal touches Project TotalEnergies via C04|C05|C08|C14 tag overlap under R0 Co
+  [AMBER] Southwest Power Pool Expands Service Territory into the Western Interc  |  Signal touches Project Utah Solar Topaz via C03|C09|C15 tag overlap under R0 Com
+  [AMBER] Airport Group Warns Europe Risks Jet Fuel Crunch in Weeks  |  Signal touches Project Three Amigos via C05|C08|C09|C13 tag overlap under R0 Com
+  [AMBER] Grizzly III CAISO SP15 curtailment exposure — 10 negative DA price hou  |  Tier 1: deal name Grizzly III explicitly in signal. CAISO SP15 curtailment direc
+  [AMBER] Viktor Orbán ousted after 16 years in landslide defeat for anti-EU tor  |  Signal touches Project Torch Clean Energy via C07|C12|C14 tag overlap under R0 C
+  [AMBER] Suffolk tapped as construction manager for $1.2B student housing proje  |  Signal touches Project Delta Stack via C09|C10 tag overlap under R0 Compound Str
+  [AMBER] PJM targeting up to 15GW of new generation as part of emergency auctio  |  Signal touches GT-108 SB Energy Ohio via C03|C11|C14 tag overlap under R0 Compou
+  [AMBER] PJM proposes adding 14.9 GW with bilateral contracts, central procurem  |  Signal touches GT-108 SB Energy Ohio via C03|C04|C06|C11|C15 tag overlap under R
+  [AMBER] Fervo Energy and Turboden partner up for ORC supply to shorten lead ti  |  Signal touches Project Three Amigos, Project Utah Solar Topaz via C06|C07 tag ov
+  [GREEN] Oil Prices Surge Past $100 as Trump Threatens to Blockade the Strait o  |  Signal touches GT-109 SB Energy Milam, Project Commonwealth via C05|C08 tag over
+  [GREEN] Asset management takes centre stage  |  Signal touches Project Three Amigos via C12|C14 tag overlap under R0 Compound St
+  [GREEN] Trump Signals High Gas Prices Through November Midterms  |  Signal touches Project Edged DC Javelin 2 via C05|C08 tag overlap under R0 Compo
+
+PRICE MOVES
+  henry_hub_usd_mmbtu: 3.04 $/MMBtu  |  7d +3.4%  30d -3.5%  90d -17.8% !! 90d move
+  ust_10y_pct: 4.31 %  |  7d -0.0%  30d +0.3%  90d +0.2%
+  sofr_pct: 3.61 %  |  7d -0.1%  30d -0.1%  90d -0.5%
+  bbb_oas_bps: 1.04 %  |  7d -0.1%  30d -0.0%  90d +0.0%
+  hy_spread_bps: 2.94 %  |  7d -0.2%  30d -0.2%  90d +0.1%
+  aluminum_usd_mt: 3579.25 $/MT  |  7d +3.7%  30d +17.6%  90d n/a !! 30d move
+  copper_usd_mt: 13243.15 $/MT  |  7d +6.8%  30d +0.0%  90d n/a !! 7d move
+  steel_hrc_index: 405.31 index  |  7d +8.0%  30d +4.2%  90d +60.6% !! 7d move
+  Threshold breaches: {'field': 'aluminum_usd_mt', 'window': '30d', 'value': 3579.25, 'delta': 17.57, 'threshold': 15.0, 'type': 'pct'}, {'field': 'steel_hrc_index', 'window': '7d', 'value': 405.31, 'delta': 8.03, 'threshold': 5.0, 'type': 'pct'}
+
+ONE NON-OBVIOUS THING
+  From: Farage and Kwarteng’s bitcoin treasury company has just one non-executive direct
+  Rate/macro signal affects WACC assumptions and refinancing economics. 2020-21 vintage faces +375bps vs underwriting on weeks to months timeline under R0 Compound Stress (Hormuz crisis Day 42+). Direct pipeline exposure: Project Delta Stack. Secondary: Federal regulatory action affects permitting tim
+
+Generated: 2026-04-13 20:08 ET  |  Regime: R0 — Compound Stress
+Signals DB: 181 active  |  Binary events: 3 open

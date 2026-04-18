@@ -1,0 +1,78 @@
+GREEN AUDIT — last 4 days (587/665 signals in GREEN, 88% of tape)
+================================================================================
+
+HIGH PRIORITY — Tier-1 source with watchlist keyword (3 signals)
+--------------------------------------------------------------------------------
+  [NEAR-AMBER    ] GS-845  weighted=46.8  [FT Markets]
+      Wall Street banks start trading derivatives to bet on pain in private credit
+      keyword hits: ['private credit']
+
+  [NEAR-AMBER    ] GS-523  weighted=46.2  [FT Companies]
+      FirstFT: China shares satellite technology with Iran
+      keyword hits: ['openai']
+
+  [NEAR-AMBER    ] GS-373  weighted=44.5  [FT Companies]
+      FirstFT: Predictions of an ‘exceptionally strong’ earnings season
+      keyword hits: ['openai']
+
+TIER-1 SOURCE GREENS — F1/F2 signals in GREEN, no watchlist hit (42 signals, top 15 by score)
+--------------------------------------------------------------------------------
+  [NEAR-AMBER    ] GS-695  weighted=48.0  [FT Energy]  China’s battery champion pushes deeper into mining
+  [NEAR-AMBER    ] GS-518  weighted=48.0  [FT Energy]  Maine becomes first US state to pass data centre construction ban
+  [NEAR-AMBER    ] GS-885  weighted=47.1  [FT Companies]  Deutsche Bank alerts regulators to potential Russia sanctions lapses
+  [NEAR-AMBER    ] GS-884  weighted=46.2  [FT Companies]  FirstFT: Talks to secure strait as ceasefire takes hold in Lebanon
+  [NEAR-AMBER    ] GS-504  weighted=46.2  [CNBC Economy]  U.S. says Hormuz blockade 'fully implemented,' while signaling diplomatic off-ra
+  [NEAR-AMBER    ] GS-435  weighted=46.2  [FT Markets]  Wall Street banks break records as Iran war drives trading boom
+  [NEAR-AMBER    ] GS-765  weighted=46.1  [FT Energy]  UK to scrap extra carbon charge paid by fossil fuel power stations
+  [NEAR-AMBER    ] GS-764  weighted=46.1  [FT Energy]  Reeves vows to cut link between gas and electricity prices in UK
+  [NEAR-AMBER    ] GS-743  weighted=46.1  [CNBC Economy]  New York Fed President Williams worries war will slow growth, aggravate inflatio
+  [NEAR-AMBER    ] GS-699  weighted=44.5  [FT Energy]  EU climate chief warns there is ‘no workaround’ for high energy prices
+  [NEAR-AMBER    ] GS-698  weighted=44.5  [FT Energy]  How the Strait of Hormuz will change Iran’s regime
+  [NEAR-AMBER    ] GS-696  weighted=44.5  [FT Energy]  Spain’s Repsol wins back control of Venezuelan oil operations
+  [NEAR-AMBER    ] GS-647  weighted=44.5  [FT Markets]  S&P 500 hits record high as markets surge back from Iran shock
+  [NEAR-AMBER    ] GS-646  weighted=44.5  [FT Energy]  UK gas prices dip below pre-Iran war levels in boost for Reeves
+  [NEAR-AMBER    ] GS-645  weighted=44.5  [FT Energy]  US crude exports hit record as Iran war disrupts Middle East supplies
+  ... and 27 more
+
+WATCHLIST KEYWORD GREENS — non-tier-1 source (28 signals, top 15 by score)
+--------------------------------------------------------------------------------
+  [NEAR-AMBER    ] GS-901  weighted=46.7  [Utility Dive]  FERC tees up June decision on data center interconnection reform
+      hits: ['docket']
+  [NEAR-AMBER    ] GS-783  weighted=44.0  [Power Magazine]  FERC Sets June Deadline to Rewrite Large-Load Grid Rules for AI-Era Power Demand
+      hits: ['docket']
+  [NEAR-AMBER    ] GS-479  weighted=42.7  [Solar Power World]  Your house could loan power to AI data centers with new Span product
+      hits: ['hyperscaler']
+  [NEAR-AMBER    ] GS-552  weighted=42.0  [LNG Prime]  Cheniere gets FERC OK to introduce fuel gas to sixth Corpus Christi expansion tr
+      hits: ['cheniere', 'corpus christi']
+  [NEAR-AMBER    ] GS-829  weighted=40.4  [CAISO DA Market]  CAISO TH_SP15_GEN-APND: 9 negative price hours DA 2026-04-17
+      hits: ['negative price hour']
+  [NEAR-AMBER    ] GS-828  weighted=40.4  [CAISO DA Market]  CAISO TH_NP15_GEN-APND: 8 negative price hours DA 2026-04-17
+      hits: ['negative price hour']
+  [MID-GREEN     ] GS-724  weighted=37.5  [Infrastructure Inv]  ‘Investors are sleepwalking’ on Iran war risks
+      hits: ['wahba']
+  [MID-GREEN     ] GS-837  weighted=36.7  [Data Center Dynami]  Sponsored: Data center siting: Six factors that determine success
+      hits: ['hyperscaler']
+  [MID-GREEN     ] GS-735  weighted=31.6  [LNG Prime]  Port of Corpus Christi says Q1 LNG volumes up 33 percent
+      hits: ['corpus christi']
+  [MID-GREEN     ] GS-512  weighted=30.5  [Data Center Dynami]  Google takes up capacity at Nscale data center in West London, UK - report
+      hits: ['openai']
+  [MID-GREEN     ] GS-683  weighted=30.4  [CAISO DA Market]  CAISO TH_SP15_GEN-APND: 10 negative price hours DA 2026-04-16
+      hits: ['negative price hour']
+  [MID-GREEN     ] GS-682  weighted=30.4  [CAISO DA Market]  CAISO TH_NP15_GEN-APND: 5 negative price hours DA 2026-04-16
+      hits: ['negative price hour']
+  [MID-GREEN     ] GS-681  weighted=30.4  [Ercot DA Market]  Ercot HB_WEST: 9 negative price hours DA 2026-04-16
+      hits: ['negative price hour']
+  [MID-GREEN     ] GS-503  weighted=30.4  [CAISO DA Market]  CAISO TH_SP15_GEN-APND: 10 negative price hours DA 2026-04-15
+      hits: ['negative price hour']
+  [MID-GREEN     ] GS-502  weighted=30.4  [CAISO DA Market]  CAISO TH_NP15_GEN-APND: 8 negative price hours DA 2026-04-15
+      hits: ['negative price hour']
+  ... and 13 more
+
+SUMMARY
+--------------------------------------------------------------------------------
+  Total GREEN signals:              587
+  Tier-1 source in GREEN:           45
+  Watchlist keyword in GREEN:       31
+  Cross-section (highest priority): 3
+
+If HIGH-PRIORITY list is non-empty, eyeball each — likely false-negative or classifier gap.

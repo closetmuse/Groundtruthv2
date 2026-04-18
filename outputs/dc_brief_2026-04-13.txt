@@ -1,0 +1,37 @@
+DC INTELLIGENCE BRIEF — 2026-04-13
+14 signals (0 RED, 9 AMBER, 5 GREEN)
+
+WHAT HAPPENED TODAY IN DATA CENTERS
+PJM moved to address the data center capacity crunch with an emergency auction targeting up to 15 GW of new generation via bilateral contracts and central procurement — process runs September through March 2027. Utilities are starting to push DC-related grid costs back to ratepayers (We Energies filed a $1.9B rate case citing data center load). Blackstone filed for a data center REIT IPO focused on stabilized Tier 1 assets, signaling institutional capital is rotating from development into yield. Macquarie upgraded CoreWeave to Outperform with a $125 PT, validating the GPU-as-a-service model. Microsoft confirmed a multi-billion-dollar AI infrastructure commitment in Ontario. Vertiv acquired prefab enclosure maker BMarko, consolidating the modular DC supply chain.
+
+SIGNALS WORTH YOUR ATTENTION
+  [AMBER] We Energies Submits Rate Proposal to Support Grid Upgrades and Energy Reliability in 
+    So what: Utility rate case cites $1.9 billion in DC-driven grid costs — sets precedent for cost pass-through in other RTO territories.
+
+  [AMBER] From risk to resilience: Securing continuity in UK data centers
+    So what: Operational resilience theme gaining traction. May affect insurance and redundancy requirements in DC underwriting.
+
+  [AMBER] Inside AMPERA’s Bet on Subcritical Thorium Microreactors
+    So what: Long-dated optionality for DC baseload power. Not actionable this quarter but worth tracking for 2028+ pipeline.
+
+  [AMBER] Sponsored: It’s a win-win: Applying industrial lessons to AI infrastructure
+    So what: Cross-sector knowledge transfer to DC operations — operational efficiency angle, not deal-critical.
+
+  [AMBER] Data centers are straining the grid. Can they be forced to pay for it?
+    So what: Regulatory backlash on DC grid costs is building. Watch for cost allocation rulings that change the interconnection economics for greenfield DC projects.
+
+  [AMBER] Macquarie Upgrades CoreWeave to Outperform, Raises PT to $125
+    So what: Macquarie upgrade validates GPU-as-a-service at scale. Relevant for any DC deal with hyperscaler offtake exposure.
+
+  [AMBER] Construction’s economic outlook is increasingly cloudy beyond data centers
+    So what: Construction sector bifurcating: DC is the only segment with clear demand visibility. Supports premium pricing power for DC-focused EPC.
+
+  [AMBER] PJM targeting up to 15GW of new generation as part of emergency auction to meet growi
+    So what: PJM is building a procurement framework for DC-driven load. If emergency auction clears at premium, it reprices capacity value for GT-108 and any gas peaker in the queue.
+
+DEAL EXPOSURE
+  Storybook WI: We Energies rate case in Wisconsin cites $1.9B in DC-driven grid costs — directly affects grid interconnection timeline and cost for Project Storybook WI.
+  GT-108: PJM emergency auction directly impacts GT-108 (SB Energy Ohio) — if 15 GW clears at premium pricing, the capacity contract value for GT-108's gas generation asset improves materially.
+
+ONE THING TO ACT ON THIS WEEK
+PJM's emergency auction (Sep 2026 – Mar 2027) targeting 15 GW of new generation is the most significant DC-adjacent procurement event this year. GT-108 sits directly in PJM territory — if the auction clears at premium capacity prices, it reprices the deal's revenue assumptions upward. Track the auction design rules when PJM publishes them in Q2.

@@ -1,0 +1,70 @@
+# ─────────────────────────────────────────────────────────────────────
+# Secrets — never commit
+# ─────────────────────────────────────────────────────────────────────
+.env
+.env.*
+!.env.example
+*credentials*.json
+*token*.json
+*service-account*.json
+*.pem
+*.key
+
+# ─────────────────────────────────────────────────────────────────────
+# Runtime data — regeneratable from capture pipeline
+# ─────────────────────────────────────────────────────────────────────
+groundtruth.db
+*.db
+*.db-journal
+*.db-shm
+*.db-wal
+
+# ─────────────────────────────────────────────────────────────────────
+# Upstream data dumps (MT Newswires, third-party artifacts)
+# Briefs and ledger ARE committed — those are the contemporaneous record.
+# ─────────────────────────────────────────────────────────────────────
+MT_Newswires_*.json
+MT_Newswires_*.docx
+
+# ─────────────────────────────────────────────────────────────────────
+# Generated rendering artifacts — regenerated on every capture
+# ─────────────────────────────────────────────────────────────────────
+email_fallback.html
+email_section1_test.html
+test_email_output.html
+
+# ─────────────────────────────────────────────────────────────────────
+# Python
+# ─────────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# ─────────────────────────────────────────────────────────────────────
+# Editors / tooling local state
+# ─────────────────────────────────────────────────────────────────────
+.claude/
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# ─────────────────────────────────────────────────────────────────────
+# Logs — generated per run, noisy
+# ─────────────────────────────────────────────────────────────────────
+logs/
+*.log
+
+# ─────────────────────────────────────────────────────────────────────
+# Virtual environments
+# ─────────────────────────────────────────────────────────────────────
+venv/
+.venv/
+env/

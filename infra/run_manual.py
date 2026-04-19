@@ -101,7 +101,7 @@ def main():
             print("  CAPTURE COMPLETE — email NOT sent")
             print("  Next steps for the brief-integrated workflow:")
             print("    1. Claude hand-writes the consolidated sector brief")
-            print("       to outputs/sector_briefs_<date>_<HHMM>ET.md")
+            print("       to outputs/daily/YYYY-MM/MM-DD/sector_briefs_<date>_<HHMM>ET.md")
             print("    2. Append Alpha findings to outputs/alpha_ledger.md")
             print("       (use infra/ledger_extract.py for scaffold)")
             print("    3. python infra/send_email.py")

@@ -158,16 +158,18 @@ def _find_latest_brief_for_today() -> Path | None:
     """
     Find the most recent sector_briefs_YYYY-MM-DD_HHMMET*.md file for today.
 
-    Looks in outputs/ for files matching today's date. Returns the one with
-    the latest modification time, or None if no brief exists for today yet.
+    Recursive glob — looks in outputs/ and any subfolder (e.g. the
+    chronological daily/2026-04/04-19/ layout established 2026-04-19).
+    Returns the one with the latest modification time, or None if no brief
+    exists for today yet.
 
     Note: returns None (placeholder rendered upstream) if the latest brief
     is from a prior day — stale briefs are not surfaced, so the email shows
     "brief pending" on the first capture of each day until I write one.
     """
     today = date.today().isoformat()
-    pattern = os.path.join(OUTPUT_DIR, f"sector_briefs_{today}_*.md")
-    matches = glob.glob(pattern)
+    pattern = os.path.join(OUTPUT_DIR, "**", f"sector_briefs_{today}_*.md")
+    matches = glob.glob(pattern, recursive=True)
     if not matches:
         return None
     latest = max(matches, key=lambda p: os.path.getmtime(p))

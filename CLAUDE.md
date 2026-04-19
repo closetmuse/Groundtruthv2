@@ -16,6 +16,7 @@ Head of Project Finance Americas, Standard Chartered Bank, Jersey City NJ
 GT_Reference.md      — Signal schema, all tags, macro regimes, InfraOS data
 GT_Pipeline.md       — 45 pipeline deals, binary events, sector intelligence
 GT_BuildLog.md       — Phase history, known gaps, risk register, file map
+docs/                — CHANGELOG, conventions, workflows (2026-04-19 onward)
 
 ---
 

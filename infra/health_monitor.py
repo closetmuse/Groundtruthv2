@@ -30,16 +30,19 @@ class RunContext:
     run_id: str = ""
     run_started_at: str = ""
     run_completed_at: str = ""
-    sources_attempted: int = 18
+    sources_attempted: int = 37
     sources_succeeded: int = 0
     sources_failed: list = field(default_factory=list)
     signals_fetched: int = 0
-    signals_filtered: int = 0
+    signals_filtered: int = 0                 # legacy = dedupes + irrelevance
+    signals_deduped: int = 0                  # url/headline dupes, not stored
+    signals_irrelevance_filtered: int = 0     # stored with status=FILTERED
     signals_classified: int = 0
     signals_new: int = 0
     email_sent: bool = False
     email_sent_at: str = ""
     email_error: str = None
+    email_deferred: bool = False              # split workflow: send happens in send_email.py
     current_regime: str = "R0"
     deals_active: int = 0
     deals_scored: int = 0
@@ -74,22 +77,23 @@ class HealthReport:
 # ── 8 SUBSYSTEM CHECKS ───────────────────────────────────────────────────────
 
 def _check_gs1_fetch(ctx: RunContext) -> SubsystemResult:
-    """GS-1: Fetch Coverage."""
+    """GS-1: Fetch Coverage. Proportional to active source count."""
     succeeded = ctx.sources_succeeded
-    attempted = ctx.sources_attempted
+    attempted = max(ctx.sources_attempted, 1)
     failed_names = ", ".join(ctx.sources_failed[:4]) if ctx.sources_failed else "none"
 
-    if succeeded >= 16:
+    pct = succeeded / attempted
+    if pct >= 0.95:
         status = "GREEN"
-    elif succeeded >= 12:
+    elif pct >= 0.85:
         status = "AMBER"
     else:
         status = "RED"
 
     return SubsystemResult(
         code="GS-1", name="Fetch Coverage",
-        ideal=f"{attempted}/{attempted}",
-        actual=f"{succeeded}/{attempted}",
+        ideal=">=95%",
+        actual=f"{succeeded}/{attempted} ({round(pct*100)}%)",
         status=status,
         note=f"Failed: {failed_names}" if ctx.sources_failed else "",
     )
@@ -115,32 +119,54 @@ def _check_gs2_volume(ctx: RunContext) -> SubsystemResult:
 
 
 def _check_gs3_filter(ctx: RunContext) -> SubsystemResult:
-    """GS-3: Relevance Filter Rate."""
-    total = ctx.signals_fetched
-    filtered = ctx.signals_filtered
+    """GS-3: Relevance Filter Rate.
 
-    if total == 0:
-        rate = 0
-    else:
-        rate = round((filtered / total) * 100)
+    Measures the irrelevance-filter share of fresh (post-dedupe) items —
+    i.e. classifier recall quality. Excludes dedupes from the denominator:
+    dedupe rate runs 80-95% on Saturday/Sunday tape because feeds haven't
+    refreshed, and conflating the two made GS-3 fire RED every weekend.
+    """
+    filtered = ctx.signals_irrelevance_filtered
+    classified = ctx.signals_classified
+    denom = filtered + classified
 
-    if 20 <= rate <= 35:
+    if denom == 0:
+        # No fresh items post-dedupe — can't evaluate; don't penalize.
+        return SubsystemResult(
+            code="GS-3", name="Relevance Filter",
+            ideal="5-40% of fresh",
+            actual=f"{ctx.signals_deduped} dedupes, 0 fresh",
+            status="AMBER",
+            note="nothing new after dedupe — typical on low-refresh windows",
+        )
+
+    rate = round((filtered / denom) * 100)
+
+    # 5-40% is a wide-but-honest band. Too low = gate is missing irrelevant items
+    # (poor recall). Too high = gate is dropping real signal (poor precision).
+    if 5 <= rate <= 40:
         status = "GREEN"
-    elif 10 <= rate <= 50:
+    elif rate <= 60:
         status = "AMBER"
     else:
         status = "RED"
 
     return SubsystemResult(
         code="GS-3", name="Relevance Filter",
-        ideal="20-35%",
-        actual=f"{rate}% ({filtered}/{total})",
+        ideal="5-40% of fresh",
+        actual=f"{rate}% ({filtered}/{denom} fresh; {ctx.signals_deduped} dedupes)",
         status=status,
     )
 
 
-def _check_ge1_distribution() -> SubsystemResult:
-    """GE-1: Alert Distribution across ACTIVE signals."""
+def _check_ge1_distribution(ctx: RunContext) -> SubsystemResult:
+    """GE-1: Alert Distribution across ACTIVE signals.
+
+    Regime-conditional bands. The original fixed bands (R10-20 A40-60 G25-45)
+    assumed a steady-state crisis distribution and fired RED in R0-R2 normal
+    operation where most signals correctly decay GREEN and RED is a narrow
+    escalation tier. Bands now scale with regime.
+    """
     conn = sqlite3.connect(DB_PATH)
     total = conn.execute(
         "SELECT COUNT(*) FROM gs_signals WHERE status='ACTIVE'"
@@ -156,21 +182,31 @@ def _check_ge1_distribution() -> SubsystemResult:
     ).fetchone()[0]
     conn.close()
 
+    regime = (ctx.current_regime or "R0").upper()
+
+    # Bands per regime: (red_lo, red_hi, amber_lo, amber_hi, green_lo, green_hi)
+    REGIME_BANDS = {
+        "R0": (0, 5,  0, 25, 70, 100),
+        "R1": (0, 5,  0, 25, 70, 100),
+        "R2": (2, 15, 15, 40, 45, 80),
+        "R3": (10, 30, 40, 60, 25, 50),
+        "R4": (10, 30, 40, 60, 25, 50),
+    }
+    r_lo, r_hi, a_lo, a_hi, g_lo, g_hi = REGIME_BANDS.get(regime, REGIME_BANDS["R0"])
+    ideal = f"{regime}: R{r_lo}-{r_hi}% A{a_lo}-{a_hi}% G{g_lo}-{g_hi}%"
+
     if total == 0:
         return SubsystemResult("GE-1", "Alert Distribution",
-                               "R10-20% A40-60% G25-45%", "no signals", "RED")
+                               ideal, "no signals", "AMBER")
 
     r_pct = round(red / total * 100)
     a_pct = round(amber / total * 100)
     g_pct = round(green / total * 100)
 
     bands_ok = 0
-    if 10 <= r_pct <= 20:
-        bands_ok += 1
-    if 40 <= a_pct <= 60:
-        bands_ok += 1
-    if 25 <= g_pct <= 45:
-        bands_ok += 1
+    if r_lo <= r_pct <= r_hi: bands_ok += 1
+    if a_lo <= a_pct <= a_hi: bands_ok += 1
+    if g_lo <= g_pct <= g_hi: bands_ok += 1
 
     if bands_ok == 3:
         status = "GREEN"
@@ -181,14 +217,22 @@ def _check_ge1_distribution() -> SubsystemResult:
 
     return SubsystemResult(
         code="GE-1", name="Alert Distribution",
-        ideal="R10-20% A40-60% G25-45%",
+        ideal=ideal,
         actual=f"R{r_pct}% A{a_pct}% G{g_pct}%",
         status=status,
     )
 
 
 def _check_ge2_deal_match() -> SubsystemResult:
-    """GE-2: Deal Match Rate on RED/AMBER signals."""
+    """GE-2: Deal Match Rate on RED/AMBER signals.
+
+    Recalibrated to match the alpha-not-portfolio-review operating model:
+    briefs are deal-free; deal overlay lives at the email-level off the
+    44-deal Sheet, not on individual classifier tags. A high classifier
+    match rate means over-matching, which contaminates alpha reads. A
+    very low rate means the classifier has lost deal awareness. Target
+    the middle band.
+    """
     conn = sqlite3.connect(DB_PATH)
     red_amber = conn.execute(
         "SELECT COUNT(*) FROM gs_signals "
@@ -204,20 +248,23 @@ def _check_ge2_deal_match() -> SubsystemResult:
 
     if red_amber == 0:
         return SubsystemResult("GE-2", "Deal Match Rate",
-                               ">=40%", "no RED/AMBER", "AMBER")
+                               "5-30%", "no RED/AMBER", "AMBER")
 
     rate = round(matched / red_amber * 100)
 
-    if rate >= 40:
+    # GREEN: classifier shows deal awareness without over-matching.
+    # AMBER: either under-recognition (<5%) or drifting toward contamination (30-50%).
+    # RED: severe under-recognition (0%) or over-matching (>50%).
+    if 5 <= rate <= 30:
         status = "GREEN"
-    elif rate >= 20:
-        status = "AMBER"
-    else:
+    elif rate == 0 or rate > 50:
         status = "RED"
+    else:
+        status = "AMBER"
 
     return SubsystemResult(
         code="GE-2", name="Deal Match Rate",
-        ideal=">=40%",
+        ideal="5-30%",
         actual=f"{rate}% ({matched}/{red_amber})",
         status=status,
     )
@@ -250,8 +297,16 @@ def _check_gpi1_coverage(ctx: RunContext) -> SubsystemResult:
 
 
 def _check_gpi2_hot(ctx: RunContext) -> SubsystemResult:
-    """GPi-2: HOT Deal Detection."""
-    regime = ctx.current_regime
+    """GPi-2: HOT Deal Detection.
+
+    Recalibrated: in R0-R2 normal operation, zero HOT deals is the
+    expected baseline — HOT is a crisis-regime tier by design. Previously
+    fired RED every run outside R3/R4. Now:
+      R0-R2: 0 HOT is GREEN (expected); >=1 HOT is GREEN with an attention note;
+             AMBER only if scoring produces no variance (all deals identical).
+      R3-R4: >=1 HOT is GREEN; 0 HOT is RED (missed a crisis-tier deal).
+    """
+    regime = (ctx.current_regime or "R0").upper()
     scores = ctx.deal_scores
 
     hot = sum(1 for d in scores if getattr(d, "heat_level", "") == "HOT")
@@ -259,24 +314,30 @@ def _check_gpi2_hot(ctx: RunContext) -> SubsystemResult:
                   if getattr(d, "heat_level", "") == "WARM"
                   and getattr(d, "heat_score", 0) >= 65)
 
-    # Check for METALS_PENDING
     has_metals_pending = any(
         "METALS_PENDING" in getattr(d, "data_flags", [])
         for d in scores
     )
 
+    # Detect dead-scorer: all deals on identical heat_score (no differentiation).
+    heat_values = {round(getattr(d, "heat_score", 0), 1) for d in scores}
+    scorer_dead = len(scores) > 5 and len(heat_values) <= 1
+
     if regime in ("R3", "R4"):
-        status = "GREEN"
-        actual = f"{hot} HOT | regime {regime} — any distribution OK"
-    elif hot >= 1:
-        status = "GREEN"
-        actual = f"{hot} HOT"
-    elif warm_65 >= 5:
-        status = "AMBER"
-        actual = f"0 HOT | {warm_65} WARM>65"
+        if hot >= 1:
+            status, actual = "GREEN", f"{hot} HOT (regime {regime})"
+        else:
+            status, actual = "RED", f"0 HOT in crisis regime {regime}"
     else:
-        status = "RED"
-        actual = f"0 HOT | {warm_65} WARM>65"
+        if scorer_dead:
+            status = "AMBER"
+            actual = f"0 HOT | {len(scores)} deals on identical heat score — scorer suspect"
+        elif hot >= 1:
+            status = "GREEN"
+            actual = f"{hot} HOT | attention: crisis-tier deal in {regime}"
+        else:
+            status = "GREEN"
+            actual = f"0 HOT | {warm_65} WARM>65 — expected in {regime}"
 
     note = ""
     if has_metals_pending:
@@ -284,7 +345,7 @@ def _check_gpi2_hot(ctx: RunContext) -> SubsystemResult:
 
     return SubsystemResult(
         code="GPi-2", name="HOT Deal Detection",
-        ideal=f">=1 HOT ({regime})",
+        ideal=f"R0-R2: any; R3-R4: >=1 HOT",
         actual=actual,
         status=status,
         note=note,
@@ -328,19 +389,31 @@ def _check_ge3_sil() -> SubsystemResult:
 
 
 def _check_gt1_email(ctx: RunContext) -> SubsystemResult:
-    """GT-1: Email Delivery."""
-    if ctx.email_sent:
-        status = "GREEN"
-        actual = f"sent {ctx.email_sent_at or 'OK'}"
-    else:
-        status = "RED"
-        actual = f"failed: {ctx.email_error or 'unknown'}"
+    """GT-1: Email Delivery.
 
+    Handles the split manual workflow: DRY_RUN suppresses the in-orchestrator
+    send because the brief is hand-written and shipped via infra/send_email.py
+    after. In that mode the health panel can't observe delivery; report
+    'deferred' rather than the misleading 'failed: unknown'.
+    """
+    if ctx.email_sent:
+        return SubsystemResult(
+            code="GT-1", name="Email Delivery",
+            ideal="Sent or deferred", actual=f"sent {ctx.email_sent_at or 'OK'}",
+            status="GREEN",
+        )
+    if ctx.email_deferred:
+        return SubsystemResult(
+            code="GT-1", name="Email Delivery",
+            ideal="Sent or deferred",
+            actual="deferred — split workflow (send via infra/send_email.py)",
+            status="GREEN",
+        )
     return SubsystemResult(
         code="GT-1", name="Email Delivery",
-        ideal="Sent <5min",
-        actual=actual,
-        status=status,
+        ideal="Sent or deferred",
+        actual=f"failed: {ctx.email_error or 'unknown'}",
+        status="RED",
     )
 
 
@@ -368,7 +441,7 @@ def run_health_check(ctx: RunContext) -> HealthReport:
         _check_gs1_fetch(ctx),
         _check_gs2_volume(ctx),
         _check_gs3_filter(ctx),
-        _check_ge1_distribution(),
+        _check_ge1_distribution(ctx),
         _check_ge2_deal_match(),
         _check_gpi1_coverage(ctx),
         _check_gpi2_hot(ctx),

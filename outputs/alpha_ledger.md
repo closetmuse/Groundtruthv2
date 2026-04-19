@@ -366,4 +366,160 @@ BY TYPE (post-resolution-pass):
 HIT candidates pending VL close: 0
 WRONG candidates pending VL close: 0
 At-risk pending market verification: 1 (ALF-20260417-1 — Monday Brent open)
+
+================================================================
+2026-04-19 06:13 ET — Sunday AM capture — no new ALFs
+Three hardening/softening indicator logs appended. One watch item flagged.
+Continuation-and-test capture: the material content tests existing findings
+rather than generating new mechanisms.
+================================================================
+
+### ALF-20260415-4 — Structural — hardening log append
+- 2026-04-19 06:13 ET [Supply-side arb widening, mechanism-ambiguous]: HH refreshed from $2.79 (stale 5d at yesterday EOD) to $2.67 (2026-04-17 source date, -4.3%). HH-JKM arb widens to $12.33 (from $12.21); HH-TTF to $10.70 (from $10.58). The widening comes via a cheaper US-side supply anchor, not via an Asian demand-side premium rebuild. For the Structural thesis (arb survives a regime shift), supply-side widening is weaker evidence than demand-side widening would be — the regulatory / subsidy channel requires the arb to persist across changes on both sides. Sector class / vehicle: US LNG offtake / liquefaction merchant cargoes. Type: Structural. Hardening: **weak-neutral**, not strong. Watch: whether HH next-day print continues lower (supply catch-down extends) or rebounds (week-one refresh noise).
+
+### ALF-20260417-1 — Non-structural — softening the at-risk flag
+- 2026-04-19 06:13 ET [At-risk status weakening — non-corroboration of GS-1017]: GS-1025 (Al Jazeera, dated 2026-04-19) frames Hormuz situation as "impasse," not "shutdown." No reports of tanker turnbacks, merchant radio warnings, or active re-closure. Seventeen hours after GS-1017 (Oil Price, 2026-04-18 09:54 ET) claimed full shutdown, no FT / Reuters / Bloomberg corroboration found in today's 171-item capture and the one mainstream source that has published on the topic frames it as status-quo continuation, not escalation. The Oil Price single-source shutdown read is **not being independently validated**. Probability of a Monday AM Brent gap-up toward $93-95 declines. The candidate-HIT resolution logged 2026-04-17 21:35 ET is **recovering toward HIT** after being flagged at-risk at 2026-04-18 17:02 ET. Still not firm — Monday open is the real market verification. Sector class / vehicle: spot LNG vs crude. Type: Non-structural. Resolution tag: unchanged (candidate-HIT, at-risk softening). Contemporaneous record rule: not revising prior tag until Monday tape confirms.
+
+### ALF-20260417-2 — Non-structural with structural hypothesis — hardening log append
+- 2026-04-19 06:13 ET [Day-7 persistence at three nodes, duck-curve mechanism confirmed]: ERCOT HB_WEST 10 neg DA hrs, CAISO NP15 7 neg, SP15 10 neg — consistent magnitudes across a full calendar week (Apr 13 → Apr 19). HB_WEST DA today shows peak $5.35 vs off-peak $19.70 (spread -$14.35), which is the duck-curve peak-below-off-peak inversion fingerprint — midday solar forcing, not thermal-demand weakness. Three-node persistence across ERCOT-West + CAISO-NP15 + CAISO-SP15 for 7 consecutive days is the hardening-strong signal on the Non-structural side. The structural hypothesis (that pattern survives spring-summer demand recovery) is NOT yet tested — that window opens late May / June. Sector class / vehicle: as-produced solar PPA portfolios, CAISO + ERCOT. Type: Non-structural with structural hypothesis. Hardening: **strong on Non-structural persistence, neutral on Structural** (regime-shift test pending).
+
+### Watch items this capture
+- **Europe demand-compression thread (candidate mechanism, 2/3 corroboration threshold):** GS-1029 (FT Energy) *"Brussels pushes remote working to ease energy crisis"* + GS-1033 (FT Markets) *"BlackRock warns of hit to European stocks from energy crisis."* Both Sunday-AM FT prints. If a third independent print appears with a policy-specific mechanism (EU Commission demand directive, capacity-mechanism shift, national-level energy-rationing rule), this becomes an ALF candidate on the LNG Axis 1 demand side — a policy floor under TTF price compression that makes the 30d BREACH (-23.58%) less likely to reverse even on a Hormuz re-stress. Threshold: third independent non-FT source with a named policy instrument. Window: Monday tape.
+
+================================================================
+PENDING COUNT: 7 | HIT: 1 | EARLY: 0 | LATE: 0 | WRONG: 2
+Hardening logs this capture: 3 (ALF-15-4 weak-neutral, ALF-17-1 softening-at-risk, ALF-17-2 strong-persistence)
+Watch items this capture: 1 (Europe demand-compression, 2/3 threshold)
+New ALFs this capture: 0
+At-risk pending market verification: 1 (ALF-20260417-1 — Monday Brent open, softening toward HIT recovery)
+================================================================
+
+================================================================
+2026-04-19 LATE ENTRY — GR WEEKLY REVIEW SURFACED MISSED ALPHA
+Sri caught this during review of the GR DC weekly brief produced
+2026-04-19 afternoon. Original GR brief and 06:13 ET daily brief both
+underweighted the ILS → DC capital-structure thread, which decayed
+across seven days of GREEN classifications despite a full mechanism-
+complete print ladder. Amendment filed this evening (see
+outputs/GR_Brief_2026-04-19_amendment.md). ALF issued below. Classifier
+recalibration work queued immediately after.
+================================================================
+
+### ALF-20260419-1 — ILS-wrapped DC senior debt IG uplift (Non-structural with structural hypothesis)
+
+**Sector class / vehicle:** Neocloud / hyperscale DC senior debt; third-party insurance capital (ILS sidecar, casualty cat bond, London Bridge 2 PCC or equivalent).
+
+**Type:** Non-structural with structural hypothesis. Default is Non-structural until the three tests pass on real printed deals (not MOUs). Structural hypothesis articulated below.
+
+**Mechanism.** Neocloud senior debt trades sub-IG because the credit stack carries physical-asset, business-interruption, power-and-fiber-outage, and equipment-failure risks directly — rating agencies cannot bridge to IG because operational-risk concentration is too high. Wrap those specific risk layers into a casualty sidecar or operational-risk cat bond funded by third-party ILS capital; the insurer/reinsurer takes first-loss; residual senior credit risk drops to platform obligor + insurance counterparty. If the two counterparty credits both sit at IG, agencies can defensibly uplift the senior tranche to IG. IG threshold is binary — it opens CLO demand, insurance general-account balance sheets, pension allocations, and SWF mandates that structurally cannot hold sub-IG paper. Capital pool for DC senior IG paper is **10-50x** the HY pool; $50B+ of debt capacity is unlocked at 10% market penetration against a $500B+ neocloud buildout.
+
+**Week's supporting signal ladder (2026-04-13 → 2026-04-18):**
+- GS-555 (Apr 15, Artemis, GREEN) — cat bond issuance on pace to hit $10bn faster in 2026. Capacity signal.
+- GS-813 (Apr 16, Artemis, GREEN) — SIFMA: casualty sidecar / ILS market expanding into longer-tail operational risks, not just NatCat. Structure extensibility.
+- **GS-814 (Apr 16, Artemis, GREEN)** — **GC / Klisura: insurers mull leveraging third-party capital to write more data centre business.** DC-specific pre-deal print; insurer supply-side intent.
+- GS-739 (Apr 16, Artemis, GREEN) — John Seo (Fermat): cat bond fundamentals "tremendous." Buy-side commitment.
+- **GS-875 (Apr 17, Artemis, GREEN)** — **SIFMA: "Investors show huge interest in data centre risk. Diversification story of ILS."** DC-specific demand-side print; paired with GS-814 at same institutional venue within 48 hours.
+- GS-889 (Apr 17, Artemis, AMBER — only non-GREEN in the ladder) — Turicum Re 2026-1 enables Zurich to re-establish ILS presence. Major-insurer strategic commitment.
+- GS-946 (Apr 18, Artemis, GREEN) — UK PRA reforming ILS / cat bond frameworks. Regulatory-jurisdiction tailwind.
+
+Seven prints in six days. Full mechanism ladder: capacity (555), structure extensibility (813), supply intent (814), buy-side commitment (739), demand alignment (875), major-insurer re-entry (889), regulatory tailwind (946). **Pre-issuance ladders that align insurer + investor + regulator within a single calendar week are the characteristic signature of a structural market-innovation inflection.**
+
+**Structural hypothesis — three tests:**
+- **Contract-survival:** PENDING first printed deal. The structure must close at least once with documentable ILS wrapper on operational DC risks. Estimated window: 60-120 days from today given insurer "mulling" phase (GS-814).
+- **Regime-reset:** PENDING first IG rating on an ILS-wrapped neocloud senior tranche. Once IG threshold is crossed, the capital-pool expansion is near-irreversible in a 12-month view because CLOs / insurance GAs / pensions will have already updated their mandates. Binary event.
+- **Substitution-closure:** PENDING test against alternates. The competing paths to IG neocloud senior debt are (a) federal loan-guarantee / DOE LPO-style, (b) agency-backed conduit, (c) SPV-CLO tranching. ILS has a scalability advantage because it's private-sector, multi-jurisdictional (US/Bermuda/UK/Cayman), and doesn't require sovereign balance-sheet or specific legislative vehicle. Substitution-closure passes if ILS-wrapped deals price materially tighter than conduit/guarantee alternates OR if it prints before those alternates scale.
+
+All three tests are PENDING — classifying as Non-structural-with-structural-hypothesis per the convention, not Structural. If all three pass inside 180 days from today, promote to Structural.
+
+**Binary events to watch:**
+1. First printed closure of a DC senior-debt financing with documented ILS/sidecar/cat-bond first-loss wrapper on operational risk. (VL: 90 days target.)
+2. First public rating-agency methodology note referencing ILS-wrap as an IG-uplift path for DC senior debt. (VL: 60-180 days.)
+3. Second such deal (structure-generalization test). (VL: 180 days.)
+4. First sponsor-named public financing-strategy announcement that references ILS-wrapped senior debt as the expected capital-markets path. (VL: 60 days.)
+
+**Hardening indicators to track over time:**
+- Deal-specific insurer partnerships announced by neocloud sponsors (CoreWeave, Lambda, Crusoe, NScale, Applied Digital, others).
+- Rating-agency (Moody's, S&P, Fitch, KBRA) methodology notes on operational-risk insurance wraps.
+- Sidecar filings with DC-exposure references (London Bridge 2 PCC, Bermuda ILS registry, Cayman SPC filings).
+- Major reinsurer / insurer earnings-call language on DC underwriting capacity.
+- ILS-dedicated fund launches or allocations referencing DC exposure explicitly.
+
+**VL windows:**
+- Primary VL: **2026-07-18** (90 days) — first-deal-print test.
+- Extended VL: **2026-10-16** (180 days) — structure-generalization test (second-deal-print + methodology-note convergence).
+
+**Drift-check / what would WRONG this finding:**
+- If first printed deal at 90 days is a single idiosyncratic sidecar that doesn't get repeated inside 180 days, demote to Non-structural (one-off, not a structure).
+- If rating agencies publish methodology guidance *rejecting* ILS-wrap as IG-uplift evidence, WRONG before first-deal-print.
+- If a substitution path (DOE loan-guarantee scale-up, agency conduit program) prints first AND at competitive pricing, substitution-closure test fails and Structural hypothesis collapses; keep as Non-structural opportunity.
+- If insurer "mulling" (GS-814) doesn't produce at least one named insurer-sponsor pairing by 60 days, trajectory is WRONG.
+
+**Contemporaneous record note:**
+This finding was *missed* at the AMBER/RED threshold by the classifier across seven days and seven prints. Only one signal in the ladder (GS-889) scored AMBER. The other six scored GREEN despite collectively constituting a pre-issuance structural inflection. This is a **classifier-quality miss, not an analyst-quality miss** — the raw signals were captured, clustered by source, and carried discoverable headline-level structure. The schema lacks a structured-finance / ILS C-tag, the source-weight for Artemis is calibrated for NatCat rather than capital-markets innovation, and the `second_order` template kept assigning "Federal regulatory action affects permitting timelines" to every Artemis signal regardless of content — see classifier-quality work queued for 2026-04-19 evening.
+
+Sri caught this reading the GR weekly brief I produced earlier today, which underweighted the thread entirely. The fact that hand-review over the week surfaced it while the automated classification did not is the diagnostic datapoint that triggers the classifier recalibration queued immediately after this entry.
+
+**ALF record issued 2026-04-19 PM.** VL clock starts today.
+
+================================================================
+PENDING COUNT: 8 | HIT: 1 | EARLY: 0 | LATE: 0 | WRONG: 2
+New ALFs this day: 1 (ALF-20260419-1, Non-structural with structural hypothesis)
+Pre-issuance structural candidates: 1 (ALF-20260419-1 — three tests PENDING first-deal-print)
+Classifier-quality flag raised: 7-day, 7-print thread decayed to GREEN×6 + AMBER×1; recalibration work queued
+================================================================
+
+### ALF-20260419-1 — adjacent-prints log append
+- 2026-04-19 evening [Post-classifier-recalibration sweep completes, adjacent signals surfaced]: The C16/C17/C18 C-tag backfill against the 7-day signal window (see infra/backfill_ctags.py execution log 2026-04-19) surfaced material that was captured at fetch time but did not carry discoverable tags under the pre-fix classifier. Adding to the record so the signal-reference set for this ALF is complete for future VL audit and does not silently grow later.
+
+**Strongly adjacent — belong in the core ladder:**
+- **GS-986 (FT Energy, 2026-04-18):** *"New kind of boom for US oil patch: Wall Street securitisation."* Same structural-finance wrap mechanism (third-party capital, operational-risk isolation, credit-uplift path) applied to a different asset class (oil & gas upstream). Demonstrates the structure is **generalizing beyond NatCat and beyond DC** within the same calendar week. This is a hardening indicator for the Structural hypothesis — substitution-closure gets easier to argue if the structure is asset-class-agnostic. Was already on ALF-16-2 Wahba adjacency watch list (2026-04-18 07:35 brief); now properly tagged C16 and linked here.
+
+**Adjacent cat-bond capacity substrate — parallel to GS-555 (capacity row of mechanism ladder):**
+- GS-327 (Artemis, 2026-04-13): One Alliance N.A. gets $115m of reinsurance from first One Shield Re cat bond
+- GS-490 (Artemis, 2026-04-14): Convex targets $200m retrocession via fourth Hypatia cat bond
+- GS-556 (Artemis, 2026-04-15): Texas Windstorm (TWIA) sponsoring $450m Alamo Re 2026-1 cat bond
+- GS-634 (Artemis, 2026-04-15): Cat bond market expanding: Davis, Elementum Advisors
+- GS-635 (Artemis, 2026-04-15): Spinnaker renews/extends $100m Mountain Re 2026-1
+- GS-636 (Artemis, 2026-04-15): Abacab Re cat bond diversifies Olympus Insurance capital
+- GS-815 (Artemis, 2026-04-16): Nationwide Mutual $200m Aquila Re I 2026-1 cat bond
+- GS-816 (Artemis, 2026-04-16): Tower Hill lifts Winston Re 2026-1 target to $375m
+- **GS-817 (Artemis, 2026-04-16):** *Ariel Re $125m retro via first Titania Re cat bond using London Bridge 2 PCC.* Note this one explicitly — London Bridge 2 PCC is the UK PCC vehicle referenced in GS-946 (PRA reform); the Titania Re print is a **live use** of the framework GS-946 says PRA is reforming. Capacity × regulatory-jurisdiction pairing inside the same week.
+- GS-947 (Artemis, 2026-04-18): Twelve Securis + Bank J. Safra Sarasin extend ILS distribution partnership to Italy/Spain
+
+Ten additional capacity-side prints across the week. None are DC-specific; collectively they establish that the ILS market has the **depth** (issuance volume, issuer diversity, geographic reach) to absorb the DC-underwriting expansion signaled by GS-814/875. Earlier only GS-555 was cited in the ladder as the "capacity" row; the full substrate is 11 prints including GS-555.
+
+**Different thread — state-level siting spread beyond DC:**
+- **GS-107 (Utility Dive, 2026-04-13):** *"Kansas county weighs moratorium on solar development."* State/county-level restriction applied to **solar**, not DC. Same MECHANISM as Maine (ratepayer / grid-stress politics reaching the legislature), different asset class. Does **not** belong in ALF-20260419-1 but is strong context for a potential parallel finding: the Maine-precedent spread hypothesis may generalize across renewables siting, not just DC. Flagging as watch item for a future ALF — **candidate ALF-20260420-W1 (state-level siting spread, renewables)** if corroborated with 2+ more state-level moratorium prints across asset classes in the next 30 days.
+
+**Maine thread — one print that should have been in the original entry:**
+- GS-787 (The Register, 2026-04-16): *"Loud, power hungry — opposition grows to datacenters as Maine passes bit barn ban."* Reinforces the mechanism read in the original brief (grid-stress-driven opposition, not NIMBY). Belongs in the Maine cluster documentation but is narrative rather than new mechanism.
+
+**Updated signal-reference set for ALF-20260419-1:**
+- **Core ladder (4-row mechanism-complete structure, DC-specific):**
+  - Capacity: GS-555 + adjacent substrate (GS-327, 490, 556, 634, 635, 636, 815, 816, 817, 947) = 11 prints
+  - Structure extensibility: GS-813
+  - Supply intent (DC-specific): GS-814
+  - Buy-side commitment: GS-739
+  - Demand alignment (DC-specific): GS-875
+  - Major-insurer re-entry: GS-889
+  - Regulatory tailwind: GS-946
+  - Cross-asset generalization: **GS-986** (new in this log)
+- **Total:** 18 prints across 6 calendar days (Apr 13-18), one source cluster (Artemis) + one cross-asset print (FT Energy). Prior citation was 7 prints; this append brings the full substrate into the record.
+
+**VL note — what this changes for resolution:**
+The extended substrate *strengthens* the structural hypothesis on two of the three tests:
+- **Substitution-closure:** cross-asset generalization (GS-986) means the ILS-wrap structure is not DC-specific — it can scale faster than a DC-specific federal loan-guarantee or agency-conduit program could be built. Stronger substitution-closure argument.
+- **Contract-survival:** 11-print capacity substrate means the ILS market has the depth to absorb multiple DC deals, not just one idiosyncratic sidecar. Strengthens survival argument.
+- **Regime-reset:** unchanged — still binary on first IG rating.
+
+VL windows unchanged: primary 2026-07-18 (90d), extended 2026-10-16 (180d).
+
+**Contemporaneous record note 2:**
+This adjacent-prints log does NOT rewrite the original ALF-20260419-1 signal-reference set. It is an append that documents what the backfill-driven recalibration surfaced. When auditing this ALF in Q3/Q4 2026 to compute realized VL vs stated VL, both the original 7-print citation (what was visible at classify time) and the 18-print full substrate (what was visible post-classifier-fix) are legible separately. The VL-compression framework from the 2026-04-18 resolution pass applies against the original 7-print citation; the adjacent substrate is audit-trail.
+
+================================================================
+PENDING COUNT: 8 | HIT: 1 | EARLY: 0 | LATE: 0 | WRONG: 2
+Classifier recalibration pass 2026-04-19 PM: #1 second_order template removal, #2 C-tag schema additions (C16/C17/C18 + abbrev matcher), #3 scorer v2.3.0 structural-candidate lane, #4 additive backfill + selective rescore rollback
+ALF-20260419-1 signal-reference set updated: 7 prints → 18 prints (11 capacity substrate + 1 cross-asset + 6 core)
+Watch items opened this evening: 1 (candidate ALF-20260420-W1 — state-level siting spread to renewables, Kansas solar moratorium GS-107)
 ================================================================

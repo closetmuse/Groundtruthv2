@@ -187,6 +187,73 @@ C_TAG_KEYWORDS = {
             "joint venture", "partnership"],
     "C15": ["transmission", "substation", "grid ", "interconnect",
             "power line", "high voltage", "hvdc", "grid upgrade"],
+    # ── Capital-stack & market-structure tags (added 2026-04-19, fix #2) ────
+    # C16 caught the 7-print ILS → DC-underwriting thread that decayed at
+    # GREEN across Apr 13-18 (see alpha_ledger.md ALF-20260419-1).
+    # C17 caught the Maine state-wide DC moratorium (Apr 15).
+    # C18 isolates rating-agency methodology events which drive IG-uplift
+    # paths (key to ALF-20260419-1 Structural hypothesis validation).
+    "C16": [  # Structured finance / ILS / capital-markets innovation
+            # Bare "ils " collided on "hails " substring — require multi-word
+            # patterns for ILS matches. Covers normal Artemis / SIFMA phrasing.
+            "ils market", "ils capital", "ils fund", "ils sector",
+            "ils investor", "ils vehicle", "growing ils",
+            "insurance-linked", "insurance linked",
+            "cat bond", "catastrophe bond",
+            " sidecar", "casualty sidecar",
+            "retrocession", "third-party capital", "third party capital",
+            "securitization", "securitisation",
+            "london bridge 2", "london bridge pcc",
+            "rating uplift", "ig uplift", "investment grade uplift",
+            "risk transfer", "capital relief",
+            "fermat capital", "elementum advisors"],
+    "C17": [  # State-legislative siting / local-government restriction
+            "moratorium", "construction ban", "bit barn ban",
+            "data centre ban", "data center ban",
+            "ban data center", "ban data centre",
+            "ban new data center", "ban new data centre",
+            "state to ban", "state-wide ban", "statewide ban",
+            "state legislat", "state senate passes",
+            "county ban", "county moratorium",
+            "siting ban", "legislative ban",
+            "permitting ban", "zoning restrict"],
+    "C18": [  # Rating agency methodology / credit ratings
+            "moody's", "s&p global", "s&p ratings", "fitch ratings",
+            "kbra", "rating methodology", "rating criteria",
+            "rating action", "rating agency",
+            "credit rating", "methodology note",
+            "sector outlook", "ratings watch"],
+}
+
+# ── C-TAG ABBREVIATION MAP (word-boundary matched) ────────────────────
+#
+# Short uppercase abbreviations (ILS, KBRA, IG, PCC) are frequently used
+# standalone in domain text — "Diversification story of ILS a consideration"
+# (GS-875 headline) — and bare substring matching can't handle them safely:
+# - "ils " (with trailing space) collides with "hails ", "entails ", etc.
+# - "ils" (no space) collides with dozens of innocuous English substrings.
+#
+# Solution: regex word-boundary matching applied AFTER the text is
+# lowercased. `\bils\b` matches standalone "ils" (and "ILS" after lowercasing)
+# but not internal substrings in "hails", "entails", "foils", etc.
+#
+# Keep this list curated — only add abbreviations that are (a) highly
+# distinctive in our domain and (b) unlikely to collide with common words.
+C_TAG_ABBREVS = {
+    "C16": ["ils", "pcc"],                # ILS, Protected Cell Company
+    "C18": ["kbra", "dbrs", "ig"],        # small rating agencies + IG tier
+}
+
+# Semantic names for C-tags — surfaced in UNMAPPED diagnostics and
+# downstream displays so codes like C16 read as "C16 (Struct)" rather
+# than opaque numbers.
+C_TAG_NAMES = {
+    "C01": "Rates",       "C02": "FedReg",     "C03": "RTO/ISO",
+    "C04": "Legislation", "C05": "Oil/Gas",    "C06": "Solar",
+    "C07": "Wind",        "C08": "Geopolit",   "C09": "Commodity",
+    "C10": "Storage",     "C11": "Digital",    "C12": "Credit",
+    "C13": "FX",          "C14": "Sponsor",    "C15": "Transmission",
+    "C16": "Struct",      "C17": "Siting-State", "C18": "RatingMethod",
 }
 
 # ── A-TAG DERIVATION ──────────────────────────────────────────────────────────
@@ -483,10 +550,20 @@ def classify_item(raw: dict) -> dict:
         if isinstance(hint, str):
             c_tags.add(hint)
 
-    # Keyword enrichment
+    # Keyword enrichment — substring match (default)
     for tag, keywords in C_TAG_KEYWORDS.items():
         for kw in keywords:
             if kw in text:
+                c_tags.add(tag)
+                break
+
+    # Abbreviation enrichment — word-boundary match.
+    # Prevents "ils" / "ig" / "pcc" from colliding with substrings inside
+    # "hails", "big", "exceptional", etc., while still catching bare uses
+    # like "ILS a consideration" or "IG uplift" after lowercasing.
+    for tag, abbrevs in C_TAG_ABBREVS.items():
+        for abbrev in abbrevs:
+            if re.search(r'\b' + re.escape(abbrev) + r'\b', text):
                 c_tags.add(tag)
                 break
 
@@ -661,26 +738,55 @@ def classify_item(raw: dict) -> dict:
         )
 
     # ── SECOND ORDER ──────────────────────────────────────────────────
-    mechanism_parts = []
-    for ct in c_tags[:3]:
-        if ct in MECHANISM_TEMPLATES:
-            mechanism_parts.append(MECHANISM_TEMPLATES[ct])
-
-    deal_part = ""
-    if matched_deals:
-        deal_part = f" Direct pipeline exposure: {', '.join(matched_deals)}."
+    #
+    # 2026-04-19 classifier-quality fix #1: template-fallback removal.
+    #
+    # The prior implementation emitted MECHANISM_TEMPLATES[c_tag] as the
+    # primary second_order text whenever any of the signal's c_tags had a
+    # template registered. In practice that meant every Artemis signal this
+    # week got "Federal regulatory action affects permitting timelines..."
+    # stamped on it because C02 was picked up by incidental keyword / source
+    # hints — the template fired regardless of whether regulatory-permitting
+    # was the signal's actual mechanism. That produced text that *looked*
+    # like analysis but was c-tag boilerplate, and masked a seven-print
+    # pre-issuance ILS / DC-finance thread at GREEN (see alpha_ledger.md
+    # ALF-20260419-1 late entry for the contemporaneous record).
+    #
+    # New behaviour: second_order is honest about what the classifier does
+    # and doesn't know.
+    #   - If a genuinely signal-specific datum exists (matched_deals), emit
+    #     that. It's the only current signal-specific inference path.
+    #   - Otherwise emit UNMAPPED with diagnostic context (c_tags, source).
+    #     UNMAPPED count is a quality metric for GR weekly review.
+    #
+    # MECHANISM_TEMPLATES is retained in the module (unused here) as a
+    # c-tag-level context reference for future signal-specific inference
+    # logic. Do not re-wire it into second_order without that logic.
 
     timeline_map = {"T1": "days", "T2": "weeks to months", "T3": "months"}
     timeline = timeline_map.get(t_tag, "weeks")
 
-    second_order = ""
-    if mechanism_parts:
+    # Render c_tags with semantic names for readability in diagnostics.
+    def _label(ct):
+        name = C_TAG_NAMES.get(ct)
+        return f"{ct} ({name})" if name else ct
+    tag_labels = [_label(ct) for ct in c_tags[:3]]
+
+    if matched_deals:
         second_order = (
-            f"{mechanism_parts[0]} on {timeline} timeline under "
-            f"{REGIME_CONTEXT}.{deal_part}"
+            f"Direct pipeline exposure: {', '.join(matched_deals)} "
+            f"via {'|'.join(tag_labels) or 'no c_tag'} on {timeline} "
+            f"timeline under {REGIME_CONTEXT}. Mechanism: UNMAPPED "
+            f"(classifier has no signal-specific inference; hand-review "
+            f"for transmission detail)."
         )
-        if len(mechanism_parts) > 1:
-            second_order += f" Secondary: {mechanism_parts[1][:100]}."
+    else:
+        second_order = (
+            f"UNMAPPED — classifier produced no signal-specific mechanism. "
+            f"c_tags=[{', '.join(tag_labels) or 'none'}] source='{source}' "
+            f"t_tag={t_tag} regime={REGIME_CONTEXT}. Hand-review required "
+            f"for mechanism inference; see classifier fix 2026-04-19 #1."
+        )
 
     # ── OPPORTUNITY ───────────────────────────────────────────────────
     opp_alert = 0
@@ -760,7 +866,10 @@ def classify_and_store(raw: dict, fetch_run_id: str = None) -> Optional[str]:
         fetch_run_id: Fetch run ID for audit trail.
 
     Returns:
-        Signal ID if written (including FILTERED), None if duplicate.
+        Signal ID if written with non-FILTERED status (classified),
+        the string sentinel "__FILTERED__" if written as irrelevance-filtered,
+        or None if duplicate. Callers distinguish to keep dedupe and
+        irrelevance-filter counts separate (Health GS-3 depends on this).
     """
     headline = raw.get("headline", "")
     summary = raw.get("summary", raw.get("raw_content", ""))
@@ -794,9 +903,9 @@ def classify_and_store(raw: dict, fetch_run_id: str = None) -> Optional[str]:
             filter_reason  = gate_reason,
             classifier_model = "relevance-gate-filtered",
         )
-        written = write_signal(signal)
+        write_signal(signal)
         print(f"  [FILTERED] {headline[:60]} -- {gate_reason}")
-        return written.signal_id
+        return "__FILTERED__"
 
     # ── CLASSIFY ──────────────────────────────────────────────────────
     fields = classify_item(raw)
@@ -847,7 +956,7 @@ def classify_and_store(raw: dict, fetch_run_id: str = None) -> Optional[str]:
 
 # ── BATCH CLASSIFIER ──────────────────────────────────────────────────────────
 
-def classify_batch(raw_items: list, fetch_run_id: str = None) -> list:
+def classify_batch(raw_items: list, fetch_run_id: str = None):
     """
     Classify a list of raw article dicts and write all to database.
 
@@ -859,10 +968,17 @@ def classify_batch(raw_items: list, fetch_run_id: str = None) -> list:
         fetch_run_id: Fetch run ID for audit trail.
 
     Returns:
-        List of signal IDs successfully written to database.
+        Tuple (signal_ids, stats) where:
+          signal_ids  — list of classified signal IDs (excludes filtered/dupes)
+          stats       — dict with keys: classified, filtered, dedupes, errors.
+                        Filtered = written to DB with status=FILTERED by
+                        irrelevance gate. Dedupes = url/headline duplicates,
+                        never written. GS-3 uses the filtered/classified
+                        split; raw_items - classified conflates them.
     """
     signal_ids = []
-    skipped = 0
+    dedupes = 0
+    filtered = 0
     errors = 0
 
     red = amber = green = 0
@@ -872,7 +988,11 @@ def classify_batch(raw_items: list, fetch_run_id: str = None) -> list:
     for i, raw in enumerate(raw_items, 1):
         try:
             sid = classify_and_store(raw, fetch_run_id=fetch_run_id)
-            if sid:
+            if sid is None:
+                dedupes += 1
+            elif sid == "__FILTERED__":
+                filtered += 1
+            else:
                 signal_ids.append(sid)
                 fields = classify_item(raw)
                 al = fields.get("alert_level", "GREEN")
@@ -882,17 +1002,20 @@ def classify_batch(raw_items: list, fetch_run_id: str = None) -> list:
                     amber += 1
                 else:
                     green += 1
-            else:
-                skipped += 1
         except Exception as e:
             errors += 1
             headline = raw.get("headline", "")[:40]
             print(f"  ERROR [{i}] {headline}: {e}")
 
     print(f"\nClassify complete: {len(signal_ids)} stored, "
-          f"{skipped} dupes, {errors} errors")
+          f"{dedupes} dupes, {filtered} filtered, {errors} errors")
     print(f"  RED: {red} | AMBER: {amber} | GREEN: {green}")
-    return signal_ids
+    return signal_ids, {
+        "classified": len(signal_ids),
+        "filtered":   filtered,
+        "dedupes":    dedupes,
+        "errors":     errors,
+    }
 
 
 def update_live_context(prices: dict = None):

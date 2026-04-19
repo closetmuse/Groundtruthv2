@@ -33,7 +33,7 @@ from core.schema import Signal, AlertLevel, RegimeCode
 # Log every numeric change in TUNING_HISTORY and increment SCORER_VERSION.
 # ─────────────────────────────────────────────────────────────────────────────
 
-SCORER_VERSION = "2.2.0"
+SCORER_VERSION = "2.3.0"
 
 TUNING_HISTORY = [
     # (version, date, note)
@@ -64,6 +64,22 @@ TUNING_HISTORY = [
      "the audit flagged as false negatives (Maine DC ban, Hormuz blockade, "
      "FERC trade-press echo, private-credit derivatives). "
      "Together targets ~20% AMBER rate vs 15% at v2.1.0, still selective."),
+    ("2.3.0", "2026-04-19",
+     "Structural-candidate scoring lane. Triggered by this week's classifier "
+     "miss: a 7-print pre-issuance ILS → DC-finance thread decayed at GREEN×6 "
+     "+ AMBER×1 across Artemis source (see alpha_ledger.md ALF-20260419-1). "
+     "Three additions: "
+     "(1) REGIME_RELEVANCE extended with C16 (Struct), C17 (Siting-State), "
+     "C18 (RatingMethod) at R0=1.4/1.3/1.3; R2=1.5/1.2/1.5; R4=1.3/1.2/1.2. "
+     "(2) New score_cluster_amplifier boost: when signal carries a structural "
+     "C-tag and 2+ other signals in the batch share it, add +5/member cap +20. "
+     "Catches pre-issuance ladders that no single print can elevate alone. "
+     "(3) New score_structural_keyword_bonus: flat additive points for "
+     "IG-uplift / rating-methodology / first-in-class / capital-pool language. "
+     "Cap +15. Keeps raw-budget invariant (RAW_COMPONENT_WEIGHTS unchanged). "
+     "Expected effect: this week's ILS cluster would land AMBER on the 3rd+ "
+     "print instead of GREEN; Maine moratorium 3-print cluster lands AMBER on "
+     "print 2. BP/Veolia-class noise unaffected (no structural tags)."),
 ]
 
 # ── RAW SCORE COMPONENTS (sum to 0.55 by design — see design note above) ─────
@@ -102,6 +118,56 @@ ALERT_THRESHOLDS = {
                    # surfaced by the GREEN audit (Maine DC ban, Hormuz blockade,
                    # private-credit derivatives, FERC trade-press echo, etc.)
 }
+
+# ── STRUCTURAL-CANDIDATE LANE (v2.3.0) ───────────────────────────────────────
+# Purpose: catch pre-issuance structural threads that any single print lacks
+# the weight to elevate. Two mechanics, both in the BOOST budget so the raw
+# 0.55 invariant stays intact.
+#
+# STRUCTURAL_C_TAGS — the tags whose cluster behaviour we watch. Matches the
+# schema additions in gs/classify.py fix #2 (2026-04-19).
+STRUCTURAL_C_TAGS = {"C16", "C17", "C18"}
+
+# Cluster amplifier — incremental boost per additional cluster member.
+# +5 points per sibling carrying the same structural tag, cap +20.
+# A 7-signal ILS-like ladder lands the 5th+ member above +20 cap.
+CLUSTER_BONUS_PER_MEMBER = 5.0
+CLUSTER_BONUS_CAP         = 20.0
+
+# Structural keyword bonus — flat additive points when specific phrases
+# appear. These are the language markers for rating-threshold / capital-pool
+# / regulatory-escalation content that the generic regime relevance doesn't
+# capture. Kept as a config dict so adding a new marker is one-line surgery.
+STRUCTURAL_KEYWORD_BONUSES = {
+    # IG-uplift and rating-threshold language
+    "ig uplift":                10,
+    "investment grade uplift":  10,
+    "rating uplift":             8,
+    "investment grade":          5,
+    "capital relief":            7,
+    "risk transfer":             5,
+    # Rating-methodology language
+    "rating methodology":        7,
+    "methodology note":          7,
+    "rating action":             5,
+    "rating agency":             4,
+    # Structural-finance language
+    "third-party capital":       6,
+    "third party capital":       6,
+    "insurance-linked":          5,
+    "insurance linked":          5,
+    "cat bond":                  4,
+    "casualty sidecar":          5,
+    # State-legislative / first-in-class language
+    "first-in-class":            4,
+    "first u.s. state":          5,
+    "first us state":            5,
+    "state-wide":                4,
+    "bit barn ban":              5,
+    "moratorium":                3,
+}
+STRUCTURAL_KEYWORD_CAP = 15.0
+
 
 # ── PENALTIES ────────────────────────────────────────────────────────────────
 # Subtractive corrections applied after boosts. Kept here so policy changes
@@ -180,12 +246,21 @@ REGIME_RELEVANCE = {
     # channel (LNG feedgas → US gas prices → DC offtaker economics), so C11
     # digital infra + C13 land/capex are demand-side participants in the same
     # regime threat chain, not unrelated sectors.
+    # v2.3.0: C16/C17/C18 added as structural-candidate amplifiers. In R0 a
+    # structural-finance innovation (C16) is high-relevance because credit-
+    # stress + capital-markets innovation is the E01-GFC-shape response; state
+    # siting escalation (C17) compounds with regulatory uncertainty; rating
+    # methodology (C18) is the transmission channel through which structural
+    # finance reaches IG-threshold pricing.
     "R0": {
         "C08": 1.5,   # Geopolitical — core driver
         "C05": 1.5,   # Oil and gas — core driver
+        "C16": 1.4,   # Structured finance / ILS — structural innovation lane
         "C09": 1.4,   # Construction commodities
         "C11": 1.3,   # Digital infra — DC demand-side of Hormuz power stress
         "C02": 1.3,   # Credit markets — BDC gates
+        "C17": 1.3,   # Siting-state — live regulatory escalation
+        "C18": 1.3,   # Rating methodology — IG-threshold transmission
         "C01": 1.3,   # Macro — Fed constrained
         "C12": 1.3,   # Financing markets
         "C13": 1.2,   # Land / capex commitment
@@ -198,22 +273,33 @@ REGIME_RELEVANCE = {
     # R1 Stagflationary
     "R1": {
         "C08": 1.5, "C09": 1.5, "C01": 1.3,
-        "C02": 1.2, "C12": 1.2, "DEFAULT": 0.9,
+        "C02": 1.2, "C12": 1.2,
+        "C16": 1.2, "C18": 1.2,
+        "DEFAULT": 0.9,
     },
-    # R2 Credit stress
+    # R2 Credit stress — structural finance and rating-methodology events
+    # are MOST relevant here; they are directly in the stress transmission.
     "R2": {
         "C02": 1.5, "C12": 1.5, "C14": 1.3,
+        "C16": 1.5,   # structural finance is the stress response
+        "C18": 1.5,   # rating-methodology directly paired
+        "C17": 1.2,   # regulatory tailwind or headwind both matter
         "C01": 1.2, "DEFAULT": 0.9,
     },
     # R3 Commodity shock
     "R3": {
         "C08": 1.5, "C05": 1.5, "C09": 1.4,
-        "C14": 1.2, "DEFAULT": 0.9,
+        "C14": 1.2,
+        "C16": 1.1, "C18": 1.1,
+        "DEFAULT": 0.9,
     },
-    # R4 Policy tailwind
+    # R4 Policy tailwind — structured innovation and rating evolution often
+    # parallel policy in this regime.
     "R4": {
         "C04": 1.5, "C06": 1.3, "C07": 1.3,
-        "C10": 1.2, "C11": 1.2, "DEFAULT": 1.0,
+        "C10": 1.2, "C11": 1.2,
+        "C16": 1.3, "C17": 1.2, "C18": 1.2,
+        "DEFAULT": 1.0,
     },
     # R1 Normal operations
     "R1_NORMAL": {
@@ -406,6 +492,65 @@ def score_encyclopedia_alignment(signal: Signal,
 
     return round(best_match, 3)
 
+# ── STRUCTURAL-CANDIDATE SCORING (v2.3.0) ────────────────────────────────────
+
+def score_cluster_amplifier(signal: Signal,
+                            recent_signals: list) -> float:
+    """
+    Cluster-detection boost for structural threads.
+
+    If this signal carries a structural C-tag (C16/C17/C18) AND other signals
+    in the batch share any of its structural tags, add a per-member bonus.
+    Pre-issuance structural ladders (e.g. the 7-print ILS → DC-finance thread
+    Apr 13-18, 2026 — see alpha_ledger.md ALF-20260419-1) cannot elevate any
+    single print above GREEN but collectively constitute a structural
+    inflection. This function lets the cluster be recognized as the signal.
+
+    Returns a flat boost in score points, 0.0 to CLUSTER_BONUS_CAP.
+    """
+    try:
+        sig_tags = set(json.loads(signal.c_tags or "[]"))
+    except Exception:
+        return 0.0
+    sig_struct = sig_tags & STRUCTURAL_C_TAGS
+    if not sig_struct:
+        return 0.0
+
+    cluster_count = 0
+    for other in recent_signals:
+        if other.signal_id == signal.signal_id:
+            continue
+        try:
+            other_tags = set(json.loads(other.c_tags or "[]"))
+        except Exception:
+            continue
+        if other_tags & sig_struct:
+            cluster_count += 1
+
+    if cluster_count == 0:
+        return 0.0
+    return min(CLUSTER_BONUS_CAP, cluster_count * CLUSTER_BONUS_PER_MEMBER)
+
+
+def score_structural_keyword_bonus(signal: Signal) -> float:
+    """
+    Flat additive bonus for structural-finance / rating-threshold / siting
+    language. These phrases are the precise markers the classifier's generic
+    regime relevance cannot catch — they indicate rating-threshold mechanics
+    (IG uplift, rating methodology) or capital-stack innovation (third-party
+    capital, insurance-linked, casualty sidecar) or state-level siting
+    escalation (first-in-class, state-wide moratorium).
+
+    Returns a flat boost in score points, 0.0 to STRUCTURAL_KEYWORD_CAP.
+    """
+    text = ((signal.headline or "") + " " + (signal.summary or "")).lower()
+    total = 0.0
+    for phrase, pts in STRUCTURAL_KEYWORD_BONUSES.items():
+        if phrase in text:
+            total += pts
+    return min(STRUCTURAL_KEYWORD_CAP, total)
+
+
 # ── BOOST / PENALTY / ALERT HELPERS ──────────────────────────────────────────
 
 def _compute_boosts(raw: float, rr: float, dr: float) -> tuple[float, float]:
@@ -486,7 +631,19 @@ def score_signal(signal: Signal,
     # Contextual boosts delivered from the 0.45 weight budget reserved outside
     # the raw sum. Bands prevent weak signals from amplifying on regime match.
     regime_boost, deal_boost = _compute_boosts(raw, rr, dr)
-    weighted = raw + regime_boost + deal_boost
+
+    # v2.3.0 structural-candidate lane:
+    #   cluster_boost    — amplifies pre-issuance structural threads by
+    #                      counting siblings that share a structural C-tag
+    #   structural_kw    — flat additive for IG-uplift / rating-methodology /
+    #                      first-in-class / capital-pool language
+    # Both bypass the raw-band gating because the ILS-class miss was
+    # precisely the case where no single print crosses min_raw=30 — gating
+    # these behind the same bands would reproduce the bug we're fixing.
+    cluster_boost = score_cluster_amplifier(signal, recent_signals)
+    structural_kw = score_structural_keyword_bonus(signal)
+
+    weighted = raw + regime_boost + deal_boost + cluster_boost + structural_kw
 
     # Penalty — C08 geopolitical-without-infra-nexus
     c_tags = []

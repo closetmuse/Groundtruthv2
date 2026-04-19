@@ -143,6 +143,7 @@ def run(trigger: str = "scheduled") -> dict:
     except Exception as e:
         print(f"  WARN: DRAFT cleanup failed: {e}")
 
+    classify_stats = {"classified": 0, "filtered": 0, "dedupes": 0, "errors": 0}
     try:
         from gs.classify import classify_batch, update_live_context
         from gs.store import start_fetch_run
@@ -155,7 +156,7 @@ def run(trigger: str = "scheduled") -> dict:
 
         # classify_batch generates prompts for Claude Desktop
         # In automated mode, classification happens inline
-        signal_ids = classify_batch(raw_items, fetch_run_id=fetch_run_id)
+        signal_ids, classify_stats = classify_batch(raw_items, fetch_run_id=fetch_run_id)
         summary["signals_classified"] = len(signal_ids)
         print(f"  Classify: {len(signal_ids)} signals written")
 
@@ -353,19 +354,29 @@ def run(trigger: str = "scheduled") -> dict:
     _banner("HEALTH")
     try:
         from infra.health_monitor import run_health_check, write_health_to_sheets, RunContext
+        # Count active sources from the registry (was hardcoded to 18).
+        try:
+            from gs.fetch import SOURCES
+            sources_attempted = sum(1 for s in SOURCES if s.get("active", False))
+        except Exception:
+            sources_attempted = 37  # observed baseline; classifier registry
+        sources_succeeded = max(0, sources_attempted - len(summary["fetch_failures"]))
         health_ctx = RunContext(
             run_id=run_id,
             run_started_at=summary["started_at"],
             run_completed_at=summary["completed_at"],
-            sources_attempted=18,
-            sources_succeeded=18 - len(summary["fetch_failures"]),
+            sources_attempted=sources_attempted,
+            sources_succeeded=sources_succeeded,
             sources_failed=summary["fetch_failures"],
             signals_fetched=summary.get("raw_items", 0),
-            signals_filtered=summary.get("raw_items", 0) - summary["signals_classified"],
+            signals_filtered=classify_stats.get("filtered", 0) + classify_stats.get("dedupes", 0),
+            signals_deduped=classify_stats.get("dedupes", 0),
+            signals_irrelevance_filtered=classify_stats.get("filtered", 0),
             signals_classified=summary["signals_classified"],
             signals_new=summary["signals_classified"],
             email_sent=summary["email_sent"],
             email_sent_at=summary["completed_at"],
+            email_deferred=DRY_RUN,
             current_regime="R0",
             deals_active=len(deal_scores) if deal_scores else 0,
             deals_scored=len(deal_scores) if deal_scores else 0,

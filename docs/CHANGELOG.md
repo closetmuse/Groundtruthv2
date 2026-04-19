@@ -16,6 +16,37 @@ at the repo root and in the git log.
 
 ---
 
+## 2026-04-19 — Email step dropped from capture workflow
+**Commit:** (pending)
+**Scope:** workflow, convention.
+
+Capture workflow reduced from 4 steps (capture → brief → ledger → email)
+to 4 steps with email replaced by `git commit + push`:
+1. Capture (`python infra/run_manual.py`)
+2. Brief (hand-written consolidated sector brief)
+3. Ledger (append findings to `alpha_ledger.md`)
+4. Commit + push to GitHub
+
+**Rationale:** email was solving a mobile-delivery problem that Git +
+GitHub mobile now solve more cleanly. Gmail OAuth token maintenance is
+recurring friction (expired during 2026-04-19 PM capture, required
+manual re-auth). The email's consolidated dashboard view is recoverable
+on-demand via `python infra/send_email.py` writing `email_fallback.html`
+locally, so the capability is not lost — it's unbundled from the
+standing workflow.
+
+**Downstream:**
+- `memory/feedback_brief_workflow_sequence.md` updated to step-4 =
+  commit+push, with "on-demand dashboard" footnote for ad-hoc rendering.
+- `docs/workflows.md` updated with the new daily-capture sequence.
+- `send_email.py` code untouched — remains available as an ad-hoc tool.
+- No net loss of capability: brief content (step 1) ✓ git, signals +
+  prices + binary events (email sections 5/6/9) ✓ Google Sheets tabs,
+  health panel (email section 10) ✓ console + Sheets Health tab,
+  consolidated dashboard ✓ available on-demand.
+
+---
+
 ## 2026-04-19 — Documentation system formalized
 **Commit:** (pending)
 **Scope:** documentation, memory, repository structure.

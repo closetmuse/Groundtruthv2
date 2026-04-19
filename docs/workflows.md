@@ -75,18 +75,37 @@ Trigger phrase: **"Run GroundTruth capture"**
 
 ### Sequence (per [brief_workflow_sequence memory](../memory/feedback_brief_workflow_sequence.md))
 
+Four steps — email step dropped 2026-04-19 in favor of Git/GitHub mobile
+as the delivery channel. See `CHANGELOG.md` 2026-04-19 entry "Email step
+dropped from capture workflow" for rationale.
+
 1. **Run `python infra/run_manual.py`** — fetches all P1 sources, fetches
    prices, classifies, scores, runs GPi + encyclopedia + health check,
-   suppresses email (DRY_RUN), writes `email_fallback.html`.
+   suppresses email (DRY_RUN), writes `email_fallback.html` locally.
 2. **Hand-write the consolidated sector brief** to
    `outputs/daily/YYYY-MM/MM-DD/sector_briefs_YYYY-MM-DD_HHMMET.md`.
    Follow the standing sector-brief template (see `conventions.md`).
 3. **Append findings to `outputs/alpha_ledger.md`** (use
-   `python infra/ledger_extract.py <brief-path>` for scaffold if any
-   new ALFs / hardening entries surfaced).
-4. **Run `python infra/send_email.py`** — rebuilds email with brief as
-   Section 1 and sends.
-5. **Commit + push** (see git workflow above).
+   `python infra/ledger_extract.py <brief-path> --append` for scaffold
+   if new ALFs / hardening entries surfaced).
+4. **Commit + push.** `git add -A && git commit -m "..." -m "..." && git push`.
+   The repo is the contemporaneous record and the mobile-access channel —
+   briefs must be committed to be discoverable from GitHub mobile.
+
+### On-demand consolidated dashboard
+
+If the email-style consolidated view is wanted for a specific capture
+(all 37 price series, all RED/AMBER enumerations, binary events
+countdown, health panel rendering in one HTML), run:
+
+```
+python infra/send_email.py
+```
+
+This writes `email_fallback.html` at the project root (gitignored) and —
+if Gmail OAuth is valid — also sends. If OAuth is expired, the HTML
+still writes locally; you can open it in a browser for the dashboard
+view. Ad-hoc tool, not a workflow step.
 
 ### Discipline drift checks
 Before shipping a brief, run the drift checks documented in

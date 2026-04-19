@@ -16,6 +16,37 @@ at the repo root and in the git log.
 
 ---
 
+## 2026-04-19 — Dashboard HTML archived under outputs/daily/
+**Commit:** (pending)
+**Scope:** infra (`gt/orchestrator.py`, `infra/send_email.py`), convention.
+
+Every capture run now writes the email-style consolidated dashboard HTML
+to **both**:
+- **Root `email_fallback.html`** (gitignored, latest-run scratch / ad-hoc
+  send fallback) — unchanged behavior.
+- **New: `outputs/daily/YYYY-MM/MM-DD/dashboard_YYYY-MM-DD_HHMMET.html`**
+  (git-tracked, dated archive) — one file per capture.
+
+Applies to both the orchestrator's in-run render and `infra/send_email.py`
+ad-hoc renders.
+
+**Rationale:** the 2026-04-19 email-step drop moved the narrative brief
+into Git but left the consolidated visual-dashboard view (price-series
+table, full RED/AMBER enumeration, binary events countdown, health panel)
+gitignored at root. The dated archive preserves that view per capture
+alongside the brief, so future VL audit can reconstruct "what the platform
+was displaying at time T" without the Google Sheets tab history.
+
+**Downstream:**
+- `gt/orchestrator.py` stage 6 renamed EMAIL → DASHBOARD, with
+  `_archive_dashboard_html()` helper.
+- `infra/send_email.py` `_archive_dashboard()` helper mirrors the logic.
+- `docs/workflows.md` on-demand-dashboard note remains accurate.
+- Storage cost: ~50 KB per capture × 2-4 captures/day × 365 days ≈ 60 MB/yr.
+  Acceptable for a private repo archive.
+
+---
+
 ## 2026-04-19 — Email step dropped from capture workflow
 **Commit:** (pending)
 **Scope:** workflow, convention.

@@ -257,8 +257,37 @@ def run(trigger: str = "scheduled") -> dict:
     except Exception as e:
         print(f"  WARN: Encyclopedia matching failed. Error: {e}")
 
-    # ── 6. EMAIL ──────────────────────────────────────────────────────────
-    _banner("EMAIL")
+    # ── 6. DASHBOARD + EMAIL ──────────────────────────────────────────────
+    # The HTML "dashboard" view is the old email Section-1..10 consolidated
+    # rendering. Kept for two reasons after email was dropped from the
+    # workflow on 2026-04-19: (a) on-demand visual check for a given
+    # capture, (b) git-tracked archive per capture under outputs/daily/.
+    _banner("DASHBOARD")
+
+    def _archive_dashboard_html(html_str: str) -> str | None:
+        """Write the dashboard HTML to outputs/daily/YYYY-MM/MM-DD/
+        dashboard_YYYY-MM-DD_HHMMET.html. Returns the written path, or None
+        on failure. Also keeps the root FALLBACK_HTML as latest-run scratch."""
+        try:
+            now_et = datetime.now(ET)
+            day_dir = os.path.join(
+                PROJECT_ROOT, "outputs", "daily",
+                now_et.strftime("%Y-%m"), now_et.strftime("%m-%d"),
+            )
+            os.makedirs(day_dir, exist_ok=True)
+            fname = f"dashboard_{now_et.strftime('%Y-%m-%d_%H%M')}ET.html"
+            dated_path = os.path.join(day_dir, fname)
+            with open(dated_path, "w", encoding="utf-8") as f:
+                f.write(html_str)
+            # Also update root fallback for latest-run quick-look and for
+            # the ad-hoc send_email.py fallback path.
+            with open(FALLBACK_HTML, "w", encoding="utf-8") as f:
+                f.write(html_str)
+            return dated_path
+        except Exception as e:
+            print(f"  WARN: Dashboard archive failed: {e}")
+            return None
+
     try:
         if DRY_RUN:
             from gt.email_builder import build_email, build_subject
@@ -274,13 +303,22 @@ def run(trigger: str = "scheduled") -> dict:
             print(f"  DRY RUN — email suppressed")
             print(f"  Subject: {subject}")
             print(f"  HTML: {len(html)} chars")
-            # Write to fallback file for review
-            with open(FALLBACK_HTML, "w", encoding="utf-8") as f:
-                f.write(html)
-            print(f"  Written to: {FALLBACK_HTML}")
+            archived = _archive_dashboard_html(html)
+            if archived:
+                print(f"  Dashboard archived: {archived}")
+            print(f"  Root fallback: {FALLBACK_HTML}")
             summary["email_sent"] = False
         else:
-            from gt.email_builder import send_digest
+            from gt.email_builder import build_email, send_digest
+            # Build HTML once, archive it, then send.
+            html = build_email(
+                [_signal_to_dict(s) for s in scored_signals],
+                encyclopedia_match,
+                summary,
+            )
+            archived = _archive_dashboard_html(html)
+            if archived:
+                print(f"  Dashboard archived: {archived}")
             sent = send_digest(
                 [_signal_to_dict(s) for s in scored_signals],
                 encyclopedia_match,
@@ -289,8 +327,7 @@ def run(trigger: str = "scheduled") -> dict:
             summary["email_sent"] = sent
 
     except Exception as e:
-        print(f"  ERROR: Email failed. Error: {e}")
-        # Write fallback HTML
+        print(f"  ERROR: Dashboard/email stage failed. Error: {e}")
         try:
             from gt.email_builder import build_email
             html = build_email(
@@ -298,11 +335,11 @@ def run(trigger: str = "scheduled") -> dict:
                 encyclopedia_match,
                 summary,
             )
-            with open(FALLBACK_HTML, "w", encoding="utf-8") as f:
-                f.write(html)
-            print(f"  Fallback HTML written to: {FALLBACK_HTML}")
+            archived = _archive_dashboard_html(html)
+            if archived:
+                print(f"  Dashboard archived (post-error): {archived}")
         except Exception as e2:
-            print(f"  Fallback HTML also failed: {e2}")
+            print(f"  Fallback dashboard write also failed: {e2}")
 
     # ── 6b. SAVE DIGEST TO DRIVE ─────────────────────────────────────────
     try:

@@ -164,17 +164,39 @@ def main():
     print(f"  Subject: {subject}")
     print(f"  HTML length: {len(html)} chars")
 
+    # Archive the dashboard HTML to the dated outputs folder every run
+    # (gitignored root fallback + git-tracked dated archive). Mirrors
+    # orchestrator.py's _archive_dashboard_html — 2026-04-19 email workflow
+    # change; see docs/CHANGELOG.md.
+    def _archive_dashboard(html_str: str) -> Path | None:
+        try:
+            from datetime import datetime as _dt
+            import pytz as _pytz
+            now_et = _dt.now(_pytz.timezone("America/New_York"))
+            day_dir = PROJECT_ROOT / "outputs" / "daily" / now_et.strftime("%Y-%m") / now_et.strftime("%m-%d")
+            day_dir.mkdir(parents=True, exist_ok=True)
+            fname = f"dashboard_{now_et.strftime('%Y-%m-%d_%H%M')}ET.html"
+            dated = day_dir / fname
+            dated.write_text(html_str, encoding="utf-8")
+            FALLBACK_HTML.write_text(html_str, encoding="utf-8")
+            return dated
+        except Exception as e:
+            print(f"  WARN: Dashboard archive failed: {e}")
+            return None
+
+    archived = _archive_dashboard(html)
+    if archived:
+        print(f"  Dashboard archived: {archived}")
+
     if args.dry:
-        FALLBACK_HTML.write_text(html, encoding="utf-8")
-        print(f"  DRY RUN — email NOT sent. HTML written to {FALLBACK_HTML}")
+        print(f"  DRY RUN — email NOT sent. Root fallback: {FALLBACK_HTML}")
         return
 
     sent = send_digest(signals, encyclopedia_match, run_summary)
     if sent:
         print(f"  Email SENT")
     else:
-        FALLBACK_HTML.write_text(html, encoding="utf-8")
-        print(f"  Send failed — fallback HTML saved to {FALLBACK_HTML}")
+        print(f"  Send failed — dashboard archive still written (see above)")
 
 
 if __name__ == "__main__":

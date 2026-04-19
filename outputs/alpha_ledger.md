@@ -523,3 +523,19 @@ Classifier recalibration pass 2026-04-19 PM: #1 second_order template removal, #
 ALF-20260419-1 signal-reference set updated: 7 prints → 18 prints (11 capacity substrate + 1 cross-asset + 6 core)
 Watch items opened this evening: 1 (candidate ALF-20260420-W1 — state-level siting spread to renewables, Kansas solar moratorium GS-107)
 ================================================================
+
+### ALF-20260415-4 — Structural candidate — hardening-indicator revision
+- 2026-04-19 14:36 ET [Morning supply-side widening downgraded to effectively-zero]: GS-1065 (Bloomberg Law Energy, today PM) US Energy Secretary guidance that HH will not dip below $3 until 2027 directly contradicts the morning $2.67 HH refresh interpretation. Weight of evidence favors the weather-driven-noise reading over genuine supply loosening: (a) FRED data is typically lagging; (b) DOE Secretary usually reflects firm internal forecast; (c) $2.67 was a 5-day-stale-then-refreshed print, not an established tape level. The morning hardening log entry — which tagged supply-side arb widening as weak-neutral evidence for the Structural thesis — should be read as **effectively-zero** given that the supply-side widening is likely transient and about to reverse on policy-guidance publication. The Structural thesis test has NOT received meaningful demand-side evidence this weekend. No hardening. PENDING, VL 2026-05-15.
+
+### ALF-20260417-1 — Non-structural candidate-HIT — at-risk strengthening
+- 2026-04-19 14:36 ET [Second mainstream-source confirms escalation, at-risk reading returns]: GS-1066 (Bloomberg Law Energy, today PM) *"Hormuz Shipping Traffic Grinds to a Halt as Tensions Deepen"* published today afternoon. Bloomberg Law framing is closer to Oil Price's "shutdown" (GS-1017, Apr 18) than to Al Jazeera's "impasse" (GS-1025, Apr 19 AM). Three-source ladder across the weekend is now directionally escalating: Oil Price Apr 18 → Al Jazeera AM Apr 19 neutral-to-softening → Bloomberg Law PM Apr 19 escalating. The Al Jazeera read now looks like the outlier rather than the consensus. Probability of a Monday Brent gap-up strengthens materially vs the 06:13 ET morning read. Candidate-HIT status returns to **at-risk**, path toward EARLY resolution (apparent HIT invalidated by reversion-of-event) becomes non-trivial. VL 2026-05-01 (~12 days). Monday open is the binding verification.
+
+### Test-signal contamination remediation 2026-04-19 14:36 ET
+GS-1039, GS-1040, GS-1041 — three synthetic signals I wrote into the DB during this morning's scorer v2.3.0 `classify_batch` smoke-test with URLs `https://x.test/*` — were surfacing as production REDs under the new structural-candidate lane. All three marked as `status=FILTERED` with `filter_reason=TEST_CONTAMINATION — synthetic signal from 2026-04-19 scorer v2.3.0 smoke-test (https://x.test/*); not real published content.` Workflow lesson for the testing discipline: scorer / classifier smoke-tests should mock signals in-memory (construct `Signal` objects directly and call `score_signal`) rather than hit the DB via `classify_batch`. Added to docs/workflows.md guidance. Adjacency note for future VL audit: any reader pulling a pre-2026-04-19-PM brief and seeing these three signal IDs with non-FILTERED status is reading a pre-cleanup artifact; the contemporaneous record in those briefs captured the signals before the FILTERED mark was applied.
+
+================================================================
+PENDING COUNT: 8 | HIT: 1 | EARLY: 0 | LATE: 0 | WRONG: 2
+Hardening updates 2026-04-19 PM: 2 (ALF-15-4 downgrade-to-zero; ALF-17-1 at-risk-strengthening)
+Test-signal contamination remediated: 3 signals (GS-1039/1040/1041) marked FILTERED
+At-risk pending market verification: 1 (ALF-20260417-1 — Monday Brent open)
+================================================================

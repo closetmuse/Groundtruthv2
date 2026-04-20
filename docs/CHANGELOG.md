@@ -16,6 +16,58 @@ at the repo root and in the git log.
 
 ---
 
+## 2026-04-20 — LNG benchmark staleness: business-day cadence + next-settlement field
+**Commit:** (pending)
+**Scope:** code (`gs/prices.py`).
+
+`fetch_yahoo_lng` now reports JKM and TTF staleness on a business-day basis
+instead of calendar-day. The `stale` flag fires when `business_days_stale > 1`,
+i.e., when a settlement that should already exist is missing — not when the
+weekend is carried forward. Two new fields ride on each LNG series:
+`business_days_stale` and `next_expected_settlement`.
+
+**Rationale.** On the 2026-04-20 06:46 ET capture, JKM read $15.00 with a
+calendar-day staleness of 3 and `stale: false` (prior threshold was `> 3`).
+That misrepresented the data state: Yahoo's $15.00 Friday close is the latest
+JKM settlement that exists in the world at Monday AM because CME JKM settles
+once per business day after the Asian session closes. Calendar-day math
+treated weekend carry as data lag; business-day math correctly reads Mon AM
+with Fri-close as within-cadence. The brief body flagged the confusion
+explicitly ("JKM tape did not refresh") — the fetcher should not contribute
+to that confusion.
+
+**What changed semantically:**
+- Mon AM, Fri-close JKM → `business_days_stale=1`, `stale=False`, console
+  prints `(next settle 2026-04-20 pub later today)`.
+- Tue AM, Fri-close JKM → `business_days_stale=2`, `stale=True`, console
+  prints `STALE(2bd — expected 2026-04-20 settlement missing)`. This is the
+  case where a settlement we expected to see did not arrive.
+- Backward-compat: `staleness_days` (calendar days) and `stale` still written
+  to the series dict. `email_builder.py` and `sheets/interface.py` continue to
+  read the old fields unchanged; their calendar-day thresholds remain as-is
+  for now (candidate for later revisit under the broader per-series staleness
+  audit, i.e. Option C from today's discussion).
+
+**Downstream effects.**
+- `gs/prices.py`: added `_business_days_between` and `_next_business_day`
+  helpers; `fetch_yahoo_lng` populates four new fields on each LNG dict
+  entry (raw + derived TTF-USD); updated console output messages.
+- Brief rendering can now cite `next_expected_settlement` to explain JKM
+  cadence honestly instead of saying "stale 3d."
+- No schema change — series_data stays JSON blob, just with richer keys.
+
+**What's NOT in this change.**
+- No new JKM data source. Free alternatives (CME JSON, ICE JSON, Barchart,
+  MarketWatch) all block automated access; paid feed (Platts/LSEG/ICE) is
+  a subscription decision, not a code change. The JKM cadence gap at AM
+  captures is a market-structure fact, not a fetch bug — this change makes
+  that explicit in the data rather than masking it.
+- No audit of oil / gas / FX / FRED series staleness. Those sit behind their
+  own thresholds (`_fetch_yahoo_futures` stale > 2; FRED no explicit flag).
+  Each has its own cadence; scope is today's discussion Option A only.
+
+---
+
 ## 2026-04-20 — Marker-enforced capture workflow (`finalize_capture.py`)
 **Commit:** (pending)
 **Scope:** infra (`infra/run_manual.py`, new `infra/finalize_capture.py`),

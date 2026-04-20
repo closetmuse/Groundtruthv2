@@ -92,6 +92,39 @@ YAHOO_LNG = {
 MWH_TO_MMBTU = 3.41214
 
 
+# ── STALENESS HELPERS (business-day cadence for daily-settle futures) ────────
+# JKM and TTF settle once per business day after their respective sessions
+# close. Calendar-day staleness misreads a Monday-AM capture as "3 days stale"
+# when Friday's close is actually the latest settlement that exists in the
+# world. Business-day logic gives the right answer: on Mon AM, Fri close = 1
+# business day behind = within-cadence; on Tue AM, Fri close = 2 business
+# days = truly stale (Monday settlement missed).
+
+def _business_days_between(start_date, end_date):
+    """Count weekdays strictly after start_date, up to and including end_date.
+
+    No holiday calendar — weekends only. Good enough for staleness flagging;
+    holidays just appear as a 1-day late settlement which is harmless noise.
+    """
+    if end_date <= start_date:
+        return 0
+    days = 0
+    d = start_date
+    while d < end_date:
+        d += timedelta(days=1)
+        if d.weekday() < 5:   # Mon-Fri
+            days += 1
+    return days
+
+
+def _next_business_day(d):
+    """Return the next weekday strictly after d."""
+    nxt = d + timedelta(days=1)
+    while nxt.weekday() >= 5:
+        nxt += timedelta(days=1)
+    return nxt
+
+
 # ── YAHOO FINANCE FX (replaces FRED for real-time FX) ─────────────────────────
 YAHOO_FX_SERIES = {
     "usd_index": {"symbol": "DX-Y.NYB", "unit": "index", "category": "fx",
@@ -346,25 +379,42 @@ def fetch_yahoo_lng(fx_data):
             value = round(float(last_close), 3)
             last_date = datetime.utcfromtimestamp(last_ts).date()
             pub_date = str(last_date)
-            stale_days = (date.today() - last_date).days
-            stale_flag = stale_days > 3  # LNG futures trade less actively; 3d tolerance
+            today = date.today()
+            cal_days_stale = (today - last_date).days
+            biz_days_stale = _business_days_between(last_date, today)
+            next_expected = _next_business_day(last_date)
+            # Business-day semantics: > 1 means we missed a settlement that
+            # should already exist. == 1 means the next settlement publishes
+            # later today US time — within-cadence at AM capture, truly stale
+            # by next-day AM capture.
+            stale_flag = biz_days_stale > 1
 
             history = [round(float(c), 4) for _, c in pairs[-95:]]
 
             results[field] = {
-                "value":            value,
-                "unit":             info["unit"],
-                "category":         info["category"],
-                "series_id":        info["symbol"],
-                "series_date":      pub_date,
-                "source":           "Yahoo Finance",
-                "publication_date": pub_date,
-                "staleness_days":   stale_days,
-                "stale":            stale_flag,
-                "history":          history,
+                "value":                     value,
+                "unit":                      info["unit"],
+                "category":                  info["category"],
+                "series_id":                 info["symbol"],
+                "series_date":               pub_date,
+                "source":                    "Yahoo Finance",
+                "publication_date":          pub_date,
+                "settlement_cadence":        "daily_business",
+                "business_days_stale":       biz_days_stale,
+                "next_expected_settlement":  str(next_expected),
+                "staleness_days":            cal_days_stale,   # backward compat
+                "stale":                     stale_flag,
+                "history":                   history,
             }
-            stale_marker = f" STALE({stale_days}d)" if stale_flag else ""
-            print(f"  OK  {field}: {value} {info['unit']} ({pub_date}){stale_marker}")
+            if stale_flag:
+                marker = (f" STALE({biz_days_stale}bd — expected "
+                          f"{next_expected} settlement missing)")
+            elif biz_days_stale == 1:
+                marker = f" (next settle {next_expected} pub later today)"
+            else:
+                marker = ""
+            print(f"  OK  {field}: {value} {info['unit']} "
+                  f"(settled {pub_date}){marker}")
         except Exception as e:
             print(f"  FAIL {field} ({info['symbol']}): {e}")
             results[field] = None
@@ -391,17 +441,20 @@ def fetch_yahoo_lng(fx_data):
                 for c in source.get("history", [])
             ]
             results[field] = {
-                "value":            value,
-                "unit":             info["unit"],
-                "category":         info["category"],
-                "series_id":        f"{source['series_id']}+usd_eur",
-                "series_date":      source["series_date"],
-                "source":           "Yahoo Finance (derived)",
-                "publication_date": source["publication_date"],
-                "staleness_days":   source["staleness_days"],
-                "stale":            source["stale"],
-                "history":          history,
-                "derivation":       (
+                "value":                     value,
+                "unit":                      info["unit"],
+                "category":                  info["category"],
+                "series_id":                 f"{source['series_id']}+usd_eur",
+                "series_date":               source["series_date"],
+                "source":                    "Yahoo Finance (derived)",
+                "publication_date":          source["publication_date"],
+                "settlement_cadence":        source.get("settlement_cadence"),
+                "business_days_stale":       source.get("business_days_stale"),
+                "next_expected_settlement":  source.get("next_expected_settlement"),
+                "staleness_days":            source["staleness_days"],
+                "stale":                     source["stale"],
+                "history":                   history,
+                "derivation":                (
                     f"{source_field}={source['value']} {source['unit']} × "
                     f"usd_eur={fx_rate} ÷ {MWH_TO_MMBTU} MMBtu/MWh"
                 ),

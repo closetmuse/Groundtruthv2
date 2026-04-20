@@ -68,3 +68,9 @@ logs/
 venv/
 .venv/
 env/
+
+# ─────────────────────────────────────────────────────────────────────
+# Capture workflow state — transient, written by run_manual.py and
+# consumed by finalize_capture.py. Should never live in git.
+# ─────────────────────────────────────────────────────────────────────
+.gt_capture_pending

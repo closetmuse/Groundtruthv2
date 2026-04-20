@@ -16,6 +16,57 @@ at the repo root and in the git log.
 
 ---
 
+## 2026-04-20 — Marker-enforced capture workflow (`finalize_capture.py`)
+**Commit:** (pending)
+**Scope:** infra (`infra/run_manual.py`, new `infra/finalize_capture.py`),
+workflow (`docs/workflows.md`), CLAUDE.md trigger phrase, memory consolidation.
+
+"Run GroundTruth capture" is now a **three-command** sequence, with state
+flowing through a `.gt_capture_pending` marker file at project root:
+
+1. `python infra/run_manual.py` — capture; writes marker with the exact
+   brief filename, slot, signal counts, precedent, runtime.
+2. Claude writes the sector brief to the exact path from the marker.
+3. `python infra/finalize_capture.py --headline "<theme>"` — verifies the
+   brief, git-adds day folder + `outputs/alpha_ledger.md` (if modified),
+   commits with auto-generated message, clears the marker. No push.
+
+**Rationale.** Memory-based workflow instructions were drifting across
+fresh sessions — the AM capture on 2026-04-20 wrote the brief but left
+it uncommitted until Sri reminded me, then was over-corrected (full
+brief pasted into chat) and followed by a contemporaneous-record
+violation (retroactive edit of the committed brief to expand the VG
+waiver section). Root cause: memories are advice that a new session
+loads but may skip; they cannot enforce a workflow. The marker file
+pushes the protocol into the bash layer — Claude cannot "forget" to
+commit because the finalize script IS the commit, and a new session
+that sees a marker at project root knows a brief is pending.
+
+**Downstream effects:**
+- `infra/run_manual.py` — adds `_write_pending_marker()` + NEXT STEP
+  block; consumes `top_precedent` from summary.
+- `infra/finalize_capture.py` (new, ~180 lines) — marker read, brief
+  verification, git add/commit, idempotent on re-runs.
+- `.gitignore` — adds `.gt_capture_pending`.
+- `CLAUDE.md` — "Run GroundTruth capture" trigger phrase rewritten as
+  the three-command sequence with addendum + no-paste rules.
+- `docs/workflows.md` — daily capture procedure section rewritten;
+  push cadence flipped from "after every commit" to manual / hold-local.
+- Memory consolidation: four overlapping feedback files
+  (`feedback_brief_workflow_sequence.md`, `feedback_show_brief_after_write.md`,
+  `feedback_brief_git_commit_protocol.md`, and the old workflow fragment
+  inside `feedback_documentation_discipline.md`) merged into a single
+  `feedback_capture_workflow.md` pointing at the script flow.
+  `feedback_no_retroactive_brief_edits.md` retained as a separate
+  content-discipline rule.
+
+**Hold-local push protocol.** `finalize_capture.py` never pushes.
+Sri decides when to `git push`, typically at EOD or after a review pass.
+The old "push after every commit" rule in `docs/workflows.md` is
+superseded by this entry.
+
+---
+
 ## 2026-04-19 — Dashboard HTML archived under outputs/daily/
 **Commit:** (pending)
 **Scope:** infra (`gt/orchestrator.py`, `infra/send_email.py`), convention.

@@ -1,17 +1,18 @@
 # GroundTruth V2 — infra/run_manual.py
 # Manual trigger for Sri from command line or Claude Desktop.
 #
-# Workflow (post-brief-integration, 2026-04-15):
-#   1. python infra/run_manual.py              → capture only, no email sent
-#   2. Claude hand-writes the consolidated sector brief and appends to ledger
-#   3. python infra/send_email.py              → resend email with the
-#                                                 just-written brief as Section 1
+# Workflow (post-finalize-capture, 2026-04-20):
+#   1. python infra/run_manual.py              → capture only, writes
+#                                                 .gt_capture_pending marker
+#   2. Claude hand-writes the consolidated sector brief to the exact path
+#      given in the NEXT STEP block
+#   3. python infra/finalize_capture.py        → verifies brief exists,
+#                                                 git adds day folder +
+#                                                 alpha_ledger, commits,
+#                                                 clears marker. No push.
 #
-# The default behaviour is NOW to suppress email on run_manual. The brief is a
-# manual synthesis step that happens after capture, and the email is the
-# delivery vehicle for the brief — so auto-sending on capture completion would
-# always produce a stale or placeholder Section 1. Explicit --email flag
-# restores the legacy auto-send behaviour.
+# The marker file is the state handoff between (1) and (3). Claude does not
+# need to "remember" to commit — the marker forces a terminal step.
 #
 # Usage:
 #   python infra/run_manual.py                      # capture, no email (default)
@@ -23,7 +24,10 @@
 
 import sys
 import os
+import json
 import argparse
+from datetime import datetime
+from pathlib import Path
 
 # Force UTF-8 on stdout so Unicode (→, —) survives Windows cp1252 consoles.
 if hasattr(sys.stdout, "reconfigure"):
@@ -36,6 +40,68 @@ if PROJECT_ROOT not in sys.path:
 
 from dotenv import load_dotenv
 load_dotenv(os.path.join(PROJECT_ROOT, ".env"), override=True)
+
+
+def _et_now():
+    """Return current ET datetime, handling DST via zoneinfo."""
+    try:
+        from zoneinfo import ZoneInfo
+        return datetime.now(ZoneInfo("America/New_York"))
+    except Exception:
+        # Fallback: naive local time. Will still work on boxes already in ET.
+        return datetime.now()
+
+
+def _infer_slot(et_dt):
+    """Infer AM / PM / EOD capture slot from ET hour.
+
+    Loose convention:
+      AM  — 00:00 to 11:30 ET (early-morning to lunch)
+      PM  — 11:30 to 17:30 ET (afternoon through US market close window)
+      EOD — 17:30 onward     (post-close synthesis)
+    """
+    minutes = et_dt.hour * 60 + et_dt.minute
+    if minutes < 11 * 60 + 30:
+        return "AM"
+    if minutes < 17 * 60 + 30:
+        return "PM"
+    return "EOD"
+
+
+def _write_pending_marker(summary):
+    """Persist state for infra/finalize_capture.py to consume.
+
+    Called at the end of a successful no-email capture. The marker lives at
+    project root and is gitignored — transient workflow state only.
+    """
+    et = _et_now()
+    slot = _infer_slot(et)
+    ts_compact = et.strftime("%Y-%m-%d_%H%MET")     # 2026-04-20_0522ET
+    ts_display = et.strftime("%Y-%m-%d %H:%M ET")   # 2026-04-20 05:22 ET
+    day_folder_rel = f"outputs/daily/{et.strftime('%Y-%m')}/{et.strftime('%m-%d')}"
+    brief_rel = f"{day_folder_rel}/sector_briefs_{ts_compact}.md"
+    dashboard_rel = f"{day_folder_rel}/dashboard_{ts_compact}.html"
+
+    marker = {
+        "capture_ts_iso": et.isoformat(),
+        "capture_ts_display": ts_display,
+        "capture_ts_compact": ts_compact,
+        "slot": slot,
+        "day_folder": day_folder_rel,
+        "expected_brief": brief_rel,
+        "dashboard": dashboard_rel,
+        "signals_classified": summary.get("signals_classified", 0),
+        "red_count": summary.get("red_count", 0),
+        "amber_count": summary.get("amber_count", 0),
+        "green_count": summary.get("green_count", 0),
+        "runtime_seconds": summary.get("runtime_seconds", 0),
+        "encyclopedia_top": summary.get("top_precedent", "") or "",
+    }
+
+    marker_path = Path(PROJECT_ROOT) / ".gt_capture_pending"
+    with open(marker_path, "w", encoding="utf-8") as f:
+        json.dump(marker, f, indent=2)
+    return marker
 
 
 def main():
@@ -94,19 +160,27 @@ def main():
             f"runtime:{summary.get('runtime_seconds', 0)}s"
         )
 
-        # Next-step reminder for the brief-integrated workflow
+        # State-handoff marker + NEXT STEP block for finalize_capture.py
         if not args.email:
+            marker = _write_pending_marker(summary or {})
             print()
-            print("=" * 58)
-            print("  CAPTURE COMPLETE — email NOT sent")
-            print("  Next steps for the brief-integrated workflow:")
-            print("    1. Claude hand-writes the consolidated sector brief")
-            print("       to outputs/daily/YYYY-MM/MM-DD/sector_briefs_<date>_<HHMM>ET.md")
-            print("    2. Append Alpha findings to outputs/alpha_ledger.md")
-            print("       (use infra/ledger_extract.py for scaffold)")
-            print("    3. python infra/send_email.py")
-            print("       → rebuilds email with brief as Section 1 and sends")
-            print("=" * 58)
+            print("=" * 68)
+            print("  CAPTURE COMPLETE — pending-brief marker written")
+            print("=" * 68)
+            print(f"  Slot:      {marker['slot']}  ({marker['capture_ts_display']})")
+            print(f"  RED/AMBER: {marker['red_count']} / {marker['amber_count']}")
+            print(f"  Precedent: {marker['encyclopedia_top']}")
+            print()
+            print("  NEXT STEP — write the sector brief to this EXACT path:")
+            print(f"    {marker['expected_brief']}")
+            print()
+            print("  When the brief is written, run:")
+            print("    python infra/finalize_capture.py --headline \"<one-line theme>\"")
+            print()
+            print("  finalize_capture will verify the brief, git-commit the")
+            print("  day folder + alpha_ledger (if touched), and clear the")
+            print("  pending marker. Push is deferred to manual.")
+            print("=" * 68)
 
 
 if __name__ == "__main__":

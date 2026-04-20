@@ -62,8 +62,21 @@ Flow: GS → GE → GPi/GC → GT → Sri. No agent reaches backward.
 
 ## TRIGGER PHRASES
 
-**Run GroundTruth capture**
-→ Full 3-layer capture. Fetch all P1 sources. Classify. Write DB. Send email.
+**Run GroundTruth capture** — THREE COMMANDS, IN ORDER. State flows via
+the `.gt_capture_pending` marker at project root; never skip or reorder.
+
+  1. `python infra/run_manual.py` — capture. Writes the marker with the
+     exact brief filename. Emits NEXT STEP block.
+  2. Write the sector brief to the **exact path** from the NEXT STEP
+     block. No timestamp drift, no alternate filenames.
+  3. `python infra/finalize_capture.py --headline "<one-line theme>"` —
+     verifies brief, git-adds day folder + alpha_ledger (if touched),
+     commits, clears marker. Push is deferred to manual.
+
+  After (3): reply with a markdown link to the brief. Do NOT paste the
+  brief body into chat. Post-commit expansions go into
+  `addendum_<HHMM>ET_<topic>.md` in the same day folder — never edit
+  the committed brief retroactively.
 
 **Add signal from [source]: [headline]**
 → Classify immediately. Assign all fields. Write DB. For paywalled sources.

@@ -48,14 +48,18 @@ Use a HEREDOC for multi-line bodies — see git-safety-protocol docs for
 the exact pattern.
 
 ### Push cadence
-After every commit. No holding commits locally. GitHub is the off-site
-backup of the contemporaneous record.
+Manual. Commits stay local until Sri chooses to push — typically at EOD,
+or after a reviewing pass over the day's commits. The capture workflow
+(`finalize_capture.py`) never pushes; it only commits.
 
 ```
 git push
 ```
 
 Credentials cached via Windows Credential Manager after first push.
+
+*Note: this replaced the "push after every commit" rule on 2026-04-20
+when the finalize_capture workflow landed. Hold-local is the default.*
 
 ### What not to commit
 `.gitignore` already handles:
@@ -73,24 +77,51 @@ fix `.gitignore` first, then unstage, then commit.
 
 Trigger phrase: **"Run GroundTruth capture"**
 
-### Sequence (per [brief_workflow_sequence memory](../memory/feedback_brief_workflow_sequence.md))
+### Sequence (enforced by `.gt_capture_pending` marker — 2026-04-20)
 
-Four steps — email step dropped 2026-04-19 in favor of Git/GitHub mobile
-as the delivery channel. See `CHANGELOG.md` 2026-04-19 entry "Email step
-dropped from capture workflow" for rationale.
+Three commands. The marker file at project root is the state handoff:
+`run_manual.py` writes it, `finalize_capture.py` consumes it. Claude's
+only role is step 2 — the bookends are script-enforced, so the workflow
+survives a fresh session with no prior context.
 
-1. **Run `python infra/run_manual.py`** — fetches all P1 sources, fetches
-   prices, classifies, scores, runs GPi + encyclopedia + health check,
-   suppresses email (DRY_RUN), writes `email_fallback.html` locally.
-2. **Hand-write the consolidated sector brief** to
-   `outputs/daily/YYYY-MM/MM-DD/sector_briefs_YYYY-MM-DD_HHMMET.md`.
-   Follow the standing sector-brief template (see `conventions.md`).
-3. **Append findings to `outputs/alpha_ledger.md`** (use
-   `python infra/ledger_extract.py <brief-path> --append` for scaffold
-   if new ALFs / hardening entries surfaced).
-4. **Commit + push.** `git add -A && git commit -m "..." -m "..." && git push`.
-   The repo is the contemporaneous record and the mobile-access channel —
-   briefs must be committed to be discoverable from GitHub mobile.
+1. **`python infra/run_manual.py`** — fetches P1 sources and prices,
+   classifies, scores, runs GPi + encyclopedia + health, writes
+   `email_fallback.html`, archives the dashboard under the day folder.
+   On success, writes `.gt_capture_pending` (JSON) at project root
+   containing the exact brief filename Claude must produce, capture slot
+   (AM/PM/EOD), signal counts, encyclopedia top, and runtime. Emits a
+   "NEXT STEP" block to stdout with the brief path.
+2. **Hand-write the consolidated sector brief** to the **exact path**
+   in the NEXT STEP block — e.g.
+   `outputs/daily/2026-04/04-20/sector_briefs_2026-04-20_0522ET.md`.
+   No timestamp drift, no alternate filenames. Follow the standing
+   sector-brief template (see `conventions.md`). Append Alpha findings
+   to `outputs/alpha_ledger.md` in the same step — the finalizer picks
+   up ledger edits automatically.
+3. **`python infra/finalize_capture.py --headline "<one-line theme>"`** —
+   verifies the brief exists and is non-trivial (>2KB unless `--force`),
+   git-adds the day folder + `outputs/alpha_ledger.md` (if modified),
+   commits with an auto-generated message (title = slot + capture ts +
+   headline; body = signal counts + precedent + runtime + co-author
+   trailer), and clears the marker. Idempotent — if the brief is already
+   in a prior commit, it exits cleanly without creating an empty commit.
+   **Does not push.** Push cadence is manual (hold-local protocol per
+   2026-04-20; Sri decides when to sync remote).
+
+After step 3, reply with a markdown link to the brief. Do **not** paste
+the brief body into chat. Post-commit expansions go into
+`addendum_<HHMM>ET_<topic>.md` in the same day folder — never edit the
+committed brief retroactively.
+
+### Error recovery
+
+- `ERROR: no .gt_capture_pending marker` — no capture has run since last
+  finalize, or finalize already ran. Check `git log --oneline -5`.
+- `ERROR: expected brief not found` — brief was written to a path that
+  does not match the marker. Either rename the brief to match or rerun
+  `run_manual.py` to get a fresh marker.
+- `WARN: brief is only N bytes` — heuristic stub-detection. Use `--force`
+  if the brief is legitimately short (rare — captures usually exceed 2KB).
 
 ### On-demand consolidated dashboard
 

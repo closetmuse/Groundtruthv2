@@ -16,6 +16,72 @@ at the repo root and in the git log.
 
 ---
 
+## 2026-04-20 — Relevance-gate whitelist: utilities, privatisations, named EU/LNG entities
+**Commit:** (pending)
+**Scope:** code (`gs/classify.py`).
+
+Added three term groups to `INFRASTRUCTURE_TERMS` (the gate at
+`is_infrastructure_relevant` that runs before classification and scoring):
+
+1. **Asset-class term** — `"utility"`, `"utilities"`. The word appeared in
+   another function's `infra_anchors` list (line ~628) but was missing from
+   the primary relevance gate. Utility Dive is a named high-trust F-tagged
+   source; stories whose summary uses "utilities" without also saying "power"
+   or "grid" were being filtered at the gate despite obvious relevance.
+2. **Corporate-structural terms** — `privatisation/privatization/privatise/
+   privatize`, `state-owned`, `soe`, `capital increase`, `capital raise`,
+   `rights issue`, `ipo`, `secondary offering`, `share offering`,
+   `nationalisation/nationalization`. These describe financing or ownership
+   events on infrastructure entities; thin FT-style paywalled summaries
+   often omit commodity keywords entirely.
+3. **Named infra-adjacent entities** — `gazprom`, `sefe`, `uniper`, `naturgy`,
+   `equinor`, `engie`, `iberdrola`, `enel`, `rwe`, `e.on`, `fortum`,
+   `venture global`, `vg`, `cheniere`, `freeport lng`, `bechtel`, `technip`,
+   `fluor`. EU gas utilities, US LNG pure-plays, and major EPC contractors.
+   Catches thin-summary stories where the only on-axis clue is the entity
+   name (today's SEFE/FT Energy case is the canonical example).
+
+**Rationale.** Run-1 (2026-04-20 05:22 ET) filter audit flagged two clear
+misses: GS-1104 FT Energy "Germany to begin privatisation of seized
+Gazprom division" and GS-1099 Utility Dive "The single-platform utility: A
+competitive advantage in the age of AI." Both scored 0.0 because they
+never reached the scorer — the gate filtered them on "No infrastructure
+terms found." GS-1104's sister print GS-1114 (Oil Price, same story) went
+AMBER 51.66 because Oil Price's summary happened to include the words
+"energy" and "infrastructure." Same news, two different outcomes, entirely
+due to whose wire summary we happened to get — a source-path dependency
+that has nothing to do with signal relevance.
+
+**Regression check (8 cases, all correct):**
+- GS-1104 (SEFE/FT) → PASS (was FILTER)
+- GS-1099 (Utility Dive) → PASS (was FILTER)
+- GS-1143 Kenyan fishing → FILTER
+- GS-1133 G4 Capital RE → FILTER
+- GS-1108 FT stablecoins → FILTER
+- GS-1137 DOJ Kambli → FILTER
+- GS-1092 Al Jazeera school (hard-exclusion path) → FILTER
+- Synthetic VG merchant cargo → PASS
+
+**Downstream effects.**
+- `gs/classify.py`: +15 terms in `INFRASTRUCTURE_TERMS`. No change to
+  `HARD_EXCLUSIONS`, no change to gate logic, no change to scorer.
+- One-time effect: on next capture, previously-filtered stories of this
+  class will start reaching the classifier and scorer. Expect modest
+  uptick in AMBER count from FT Energy / Utility Dive / LNG Prime; RED
+  count is unlikely to move because classifier still has to assign C-tags
+  and scorer still has to meet the RED threshold.
+- Historical records unchanged. Filtered signals stay filtered in the DB.
+
+**What's NOT in this change.**
+- Source-aware gating (FT/Utility Dive/LNG Prime get relaxed gate, FT
+  Markets generic stays strict). Deferred — medium-sized change requiring
+  source-trust map integration into the gate.
+- Dropping the keyword gate entirely for named-infra sources (F6/F7/F8/F16).
+  Deferred — bigger design decision; current approach keeps the gate as a
+  backstop against classifier over-triggering on trust-weighted sources.
+
+---
+
 ## 2026-04-20 — LNG benchmark staleness: business-day cadence + next-settlement field
 **Commit:** (pending)
 **Scope:** code (`gs/prices.py`).

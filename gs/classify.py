@@ -53,12 +53,27 @@ INFRASTRUCTURE_TERMS = [
     "data center", "data centre", "transmission", "substation",
     "interconnect", "toll road", "airport", " port ",
     "water utility", "wastewater", "fiber", "broadband", "telecom",
+    "utility", "utilities",
     # Finance / Capital markets
     "project finance", "infrastructure fund", " debt ", "equity",
     "credit spread", " bond ", " loan ", "refinanc", "maturity",
     "interest rate", " fed ", "fomc", "sofr", "treasury",
     "private credit", " bdc ", "spread", "financing",
     "lender", " bank ", "credit market",
+    # Corporate structural events on infra entities — privatisations, IPOs,
+    # capital raises, SOE restructurings. FT-style thin summaries often
+    # describe these without the word "energy" or "infrastructure."
+    "privatisation", "privatization", "privatise", "privatize",
+    "state-owned", " soe ",
+    "capital increase", "capital raise", "rights issue",
+    " ipo ", "secondary offering", "share offering",
+    "nationalisation", "nationalization",
+    # Named EU / energy-adjacent entities whose stories often lack
+    # generic infra keywords in thin wire summaries
+    "gazprom", " sefe ", "uniper", "naturgy", "equinor",
+    "engie", "iberdrola", "enel", "rwe", "e.on", "fortum",
+    "venture global", " vg ", "cheniere", "freeport lng",
+    "bechtel", "technip", "fluor",
     # Policy / Regulatory
     "ferc", " ira ", "obbba", " doe ", " eia ", " iea ",
     "pjm", "ercot", "miso", "caiso",

@@ -539,3 +539,33 @@ Hardening updates 2026-04-19 PM: 2 (ALF-15-4 downgrade-to-zero; ALF-17-1 at-risk
 Test-signal contamination remediated: 3 signals (GS-1039/1040/1041) marked FILTERED
 At-risk pending market verification: 1 (ALF-20260417-1 — Monday Brent open)
 ================================================================
+
+### ALF-20260417-1 — Non-structural candidate-HIT — at-risk firming toward provisional-EARLY
+- 2026-04-19 20:27 ET [Kinetic escalation crosses new tier — four-source confirmed, Al Jazeera reverses own framing]: GS-1069 + GS-1071 (Al Jazeera Economy, tonight) report US military forces attack and seize Iranian ship *Touska* near Strait of Hormuz, Tehran vows response. **This is kinetic escalation** — prior weekend escalation was rhetorical (Oil Price shutdown framing), diplomatic-level (Al Jazeera impasse), or operational-disruption (Bloomberg Law shipping halt). US military seizure of an Iranian vessel plus explicit Tehran-response pledge is a new operational tier of the crisis.
+
+  Four-source escalation ladder across the weekend, directionally escalating throughout:
+  - 2026-04-18 09:54 ET — GS-1017 Oil Price: "Strait of Hormuz Faces Full Shutdown" (single-source escalation claim)
+  - 2026-04-19 AM — GS-1025 Al Jazeera: "Iran, US still 'far' from breakthrough amid Strait of Hormuz impasse" (diplomatic framing — this morning's read treated this as non-corroboration)
+  - 2026-04-19 PM — GS-1066 Bloomberg Law: "Hormuz Shipping Traffic Grinds to a Halt as Tensions Deepen" (operational disruption confirmed)
+  - 2026-04-19 EOD — GS-1069/1071 Al Jazeera: US ship seizure near Hormuz + Tehran response pledge (kinetic action)
+
+  Diagnostically important: Al Jazeera itself reversed framing between AM and EOD captures within the same day. AM was "impasse," EOD is reporting kinetic US action. That internal reversal at the same outlet is stronger evidence of genuine situation-change than cross-source corroboration alone.
+
+  **Status update:** Candidate-HIT reading from 2026-04-17 21:35 is now **firming toward provisional-EARLY**. The apparent HIT resolution (crude caught down to gas on Hormuz-open) is increasingly looking invalidated by event reversion within ~3 days — exactly the failure mode flagged at the Apr 17 EOD resolution pass as the path toward EARLY rather than true HIT. Plan for Monday open:
+  - If Brent gaps **+$5 or more** ($95+): mark ALF-17-1 as **EARLY** (candidate-HIT was resolved by a temporary event that reverted; finding is directionally correct but the mechanism validation was circumstantial). The alpha was real but the VL window was mis-calibrated to the event horizon rather than the regime horizon.
+  - If Brent gaps **+$3 to +$5** ($93-95): status remains at-risk; the re-escalation is real but Brent isn't fully re-pricing the pre-ceasefire premium. Hold at candidate-HIT-at-risk.
+  - If Brent opens **flat to +$3**: escalation narrative is priced but contained. Candidate-HIT stands.
+  - If Brent opens **lower** (low probability given four-source kinetic ladder): escalation was over-priced in the weekend narrative. Candidate-HIT confirms firmly.
+
+  VL 2026-05-01 (~12 days). Monday open is binding verification.
+
+### Third-capture-of-day note
+This is the second and third hardening-indicator append on ALF-20260417-1 across today — PM entry at 14:36 flagged at-risk strengthening on GS-1066, EOD entry above flags firming toward provisional-EARLY on GS-1069/1071. The dense same-day hardening cadence (two appends in six hours) reflects that the weekend's Hormuz signal ladder is generating resolution-relevant evidence faster than the originally-stated 14-21-day VL window anticipated. This is consistent with the 2026-04-18 resolution-pass observation that Non-structural event-anchored findings compress 7x from stated VL in a fast-tape regime. Worth an explicit note for VL-recalibration work: **stated VL for event-anchored Non-structural findings should default to 3-7 days, not 14-21 days.**
+
+================================================================
+PENDING COUNT: 8 | HIT: 1 | EARLY: 0 | LATE: 0 | WRONG: 2
+Hardening updates 2026-04-19: 3 AM + 2 PM + 1 EOD = 6 today across ALF-15-4, ALF-17-1, ALF-17-2
+Today's captures: 3 (06:13, 14:36, 20:27)
+ALF-17-1 trajectory: candidate-HIT (2026-04-17) → at-risk (Apr 18 EOD) → at-risk softening (Apr 19 AM) → at-risk strengthening (Apr 19 PM) → firming toward provisional-EARLY (Apr 19 EOD). Monday open is the resolution trigger.
+At-risk pending Monday verification: 2 (ALF-17-1 direction, ALF-15-4 demand-side test)
+================================================================

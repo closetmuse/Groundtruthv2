@@ -16,6 +16,55 @@ at the repo root and in the git log.
 
 ---
 
+## 2026-04-21 — Deep dive convention: `outputs/deep_dives/` thematic series
+**Commit:** (this commit)
+**Scope:** convention / workflow.
+
+Introduced a new output class — **deep dives** — distinct from addendums.
+Filename: `deep_dive_<YYYY-MM-DD>_<HHMM>ET_<topic-slug>.md`. Folder:
+`outputs/deep_dives/` at the same level as `outputs/daily/` and
+`outputs/weekly/`.
+
+**Why distinct from addendums.** Addendums are post-commit expansions to
+a specific brief in the same day folder — time-bound, same-day, freeze
+contemporaneous-record discipline preserved (per
+`feedback_no_retroactive_brief_edits` memory). Deep dives are thematic,
+flagged by Sri post-brief, and not tied to a single day's tape.
+They carry a single topic across sectors / axes / timelines and
+accumulate substrate toward candidate-future-ALFs without opening them
+prematurely.
+
+**What goes in a deep dive.** (1) What the tape said + source refs to
+the originating signal(s). (2) Why now — structural pressures. (3)
+Mechanism / timeline / asset-specificity per Transmission Mechanism
+Rule. (4) US project-finance-specific implications (Sri's domain).
+(5) Cross-axis threading. (6) What to watch next 30-90 days. (7)
+Alpha-ledger positioning — typically not opening an ALF today, but
+flagging substrate-accumulation for existing ALFs or forward-candidate
+ALFs.
+
+**Workflow.** (a) Sri flags topic post-brief. (b) Write deep dive into
+`outputs/deep_dives/`. (c) Commit same-session. (d) Deep dives may
+cross-reference each other and back to briefs; briefs do not reference
+deep dives (briefs freeze contemporaneous; deep dives are later
+interpretation).
+
+**First deep dives shipped this commit.**
+- `deep_dive_2026-04-21_0730ET_uk_gas_power_delink.md` — UK Miliband
+  gas-power delink proposal with US state power-market implications.
+  Flagged from AM brief 0515ET (GS-1264 / GS-1297).
+- `deep_dive_2026-04-21_0745ET_oil_gas_hub_dc_siting.md` — oil-gas-hub
+  DC siting locational thesis with ALF-19-1 and candidate-W2
+  implications. Flagged from AM brief 0515ET (GS-1290 Bisnow).
+
+**Downstream effects.**
+- New folder `outputs/deep_dives/`.
+- `docs/conventions.md` updated with deep-dive naming convention and
+  delineation vs addendum.
+- `docs/workflows.md` updated with Sri-flagged deep-dive workflow.
+
+---
+
 ## 2026-04-20 — Relevance-gate whitelist: utilities, privatisations, named EU/LNG entities
 **Commit:** (pending)
 **Scope:** code (`gs/classify.py`).

@@ -113,6 +113,44 @@ the brief body into chat. Post-commit expansions go into
 `addendum_<HHMM>ET_<topic>.md` in the same day folder — never edit the
 committed brief retroactively.
 
+### Deep dives (Sri-flagged, thematic, post-brief)
+
+When Sri flags a specific item from a brief for deeper treatment, write
+a deep dive into `outputs/deep_dives/` rather than an addendum. The
+distinction:
+
+- **Addendum** — same-day, same-capture, time-bound follow-up. Lives in
+  the day folder. Captures evolving view on one tape.
+- **Deep dive** — thematic, not tape-bound, can range across multiple
+  briefs / axes / timelines. Lives in `outputs/deep_dives/`.
+
+Filename: `deep_dive_<YYYY-MM-DD>_<HHMM>ET_<topic-slug>.md`.
+
+Content template (per `docs/conventions.md`):
+1. What the originating signal(s) said — with GS-IDs and scores.
+2. Why now — structural context that makes today's print matter.
+3. Mechanism + timeline + asset-specificity, per Transmission Mechanism
+   Rule. Break out UK/EU/US separately where applicable.
+4. US project-finance-specific implications (Sri's domain). This is
+   the section that must exist on every deep dive.
+5. Cross-axis threading — which of the 15 framework axes the topic
+   touches, and how.
+6. What to watch next 30-90 days — concrete observables.
+7. Alpha-ledger positioning — substrate-accumulation notes and
+   forward-candidate-ALF framings. Typically **not** opening a new
+   ALF; deep dives inform substrate, they don't trigger on themselves.
+
+Workflow:
+1. Sri flags the topic post-brief (or flags multiple at once).
+2. Write the deep dive into `outputs/deep_dives/`.
+3. Commit same-session. No separate finalize step — the marker file is
+   cleared by the brief commit; deep dives are post-capture content.
+4. Reply with a markdown link.
+
+Deep dives may cross-reference each other and back to briefs. Briefs
+do **not** reference deep dives — the brief stays the contemporaneous
+record, deep dives are later interpretation.
+
 ### Error recovery
 
 - `ERROR: no .gt_capture_pending marker` — no capture has run since last

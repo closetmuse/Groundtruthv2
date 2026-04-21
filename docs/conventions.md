@@ -22,6 +22,33 @@ outputs/daily/YYYY-MM/MM-DD/sector_briefs_YYYY-MM-DD_HHMMET.md
 - **Variants:** `_addendum.md` for same-capture corrections,
   `_framework.md` for captures that introduced framework changes.
 
+### Addendums (same-day, post-commit expansions to a specific brief)
+Live **inside the same day folder** as the brief they extend:
+```
+outputs/daily/YYYY-MM/MM-DD/addendum_<HHMM>ET_<topic-slug>.md
+```
+- Time-bound — keyed to the capture they extend.
+- The originating brief is **not edited retroactively** (per
+  `feedback_no_retroactive_brief_edits` memory). Addendum captures the
+  follow-up thinking without disturbing the frozen contemporaneous record.
+
+### Deep dives (thematic, Sri-flagged, not tape-bound)
+```
+outputs/deep_dives/deep_dive_<YYYY-MM-DD>_<HHMM>ET_<topic-slug>.md
+```
+- Thematic single-topic analysis, flagged by Sri post-brief.
+- Distinct from addendums: deep dives are **not tied to a single day's
+  tape** and can range across multiple briefs, axes, and timelines.
+- Content template: (1) what the originating signal(s) said, with refs;
+  (2) why now — structural context; (3) mechanism + timeline +
+  asset-specificity per Transmission Mechanism Rule; (4) US
+  project-finance implications (Sri's domain); (5) cross-axis threading;
+  (6) what to watch 30-90 days; (7) alpha-ledger positioning —
+  substrate-accumulation notes, typically not opening a new ALF.
+- Deep dives may cross-reference each other and back to briefs; briefs
+  do **not** reference deep dives (briefs stay contemporaneous; deep
+  dives are later interpretation).
+
 ### Weekly bundle (every Sunday)
 ```
 outputs/weekly/YYYY-MM/MM-DD/<file>

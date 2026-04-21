@@ -1,7 +1,7 @@
-GROUNDTRUTH — ADDENDUM
-April 20, 2026  |  06:45 ET  |  Parent: sector_briefs_2026-04-20_0522ET.md
+DEEP DIVE — VG CP2 PRE-FILING WAIVER (LNG AXIS 4)
+Flagged from AM brief 2026-04-20 0522ET  |  Originally written 2026-04-20 06:45 ET as addendum; reclassified to deep dive 2026-04-21 per new convention
+Parent brief: outputs/daily/2026-04/04-20/sector_briefs_2026-04-20_0522ET.md
 Topic: Expanded read on LNG Axis 4 — VG CP2 pre-filing waiver
-Scope: Deepens the AM brief's one-paragraph Axis 4 read on Sri's request. Does not modify the contemporaneous AM brief.
 
 ================================================================
 

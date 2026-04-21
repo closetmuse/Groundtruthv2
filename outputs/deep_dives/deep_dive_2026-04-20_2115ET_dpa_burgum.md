@@ -1,9 +1,9 @@
-GROUNDTRUTH — ADDENDUM
-April 20, 2026  |  21:15 ET  |  Parent: sector_briefs_2026-04-20_1950ET.md
+DEEP DIVE — TRUMP DPA + BURGUM SOLAR REVIEWS (FEDERAL-REGULATORY CLUSTER)
+Flagged from EOD brief 2026-04-20 1950ET  |  Originally written 2026-04-20 21:15 ET as addendum; reclassified to deep dive 2026-04-21 per new convention
+Parent brief: outputs/daily/2026-04/04-20/sector_briefs_2026-04-20_1950ET.md
 Topic: Expanded read on two federal-regulatory prints —
   (A) Trump DPA invocation on energy projects (LNG Axis 4 + Power Axis 1 + all-sector capital-stack)
   (B) Burgum "China link" tougher reviews for solar projects (Power Axis 1 + Power Axis 3)
-Scope: Deepens the EOD brief's one-paragraph reads on Sri's request. Does not modify the contemporaneous EOD brief.
 
 ================================================================
 A. TRUMP DPA INVOCATION — GS-1251 (Bloomberg Law Energy)

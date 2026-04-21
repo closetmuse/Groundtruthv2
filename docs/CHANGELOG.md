@@ -16,6 +16,39 @@ at the repo root and in the git log.
 
 ---
 
+## 2026-04-21 — Reclassify 2026-04-20 addendums as deep dives
+**Commit:** (this commit)
+**Scope:** convention (retroactive reclassification).
+
+Moved both 2026-04-20 addendum files from the day folder to
+`outputs/deep_dives/` and renamed with the `deep_dive_` prefix:
+
+- `addendum_2026-04-20_0645ET_vg_cp2_waiver.md`
+  → `deep_dives/deep_dive_2026-04-20_0645ET_vg_cp2_waiver.md`
+- `addendum_2026-04-20_2115ET_dpa_burgum.md`
+  → `deep_dives/deep_dive_2026-04-20_2115ET_dpa_burgum.md`
+
+**Rationale.** Both files are Sri-flagged thematic deepenings of specific
+brief topics — substantively they fit the deep-dive pattern better than
+the addendum pattern (addendums are time-bound same-capture corrections
+or follow-ups; these two expanded into multi-mechanism cross-axis reads
+that persist beyond their originating capture). The deep-dive convention
+landed later the same morning (2026-04-21); these pre-existed the
+convention and are being retroactively sorted.
+
+**Edits.** Header line swapped from `GROUNDTRUTH — ADDENDUM` to
+`DEEP DIVE — <topic>`. Added a reclassification note to each header.
+Parent brief reference preserved. Body content unchanged — git mv
+preserves file history.
+
+**Not edited.** The 2026-04-20 committed briefs themselves — per
+`feedback_no_retroactive_brief_edits` memory, briefs stay frozen. The
+briefs' internal references to "addendum_..." filenames are now
+historically stale but remain accurate as-of-commit-time, which is the
+contemporaneous-record discipline.
+
+---
+
 ## 2026-04-21 — Deep dive convention: `outputs/deep_dives/` thematic series
 **Commit:** (this commit)
 **Scope:** convention / workflow.

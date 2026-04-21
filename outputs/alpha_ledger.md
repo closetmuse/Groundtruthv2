@@ -569,3 +569,81 @@ Today's captures: 3 (06:13, 14:36, 20:27)
 ALF-17-1 trajectory: candidate-HIT (2026-04-17) → at-risk (Apr 18 EOD) → at-risk softening (Apr 19 AM) → at-risk strengthening (Apr 19 PM) → firming toward provisional-EARLY (Apr 19 EOD). Monday open is the resolution trigger.
 At-risk pending Monday verification: 2 (ALF-17-1 direction, ALF-15-4 demand-side test)
 ================================================================
+
+
+================================================================
+DAILY APPEND — 2026-04-20 (Monday, 3 captures: 05:22 AM, 06:46 AM, 19:50 EOD)
+Retrospective consolidation appended 2026-04-20 21:30 ET. Hardening
+narratives in today's three committed briefs were not originally
+mirrored into the ledger (process gap — contemporaneous record in
+briefs was complete, structured ledger audit-trail was not). This
+consolidation is the audit-trail fill-in; brief text remains the
+contemporaneous record and is unmodified.
+================================================================
+
+### ALF-20260417-1 — Non-structural candidate-HIT — Monday resolution SPLIT between Brent and WTI legs
+- 2026-04-20 05:22 ET [Pre-open, Monday market still to verify]: Brief noted Hormuz kinetic ladder intact from Sunday EOD and flagged ALF-17-1 as unresolved pending 09:30 equity open. No hardening yet — pending data.
+- 2026-04-20 06:46 ET [Overnight futures gap confirmed, +$3-5 at-risk band]: Brent printed $94.72 (+$4.34 / +4.8% vs Fri close $90.38); WTI printed $87.25 (+$3.40 / +4.1% vs Fri close $83.85). Both benchmarks moved together, both inside the pre-specified "+$3 to +$5" at-risk band. Per the Apr 19 EOD resolution plan, this is **hold at candidate-HIT-at-risk** — re-escalation priced but Brent not fully re-pricing the pre-ceasefire premium. Not +$5-or-more provisional-EARLY; not flat-to-+$3 contained. Framework worked as designed at Monday gap.
+- 2026-04-20 19:50 ET [EOD intraday split — Brent held, WTI faded]: Monday session closed Brent $94.92 (+$4.54 vs Fri close, still inside at-risk band) and WTI $86.34 (+$2.49 vs Fri close, fell BELOW at-risk band into "flat to +$3 contained" outcome). Brent-WTI spread widened from $6.53 Fri to $8.58 EOD Mon — a $2.05 / +31% spread move in two sessions. Diagnostic read: **international seaborne supply-risk premium persists; US domestic demand-destruction premium dissipated intraday.** The ALF was written crude-generic but the two benchmarks are now on different trajectories.
+
+  **Status update:** Brent-leg remains candidate-HIT-at-risk (held inside band across AM open + EOD close). WTI-leg moved toward contained outcome. If Tue open confirms the split (Brent firm or firmer, WTI soft or softer), the ALF resolves as **split-HIT** — analytically, the finding was right on the global-supply-risk mechanism and wrong-or-premature on the US-domestic-demand mechanism. VL 2026-05-01 (~11 days) unchanged.
+
+  **Trajectory:** candidate-HIT (2026-04-17) → at-risk (Apr 18 EOD) → at-risk softening (Apr 19 AM) → at-risk strengthening (Apr 19 PM) → firming toward provisional-EARLY (Apr 19 EOD) → band confirmation at Mon AM open → **split-HIT Mon EOD (Brent held, WTI faded).**
+
+### ALF-20260415-4 — Structural candidate — NEGATIVE hardening, moving toward WRONG
+- 2026-04-20 05:22 ET [China -19.2% March import print inverts demand-side hypothesis]: GS-China-LNG-March overnight print drops Chinese March LNG imports 19.2% YoY. Last night's EOD posited Monday JKM +$2-3 as the first non-ambiguous demand-side Structural evidence. The Chinese tape argues the other direction — buyers stepping back in the structural Asian pillar. Bifurcated test: JKM gap up despite China = non-China-Asia incremental demand (structural-hardening); JKM hold/soften = supply premium absorbed by weak China demand → WRONG.
+- 2026-04-20 06:46 ET [Evidence split, JKM tape did not refresh]: TTF firmed +3.8% overnight (38.77 → 40.23 EUR/MWh) — one leg of bifurcation evidence. JKM tape did not refresh; feed still $15.00 stale 3d. Destination-mix test from the 06:45 VG CP2 addendum (VG merchant cargoes tilt TTF if Asian demand stays soft) has one positive leg (TTF firming, EU-directed arb widening) and zero Asian legs. PENDING, no hardening, data-coverage gap preventing binding read on Asian side.
+- 2026-04-20 19:50 ET [NGI direct corroboration of weather-driven EU + Asian weakness — NEGATIVE]: GS-1181 NGI explicitly frames the EU demand firming as "European cold snap" (weather-driven, transient) and confirms "Asian weakness keeps gains in check." This is **direct textual denial of the structural Asian-demand-reset hypothesis** inside ALF-15-4. Weather-driven TTF firming is not the structural demand-side reset the Structural thesis requires; Asian weakness remaining in place is the denial of the other leg. TTF intraday faded $40.23 → $39.65 EUR/MWh, consistent with transient weather premium not extending through the session.
+
+  **Status update:** Weight of evidence moving toward WRONG. Holding PENDING because JKM Tue AM refresh is the binding data point for the Asian leg — if JKM prints flat-to-down Tuesday, move to WRONG. If JKM prints materially up on structural (non-weather, non-China) incremental Asian buying, Structural hypothesis gets a second wind. Probability-weighting: ~75% trajectory toward WRONG, ~15% toward HIT on a non-China Asia print, ~10% toward PENDING continuation. VL 2026-05-15.
+
+### ALF-20260417-2 — Non-structural+hypothesis — curtailment pattern intact through first weekday
+- 2026-04-20 05:22 ET [Pattern persists through first weekday DA]: Monday DA delivery SP15 10 neg hrs (unchanged from Sunday), NP15 7 neg (down from 8), HB_WEST 5 neg (down from 9). Weekday load modestly compressed ERCOT and NP15 but SP15 unchanged — Day 8 pattern. Duration trajectory intact, compression hypothesis partially held. Hardening-weak positive evidence. VL 2026-05-17.
+- 2026-04-20 19:50 ET [EOD unchanged — same-file RTO DA]: No new data between AM and EOD on Monday (RTO DA files publish once per day). Pattern read from 05:22 still the latest. No additional hardening indicator this capture.
+
+### ALF-20260419-1 — Non-structural+hypothesis — multi-source, multi-axis cadence acceleration
+- 2026-04-20 05:22 ET [Multi-source convergence with named structurer]: Three independent Artemis RED prints in a 24-hour window — GS-1142 Artemis weekly digest (79.69), GS-1141 Tower Hill Winston Re 2026-1 cat bond re-pricing push (79.06, pipeline-mapped via C02/C08/C12), GS-1140 John Seo (Fermat Capital) on Artemis: *"Very likely cat bonds will be used to source risk capital for data centre build out."* Seo is the named structurer-side voice the ALF threshold requires. Substrate 18 → 21 qualifying prints. Trajectory: **hardening-strong.** Still short of the formal material threshold (named sponsor + named structurer mandate) but materially closer.
+- 2026-04-20 06:46 ET [Silent, substrate unchanged at 21 prints]: No new cat-bond print this capture. Silence is not hardening. Held at 21 prints.
+- 2026-04-20 19:50 ET [Multi-axis hardening — two new Artemis REDs + DC bifurcation mechanism evidence + $100bn capital-pool confirmation]: Four stacking developments.
+  - **GS-1253 Artemis (79.7 RED):** "Insurance-linked securities sector can be a big beneficiary of the AI revolution: SIFMA." First canonical-venue print with explicit "AI revolution" framing on the ILS-DC thesis. Adds the AI-specific supply-intent dimension to the substrate.
+  - **GS-1254 Artemis (79.7 RED):** "Lloyd's market remains a compelling opportunity for investors: LMA / ICMR." Capital-markets-capacity adjacent. **Flagged for hand-verify** — headline is generic Lloyd's-market commentary; if DC/AI angle not present in body text, pull from ALF-19-1 substrate count (classifier over-grouping risk, C16 tag + Artemis source weight could be over-firing).
+  - **DC hyperscaler-stack bifurcation (Fermi collapse + Anthropic $100bn Amazon deal):** GS-1192 FT Energy "Fermi shares plunge as execs quit, $150m Amazon investment lost" + GS-1182 DCD CFO departure + GS-1245 Bisnow CEO search + GS-1219 Register DC Trump-branded DC fail. Paired with GS-1198 FT Companies "Anthropic and Amazon agree $100bn AI infrastructure deal" and GS-1186 DCD "Anthropic seeks DC leasing deals in Europe and Australia." **Mechanism-level reinforcement of WHY ALF-19-1's ILS-wrap matters:** merchant-DC senior debt is visibly at credit stress now, not hypothetically. Tier-1 hyperscaler-anchored DC is scaling; merchant DC is breaking. The bifurcation IS the demand-side case for the ILS-wrap structure.
+  - **Anthropic-Amazon $100bn capital-pool confirmation:** largest single AI-infra capex print of cycle; confirms the IG-threshold capital pool size ALF-19-1 articulates as "$50B+ unlocked at 10% penetration."
+
+  Substrate: 21 → 23 qualifying prints (or 22 if GS-1254 is pulled on hand-verify). Cadence Sun EOD + Mon AM × 3 = **daily, not weekly**, cat-bond RED prints. Cadence acceleration is itself a signal on thesis trajectory.
+
+  **Status update:** Hardening-strong continues. First contract-survival test is still pending but probability of inside-90-day print has increased meaningfully with today's merchant-DC-credit-stress mechanism confirmation. VL primary 2026-07-18 (90d) / extended 2026-10-16 (180d) unchanged.
+
+### ALF-20260416-3 — Non-structural+hypothesis — first tape corroboration since opening
+- 2026-04-20 19:50 ET [First clean corroboration, single-source]: GS-1205 PV Magazine US: *"Permitting headwinds and geopolitics drive solar PPA prices higher in Q1."* First direct tape corroboration of the Solar PPA Q1 divergence thesis since ALF opened 2026-04-16. Named-mechanism "permitting headwinds and geopolitics" matches the ALF's articulated causal chain. Mechanism-complete single-source print. Paired with today's Burgum "China link" Interior-review tightening (GS-1249 Bloomberg Law 48.0 AMBER) and the five-agency-compound-FEOC-surface read in the 21:15 ET addendum — the "permitting headwinds" are now specifically traceable to Interior-layer FEOC-adjacent reviews, not just generic NEPA delays. Hardening-weak (single PV Magazine source) but with direct causal-chain match. Keep PENDING, VL 2026-07-15.
+
+### Candidate ALF-20260420-W2 — Watch item opened — DC hyperscaler-stack credit bifurcation
+- 2026-04-20 19:50 ET [Watch item opened — 24h simultaneous anchored-up / merchant-down tape]: Single-session tape contains concurrent evidence of tier-1-hyperscaler-anchored DC durability (MSFT Fairwater ahead of schedule — GS-1148 Mon AM; Anthropic-Amazon $100bn — GS-1198; Anthropic Europe/Australia leasing — GS-1186) AND merchant-DC-hopeful credit stress (Fermi CEO+CFO departure, $150m Amazon investment loss — GS-1192/1182/1245; Trump-branded DC project fail — GS-1219). **Mechanism:** AI capex is concentrating at tier-1 hyperscalers with their own credit and technical moat; non-anchored DC hopefuls who pitched "build and they will come" positioning are losing capital partners and management credibility. **Second-order:** credit-spread divergence between anchored-DC senior debt and merchant-DC senior debt should widen on this evidence. **Cross-compound with ALF-19-1:** merchant-DC is the primary demand case for the ILS-wrap-to-IG structure. If bifurcation hardens, ALF-19-1's contract-survival test gets pulled forward.
+
+  **Threshold to promote to full ALF:** either (a) a second merchant-DC-hopeful credit event (Fermi-category failure) in next 30 days, or (b) observable credit-spread divergence between anchored-DC and merchant-DC senior debt in a live transaction inside next 60 days.
+
+  **Sector class / vehicle (per ledger discipline):** Merchant (non-hyperscaler-anchored) DC senior debt vs tier-1-hyperscaler-anchored DC senior debt.
+
+  **Type:** Non-structural (tape-level observation today). Structural hypothesis candidate — if the bifurcation hardens into a rating-methodology distinction (e.g., agencies publish separate rating criteria for anchored vs merchant DC), Type upgrades to Structural.
+
+  **What would WRONG this watch item:**
+  - If Fermi recovers (new CEO lands, Amazon reverses pullout, shares recover) within 30 days, the bifurcation narrative is idiosyncratic not categorical.
+  - If a merchant-DC sponsor closes senior debt at IG-equivalent terms without ILS-wrap or similar credit enhancement inside 60 days, the bifurcation isn't binding on capital markets access.
+  - If hyperscaler anchored deals start pausing (Anthropic / MSFT reduce capex pace), the hyperscaler concentration premise fails.
+
+  VL for promotion/retirement: 60 days (2026-06-19).
+
+### Candidate ALF-20260420-W1 — Watch item — unchanged this capture
+- 2026-04-20 all captures: No new state-level moratorium / renewables-siting prints. Substrate still 2/3 (Maine GS-787 + Kansas GS-107). Holding as watch, threshold unmet.
+
+================================================================
+PENDING COUNT: 8 | HIT: 1 | EARLY: 0 | LATE: 0 | WRONG: 2
+Hardening updates 2026-04-20: 1 AM-0522 (ALF-17-2 persistence) + 1 AM-0522 (ALF-19-1 multi-source) + 1 AM-0646 (ALF-17-1 band-confirmation) + 1 AM-0646 (ALF-15-4 evidence-split) + 4 EOD (ALF-17-1 split-HIT, ALF-15-4 NEGATIVE, ALF-19-1 multi-axis, ALF-16-3 first-corroboration) = 8 total today.
+Watch items opened today: 1 (ALF-20260420-W2 — DC hyperscaler-stack credit bifurcation).
+Today's captures: 3 (05:22 AM, 06:46 AM, 19:50 EOD). Addendum at 06:45 ET (VG CP2 waiver deepening) and 21:15 ET (Trump DPA + Burgum solar reviews deepening) — both in day folder, neither modifies briefs or ledger beyond the audit-trail consolidation above.
+ALF-17-1 trajectory: candidate-HIT (Apr 17) → at-risk (Apr 18 EOD) → at-risk softening (Apr 19 AM) → at-risk strengthening (Apr 19 PM) → firming toward provisional-EARLY (Apr 19 EOD) → band confirmation Mon AM open → **split-HIT Mon EOD (Brent held, WTI faded).**
+ALF-15-4 trajectory: PENDING (Apr 15) → mild-positive TTF widening (Apr 16) → downgrade-to-zero (Apr 19 PM) → evidence-split (Apr 20 AM, TTF+ / JKM-silent) → **NEGATIVE on NGI direct corroboration of weather-driven-EU + Asian-weakness (Apr 20 EOD).** Weight moving toward WRONG; JKM Tue AM refresh binding.
+ALF-19-1 trajectory: issued Apr 19 PM with 7-print ladder → 18-print full substrate post-classifier-fix → 21-print (Sun EOD + Mon AM) → 23-print Mon EOD with first named "AI revolution" framing + mechanism-reinforcement from DC bifurcation + capital-pool confirmation. Cadence weekly → daily.
+Data hygiene gaps flagged: steel HRC 05:22 AM tick anomaly ($1046 vs Sun $1079 / 06:46 $1074) polluted AM delta math (candidate for Option C per-series staleness work); GS-1254 Lloyd's ALF-19-1 inclusion flagged hand-verify (classifier over-grouping risk); GS-2 Signal Volume health panel RED (64 classified EOD) needs threshold-recalibration discussion post-whitelist expansion.
+At-risk pending Tue AM verification: 2 (ALF-17-1 Brent direction — split-HIT confirmation or Brent-too fades; ALF-15-4 JKM feed refresh — WRONG or hardening resumes).
+================================================================

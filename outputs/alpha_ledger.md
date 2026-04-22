@@ -647,3 +647,46 @@ ALF-19-1 trajectory: issued Apr 19 PM with 7-print ladder → 18-print full subs
 Data hygiene gaps flagged: steel HRC 05:22 AM tick anomaly ($1046 vs Sun $1079 / 06:46 $1074) polluted AM delta math (candidate for Option C per-series staleness work); GS-1254 Lloyd's ALF-19-1 inclusion flagged hand-verify (classifier over-grouping risk); GS-2 Signal Volume health panel RED (64 classified EOD) needs threshold-recalibration discussion post-whitelist expansion.
 At-risk pending Tue AM verification: 2 (ALF-17-1 Brent direction — split-HIT confirmation or Brent-too fades; ALF-15-4 JKM feed refresh — WRONG or hardening resumes).
 ================================================================
+
+
+================================================================
+DAILY APPEND — 2026-04-22 (Wednesday AM, capture 1 of up to 3, 05:55 ET)
+Contemporaneous per-brief append. Parent brief:
+outputs/daily/2026-04/04-22/sector_briefs_2026-04-22_0555ET.md
+================================================================
+
+### ALF-20260417-1 — Non-structural candidate-HIT — reverse-split held through overnight de-escalation transmission
+- 2026-04-22 05:55 ET [Wed AM pre-open, overnight transmission window resolved]: Wed AM open prints WTI $90.32 (unchanged vs Tue close $90.32) and Brent $93.91 (+$0.12 vs Tue close $93.79). Both legs held their Tuesday close positions through the overnight Ukraine-Russia pipeline restart + Trump Iran ceasefire extension transmission window. WTI still above the at-risk upper bound (provisional-EARLY territory at +$6.47 / +7.7% vs Fri close $83.85). Brent still inside at-risk band ($93-$95 at +$3.53 / +3.9% vs Fri close $90.38). **Overnight diagnostic resolved toward interpretation (a) from Tue close: market did not buy the de-escalation headlines as physically resolving the supply-risk premium.** Escalation print overnight (GS-1485 FT Energy: Moscow suspends Kazakh oil flows to Berlin) provides direct mechanism explanation — the supply-path corridor is churning (opposite-direction prints inside 24h), not net-improving, so premium holds. Trajectory point 8 of 8 directional-stability readings. **Proposed resolution at 2026-05-01 VL (9 days):** if reverse-split persists to VL, mark split-HIT-WTI-stronger (analytical sign-flip from Mon EOD's Brent-stronger split). Structural vs Non-structural question reopens at VL given 8-point directional stability. VL 2026-05-01 unchanged.
+
+### ALF-20260415-4 — Structural candidate — POSITIVE hardening, NEGATIVE Mon-EOD read partially reversed
+- 2026-04-22 05:55 ET [JKM refreshed UP +$0.575 / +3.8% — Tue close convergent-bearish model did not play]: JKM Apr 21 settle $15.81 vs Apr 20 settle $15.235. **First refresh since Monday, first materially-positive Asian-side LNG print since ALF-15-4 opened Apr 15.** TTF concurrent flat at €41.93/MWh (-$0.07 vs Tue close €42.00). Tuesday close model expected convergent-bearish: TTF fades on Ukraine pipeline restart + JKM flat-to-down = both legs trend WRONG simultaneously. **Neither leg traveled that path.** JKM firmed (not flat-to-down); TTF held (not faded). Asian-premium-to-European-premium widened from +$0.77 to +$1.37/MMBtu — arb widened on Asian side, not European. **This is the arb-widening signature that the structural Asian-demand hypothesis of ALF-15-4 requires** — Asian premium expanding independent of European weather premium. **Probability weighting revised (Wed AM):** WRONG 55%→35% (-20pts on JKM-firmed-not-faded); HIT 20%→30% (JKM firm is the Asian-structural signature, still needs second data point for crystallization); PENDING 25%→35% (post-refresh uncertainty rose not fell, because the refresh diverged from both bearish and bullish straw-man models). **Binding next data point:** Thursday AM ~4 AM ET JKM Apr 22 settle. If JKM prints flat-to-down Thursday with TTF flat, today's refresh reads as one-day noise and probability reverts. If JKM prints +$0.5+ again on Thursday, structural-hardening crystallizes. VL 2026-05-15 unchanged.
+
+### ALF-20260417-2 — Non-structural+hypothesis — tenth-weekday persistence on curtailment-duration hypothesis
+- 2026-04-22 05:55 ET [SP15 Day 10 DA = 10 neg hrs, tenth-weekday persistence]: CAISO SP15 Wednesday DA published overnight: 10 negative-LMP hours, unchanged from Day 9 (Tue). Pattern: Day 1 Apr 13 Sunday 10 neg → Days 2-10 Apr 14-22 daily 10 neg. **Ten consecutive weekday-inclusive persistency on 10-neg-hour floor.** Non-CAISO zones normalized (NP15 0 neg, HB_WEST 0 neg, HB_HOUSTON 0 neg Wed DA) — SP15 is the isolated persistence. Four more weekday DA publishings (Thu Apr 23, Fri Apr 24, Mon Apr 27, Tue Apr 28) would cross the 14-day structural-hardening threshold. Cadence positive, duration-hypothesis intact. VL 2026-05-17 unchanged.
+
+### ALF-20260419-1 — Non-structural+hypothesis — commentary-side substrate print, weak hardening
+- 2026-04-22 05:55 ET [Eighth-consecutive Artemis RED; substrate +1 commentary-side]: GS-1537 Artemis (79.7 RED): "Twelve Securis 'cautious, but optimistic' about El Niño's influence on hurricane." Twelve Securis is named ILS manager; print is hurricane-forecast-commentary, not issuance-side. Substrate: 27 → 28 broader cat-bond-market-readiness prints. DC-specific core: 14 unchanged. **Eighth consecutive capture with at least one Artemis RED** — daily-not-weekly cadence holds through eight captures. Hardening-weak (commentary tape evidences active thesis-discussion at manager level, but doesn't close the remaining substrate-gap: first DC-named-sponsor ILS-wrap structure announcement). VL primary 2026-07-18 (87 days) / extended 2026-10-16 unchanged.
+
+### Candidate ALF-20260420-W2 — Watch item — bifurcation-mechanism evidence rises (anchored-side $4.6bn execution + Tue merchant-side stress)
+- 2026-04-22 05:55 ET [Real-time observable bifurcation in 32-hour window]: Wed AM tape contains two tier-1 anchored-DC named-sponsor construction/credit prints at material size:
+  - GS-1483 DCD (58.5 AMBER): "DataBank secures $2bn construction financing for Dallas data centers." Tier-1 named sponsor, tier-1 MSA, $2bn material-size construction debt.
+  - GS-1484 DCD (50.3 AMBER): "Switch secures $2.6bn credit facility to fuel transmission and generation for data centers." Tier-1 named sponsor, $2.6bn credit facility explicitly framed around transmission + generation — BTM-capital-scaling on-thesis.
+
+  **Combined with Tue's Fermi America project delay (same-sponsor continued stress from W2 seed event)**, the Wed AM anchored-side $4.6bn execution completes a 32-hour window where **merchant-side stressed + anchored-side executed at material scale simultaneously.** This is real-time observable mechanism tape for the bifurcation W2 articulates. Promotion triggers unchanged — (a) second merchant-DC-hopeful credit event within 30 days, or (b) observable credit-spread divergence in a live transaction inside 60 days — neither met. But **evidential strength of bifurcation-as-mechanism rises materially** on today's tape. Anchored-side thesis validation is strong. VL for promotion/retirement: 2026-06-19 (58 days), unchanged.
+
+### Candidate ALF-20260421-W3 — Watch item — silent 5th consecutive capture
+- 2026-04-22 05:55 ET: VG + NFE both silent this capture. Deep-dive structure from Apr 21 1330ET holds. Silent 1.5/60 days on promotion window. Watch continues.
+
+### Cross-compound observation (for Sunday weekly review)
+- 2026-04-22 05:55 ET: Wed AM contains **two decoupling-direction data points** from the Tue close E01-tail pattern:
+  1. Metals bounced off Tue close softs (Aluminum +$66 / +1.9%, Copper +$131 / +1.0%) — direction reversal on the metals-down leg of the E01-tail.
+  2. JKM firmed against de-escalation tape while TTF held — inverse of the Tue close convergent-bearish model.
+
+  Matcher at E01 GFC 78% for 10 consecutive captures (new record, surpasses Tue close's 9). **Today is the first cadence-break candidate in the 10-capture run.** Not sufficient to move matcher (needs multi-day signal), but watch-worthy next capture. Regime-differentiation question reopens: if decoupling persists, regime may be shifting from E01-tail (broad-credit-stress) toward E03-like (Ukraine/Energy-Crisis profile, energy-up + industrials-holding). Binding for the project-finance credit-sort diagnosis — E03-like shift would mean "merchant breaks / anchored executes" bifurcation is more structural-robust than sector-rotation story.
+
+================================================================
+PENDING COUNT: 8 | HIT: 1 | EARLY: 0 | LATE: 0 | WRONG: 2
+Hardening updates 2026-04-22 AM: 4 (ALF-17-1 overnight-transmission-did-not-happen; ALF-15-4 JKM-refreshed-UP = NEGATIVE partially reversed, probability weights revised; ALF-17-2 SP15-Day-10-persistence; ALF-19-1 Twelve-Securis-commentary eighth-consecutive-capture cadence)
+Watch items updated: W2 bifurcation-mechanism-evidence-rises (anchored-side $4.6bn + Tue merchant-side); W3 silent
+Binding next data points: Thu AM JKM Apr 22 settle (ALF-15-4 binding); Wed midday/PM crude direction (ALF-17-1); next ~4 weekday DA publishings for SP15 (ALF-17-2 to 14-day threshold); Sunday weekly review to assess whether Wed AM decoupling is cadence-break or noise.
+================================================================

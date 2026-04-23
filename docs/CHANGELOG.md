@@ -16,6 +16,59 @@ at the repo root and in the git log.
 
 ---
 
+## 2026-04-23 — Equity sentinels added (9 selective tickers via Yahoo Finance)
+**Commit:** (this commit)
+**Scope:** code / schema — nine new price series in `gs_price_snapshots`
+covering targeted equity sentinels aligned with GT anchor events and
+active theses.
+
+Added `fetch_equity_prices()` to `gs/prices.py`, wired into
+`run_price_fetch()` after `fetch_gpu_prices()`, with matching THRESHOLDS.
+Nine tickers selected on explicit thesis-alignment grounds (not broad
+market indices):
+
+- **KRE** — SPDR S&P Regional Banking ETF. E10 (SVB) sentinel; moved
+  -28% in the SVB week before credit spreads caught up. Primary early-
+  warning channel for regional-bank construction-lending stress.
+- **VST / CEG / TLN / NRG** — merchant-power cohort. Directly on-thesis
+  for the hyperscaler-anchored power narrative and for ALF-20260420-W2
+  (DC hyperscaler-stack bifurcation) as the credit-quality indicator
+  ahead of Moody's ratings actions. CEG and TLN both have named
+  hyperscaler anchored-PPA deals (Three Mile Island, Susquehanna).
+- **XLU / XLE / ICLN / SMH** — sector sentiment ETFs. Utilities,
+  energy, global clean energy, and semiconductors (the GPU/compute
+  channel paired with the new GPU tape).
+
+**Thresholds.** 10%/20% on ETFs (basket-diversified, less volatile);
+15%/25% on single-name merchant-power equities (higher idiosyncratic
+variance). KRE at 10/20 is deliberately tight — SVB-type stress hits
+it at -28% in a single week so breach detection should fire well
+below that level.
+
+**Deliberately excluded.** Broad market indices (S&P, Nasdaq) — off-
+thesis and noisy; individual DC sponsors (Equinix, Digital Realty,
+Iron Mountain) — REIT mechanics don't cleanly map to DC senior-debt
+underwriting. Individual LNG-sponsor equities (Cheniere, Venture
+Global) — deferred; credit-spread and field-observation channels are
+better signals than equity for LNG sector classes per existing GT
+memory.
+
+**Rationale.** Sri flagged 2026-04-23 that equity was the missing
+channel in GT's tape. Per verification-latency thesis, equity is the
+fastest available signal — moves ahead of covenant-level and often
+ahead of spread-level responses. First observation already surfacing
+material reads: NRG -11.7% 7d and VST -5.3% 7d = merchant-power cohort
+softening while SMH +5.6% = semiconductor strength; KRE flat (no
+regional-bank stress this week).
+
+**Downstream effects.** `gs/prices.py` (fetcher + wire-in +
+THRESHOLDS); no changes to brief schema, dashboard, or email builder —
+new fields appear in snapshots and surface in delta/breach detection
+from next capture. Integration tested against temp-DB 2026-04-23;
+deltas populate from inline 95-day history, no spurious breaches.
+
+---
+
 ## 2026-04-23 — Encyclopedia E10 + E11 added (SVB + Liberation Day)
 **Commit:** (this commit)
 **Scope:** schema / content — encyclopedia expansion from 9 → 11 anchor events.

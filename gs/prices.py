@@ -174,6 +174,17 @@ THRESHOLDS = {
     "gpu_h200_usd_hr":     {"7d": 10.0, "30d": 20.0, "type": "pct"},
     "gpu_b200_usd_hr":     {"7d": 15.0, "30d": 25.0, "type": "pct"},
     "gpu_a100_sxm_usd_hr": {"7d": 10.0, "30d": 20.0, "type": "pct"},
+    # Equity sentinels — tighter band on ETFs (baskets), wider on single
+    # names. KRE at 10/20 catches SVB-type stress (SVB week was -28%).
+    "eq_kre_usd":          {"7d": 10.0, "30d": 20.0, "type": "pct"},
+    "eq_xlu_usd":          {"7d": 10.0, "30d": 20.0, "type": "pct"},
+    "eq_xle_usd":          {"7d": 10.0, "30d": 20.0, "type": "pct"},
+    "eq_icln_usd":         {"7d": 10.0, "30d": 20.0, "type": "pct"},
+    "eq_smh_usd":          {"7d": 10.0, "30d": 20.0, "type": "pct"},
+    "eq_vst_usd":          {"7d": 15.0, "30d": 25.0, "type": "pct"},
+    "eq_ceg_usd":          {"7d": 15.0, "30d": 25.0, "type": "pct"},
+    "eq_tln_usd":          {"7d": 15.0, "30d": 25.0, "type": "pct"},
+    "eq_nrg_usd":          {"7d": 15.0, "30d": 25.0, "type": "pct"},
 }
 
 # ── DATABASE SETUP ────────────────────────────────────────────────────────────
@@ -859,6 +870,87 @@ METALS_FRED = {
 }
 
 
+# ── EQUITY SENTINELS (Yahoo Finance) ────────────────────────────────────────
+# Added 2026-04-23. Selective tickers, not broad indices — each on-thesis.
+#
+# Rationale: equity moves faster than credit/covenants; the verification-
+# latency thesis explicitly relies on catching things earlier than
+# institutional recognition. Equity is the fastest available channel per
+# GT's core mission.
+#
+# KRE — SPDR S&P Regional Banking ETF. E10 sentinel. Moved -28% in the SVB
+# week before credit spreads caught up; construction-lending channel health
+# proxy.
+#
+# Merchant-power cohort (VST / CEG / TLN / NRG) — directly on-thesis for
+# hyperscaler-anchored power narrative. CEG and TLN have named hyperscaler
+# anchored-PPA deals (Three Mile Island, Susquehanna). Movement ahead of
+# Moody's downgrades is GT's main use.
+#
+# Sector ETFs (XLU / XLE / ICLN / SMH) — sentiment anchors by sector.
+# XLU = utilities, XLE = energy, ICLN = global clean energy, SMH = semis
+# (GPU/compute channel).
+#
+# What's deliberately excluded: broad indices (S&P/Nasdaq — noise, off-
+# thesis); individual DC sponsors (REIT mechanics don't clean-map to DC
+# senior debt underwriting).
+
+EQUITY_YAHOO = {
+    # Regional-bank sentinel (E10)
+    "eq_kre_usd":   {"symbol": "KRE",  "unit": "$/share", "category": "equity_bank"},
+    # Merchant-power cohort
+    "eq_vst_usd":   {"symbol": "VST",  "unit": "$/share", "category": "equity_power"},
+    "eq_ceg_usd":   {"symbol": "CEG",  "unit": "$/share", "category": "equity_power"},
+    "eq_tln_usd":   {"symbol": "TLN",  "unit": "$/share", "category": "equity_power"},
+    "eq_nrg_usd":   {"symbol": "NRG",  "unit": "$/share", "category": "equity_power"},
+    # Sector sentiment ETFs
+    "eq_xlu_usd":   {"symbol": "XLU",  "unit": "$/share", "category": "equity_sector"},
+    "eq_xle_usd":   {"symbol": "XLE",  "unit": "$/share", "category": "equity_sector"},
+    "eq_icln_usd":  {"symbol": "ICLN", "unit": "$/share", "category": "equity_sector"},
+    "eq_smh_usd":   {"symbol": "SMH",  "unit": "$/share", "category": "equity_sector"},
+}
+
+
+def fetch_equity_prices():
+    """
+    Fetch equity sentinel prices from Yahoo Finance.
+    Same API pattern as metals fetcher — v8/finance/chart endpoint.
+    Returns dict of field_name -> snapshot row.
+    Silent failure per ticker; never blocks the run.
+    """
+    import requests as _req
+    results = {}
+    for field, info in EQUITY_YAHOO.items():
+        try:
+            url = (f"https://query1.finance.yahoo.com/v8/finance/chart/"
+                   f"{info['symbol']}?interval=1d&range=95d")
+            r = _req.get(url, headers={"User-Agent": "Mozilla/5.0"},
+                         timeout=10)
+            if r.status_code != 200:
+                raise ValueError(f"HTTP {r.status_code}")
+            data = r.json()
+            result = data["chart"]["result"][0]
+            closes = result["indicators"]["quote"][0]["close"]
+            closes = [c for c in closes if c is not None]
+            if not closes:
+                raise ValueError("No price data")
+            value = round(float(closes[-1]), 2)
+            history = [round(float(c), 2) for c in closes]
+            results[field] = {
+                "value":       value,
+                "unit":        info["unit"],
+                "category":    info["category"],
+                "series_id":   info["symbol"],
+                "series_date": str(date.today()),
+                "history":     history,
+            }
+            print(f"  OK  {field}: ${value} ({info['symbol']})")
+        except Exception as e:
+            print(f"  FAIL {field}: {e}")
+            results[field] = None
+    return results
+
+
 # ── GPU COMPUTE PRICES (Vast.ai spot + Kalshi forward) ──────────────────────
 # Added 2026-04-23. DC Axis 5 (GPU financing) anchor tape — previously QUIET.
 # Two free public sources pending Bloomberg (OCPI) or Silicon Data access:
@@ -1221,8 +1313,12 @@ def run_price_fetch():
     print("\nFetching GPU compute prices (Vast.ai spot + Kalshi forward)...")
     gpu_data = fetch_gpu_prices()
 
+    print("\nFetching equity sentinels (Yahoo Finance)...")
+    equity_data = fetch_equity_prices()
+
     series_data = {**oil_data, **gas_data, **fred_data, **fx_data, **lng_data,
-                   **rto_data, **metals_data, **fuel_data, **gpu_data}
+                   **rto_data, **metals_data, **fuel_data, **gpu_data,
+                   **equity_data}
 
     print("\nScanning RTO DA for price signals...")
     try:

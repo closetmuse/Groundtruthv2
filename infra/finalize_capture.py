@@ -13,10 +13,15 @@
 #   python infra/finalize_capture.py        (verifies, commits, clears marker)
 #
 # Usage:
-#   python infra/finalize_capture.py                    # default auto-msg
-#   python infra/finalize_capture.py --headline "..."   # refined one-liner
+#   python infra/finalize_capture.py                    # default auto-msg + auto-send email
+#   python infra/finalize_capture.py --headline "..."   # refined one-liner + auto-send email
+#   python infra/finalize_capture.py --no-send          # commit but do NOT email
 #   python infra/finalize_capture.py --force            # commit if brief short
-#   python infra/finalize_capture.py --dry              # preview, no commit
+#   python infra/finalize_capture.py --dry              # preview, no commit, no email
+#
+# Email: brief-only email (via gt.email_builder.build_email_brief_only)
+# is sent to GMAIL_RECIPIENTS after successful commit. Added 2026-04-23.
+# --no-send suppresses. Send failure does not fail the commit.
 #
 # Last Updated: April 2026
 
@@ -93,6 +98,12 @@ def main():
     parser.add_argument(
         "--dry", action="store_true",
         help="Print what would happen; do not commit or touch the marker.",
+    )
+    parser.add_argument(
+        "--no-send", action="store_true",
+        help="Suppress auto-email-send after commit. Default is to send "
+             "the brief-only email to configured recipients after commit "
+             "succeeds (2026-04-23 workflow change).",
     )
     args = parser.parse_args()
 
@@ -189,6 +200,35 @@ def main():
     if ahead and ahead != "0":
         print(f"  Local is {ahead} commit(s) ahead of origin. Push when ready.")
     print("=" * 68)
+
+    # ── 7. Send brief-only email (default-on from 2026-04-23) ──────────
+    if args.no_send:
+        print()
+        print("  Email: SUPPRESSED (--no-send)")
+        return
+
+    print()
+    print("  Sending brief-only email...")
+    sys.path.insert(0, str(PROJECT_ROOT))
+    try:
+        from gt.email_builder import (
+            build_email_brief_only, build_subject_brief_only,
+            send_email, GMAIL_RECIPIENTS,
+        )
+        html = build_email_brief_only(brief_abs)
+        subject = build_subject_brief_only(brief_abs)
+        print(f"  Subject: {subject}")
+        print(f"  Recipients: {', '.join(GMAIL_RECIPIENTS)}")
+        sent = send_email(html, subject)
+        if sent:
+            print("  Email SENT")
+        else:
+            print("  Email send FAILED — capture commit is still valid; "
+                  "resend with `python infra/send_email.py --brief-only`")
+    except Exception as e:
+        print(f"  Email send errored: {e}")
+        print("  Capture commit is still valid; resend with "
+              "`python infra/send_email.py --brief-only`")
 
 
 if __name__ == "__main__":

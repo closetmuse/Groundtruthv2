@@ -130,6 +130,11 @@ def main():
         "--dry", action="store_true",
         help="Build the HTML and save to email_fallback.html without sending.",
     )
+    parser.add_argument(
+        "--brief-only", action="store_true",
+        help="Send brief-only email (no auto-generated sections). "
+             "Use after 2026-04-23 email restart.",
+    )
     args = parser.parse_args()
 
     print("=" * 58)
@@ -151,16 +156,24 @@ def main():
               f"({top.get('match_score', 0)}%)")
 
     # Build email
-    from gt.email_builder import build_email, build_subject, send_digest, _find_latest_brief_for_today
+    from gt.email_builder import (
+        build_email, build_subject, send_digest, _find_latest_brief_for_today,
+        build_email_brief_only, build_subject_brief_only,
+    )
 
     brief_path = _find_latest_brief_for_today()
     if brief_path:
-        print(f"  Brief for Section 1: {brief_path.name}")
+        print(f"  Brief: {brief_path.name}")
     else:
-        print(f"  Brief for Section 1: none found — placeholder will be used")
+        print(f"  Brief: none found for today")
 
-    html = build_email(signals, encyclopedia_match, run_summary)
-    subject = build_subject(signals, run_summary)
+    if args.brief_only:
+        print("  Mode: BRIEF-ONLY (no auto-generated sections)")
+        html = build_email_brief_only(brief_path)
+        subject = build_subject_brief_only(brief_path)
+    else:
+        html = build_email(signals, encyclopedia_match, run_summary)
+        subject = build_subject(signals, run_summary)
     print(f"  Subject: {subject}")
     print(f"  HTML length: {len(html)} chars")
 
@@ -192,7 +205,11 @@ def main():
         print(f"  DRY RUN — email NOT sent. Root fallback: {FALLBACK_HTML}")
         return
 
-    sent = send_digest(signals, encyclopedia_match, run_summary)
+    if args.brief_only:
+        from gt.email_builder import send_email as _send_raw
+        sent = _send_raw(html, subject)
+    else:
+        sent = send_digest(signals, encyclopedia_match, run_summary)
     if sent:
         print(f"  Email SENT")
     else:

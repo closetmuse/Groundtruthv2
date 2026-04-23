@@ -16,6 +16,51 @@ at the repo root and in the git log.
 
 ---
 
+## 2026-04-23 — Email delivery reactivated, brief-only mode, auto-send on commit
+**Commit:** (this commit)
+**Scope:** code / workflow — email is now restarted after hold; uses a brief-only
+content mode; auto-sends default-on from `finalize_capture.py`.
+
+Three coupled changes:
+
+**1. Brief-only email content mode.** New `build_email_brief_only()` and
+`build_subject_brief_only()` functions in `gt/email_builder.py`. The email
+body is now just the rendered sector brief — no auto-generated regime /
+prices / signals / binary-events / scoreboard / health sections. Subject
+line is derived from the brief's "One thing matters" opener. Paragraphs
+and bullet lists are `text-align:justify; hyphens:auto` for readability.
+
+**2. Recipient + sender display.** `GMAIL_RECIPIENTS` now includes
+`mail2anurag@gmail.com` and `nagarajan.sridhar@outlook.com`. `GMAIL_SENDER`
+is set to `"GroundTruth <thybysproject@gmail.com>"` so most mail clients
+display the sender as "GroundTruth" rather than the underlying Gmail
+address. Gmail OAuth still requires sending from the authenticated
+account, so the underlying address may be visible on click/expand — a
+domain-level change would be needed for stronger brand separation.
+
+**3. Auto-send on finalize_capture (default-on).** `finalize_capture.py`
+now calls the brief-only send path after a successful git commit, sending
+to `GMAIL_RECIPIENTS`. Added `--no-send` flag to opt out. Send failure
+does not fail the commit — the brief commit is always valid, and a
+failed send can be retried with `python infra/send_email.py --brief-only`.
+
+**Rationale.** Sri restarted email delivery 2026-04-23. Wanted brief-only
+content (not auto-assembled sections) because the briefs themselves are
+the work product and everything else is instrumentation. Auto-send on
+commit removes the fourth manual step from the capture workflow — email
+delivery is pure post-processing, explicitly within the scope of
+`feedback_automation_deferred.md` ("Automate data pipeline and
+post-processing eventually; never automate synthesis or ledger outcomes").
+
+**Scope.** `infra/send_email.py` (added `--brief-only` flag);
+`infra/finalize_capture.py` (added `--no-send` flag + auto-send block);
+`gt/email_builder.py` (new brief-only builder + subject, `GMAIL_SENDER`
+display-name, `GMAIL_RECIPIENTS` expanded to two addresses, markdown
+renderer paragraphs + `<ul>` now justified). Takes effect on the next
+capture after commit.
+
+---
+
 ## 2026-04-23 — Equity sentinels added (9 selective tickers via Yahoo Finance)
 **Commit:** (this commit)
 **Scope:** code / schema — nine new price series in `gs_price_snapshots`

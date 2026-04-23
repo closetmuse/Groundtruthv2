@@ -25,8 +25,11 @@ load_dotenv(r"C:\Users\nagar_7kszmu8\GroundTruth_v2\.env", override=True)
 
 DB_PATH          = r"C:\Users\nagar_7kszmu8\GroundTruth_v2\groundtruth.db"
 GMAIL_SCOPES     = ["https://www.googleapis.com/auth/gmail.send"]
-GMAIL_SENDER     = "thybysproject@gmail.com"
-GMAIL_RECIPIENTS = ["Nagarajan.sridhar@gmail.com"]
+GMAIL_SENDER     = "GroundTruth <thybysproject@gmail.com>"
+GMAIL_RECIPIENTS = [
+    "mail2anurag@gmail.com",
+    "nagarajan.sridhar@outlook.com",
+]
 CREDENTIALS_FILE = r"C:\Users\nagar_7kszmu8\GroundTruth_v2\gmail-credentials.json"
 TOKEN_FILE       = r"C:\Users\nagar_7kszmu8\GroundTruth_v2\gmail-token.json"
 
@@ -219,7 +222,8 @@ def _markdown_to_email_html(md: str) -> str:
             if text:
                 out.append(
                     f'<p style="margin:6px 0;font-size:13px;'
-                    f'line-height:1.55;color:{TEXT};">{_inline_md(text)}</p>'
+                    f'line-height:1.55;color:{TEXT};'
+                    f'text-align:justify;hyphens:auto;">{_inline_md(text)}</p>'
                 )
             paragraph_buf = []
 
@@ -373,7 +377,8 @@ def _markdown_to_email_html(md: str) -> str:
             if not in_list:
                 out.append(
                     f'<ul style="margin:6px 0 6px 0;padding-left:18px;'
-                    f'font-size:13px;line-height:1.55;color:{TEXT};">'
+                    f'font-size:13px;line-height:1.55;color:{TEXT};'
+                    f'text-align:justify;hyphens:auto;">'
                 )
                 in_list = True
             out.append(f"<li style=\"margin:3px 0;\">{_inline_md(m.group(1))}</li>")
@@ -1026,6 +1031,103 @@ SC Compliance: Public sources only. No client data in system.
 </html>"""
 
     return html
+
+
+def build_email_brief_only(brief_path: Path | None = None) -> str:
+    """
+    Brief-only email build — renders the latest sector brief as the ENTIRE
+    email body, no auto-generated sections. Added 2026-04-23 when Sri
+    restarted emails and asked for brief-only content.
+
+    If brief_path is None, uses _find_latest_brief_for_today(). If no brief
+    exists for today, returns an HTML placeholder explaining the situation.
+    """
+    if brief_path is None:
+        brief_path = _find_latest_brief_for_today()
+
+    if brief_path is None:
+        body_html = (
+            f'<p style="font-size:13px;color:{DIM};line-height:1.55;">'
+            f'<em>No sector brief found for today. Email suppressed until a '
+            f'brief is written. Run <code>python infra/run_manual.py</code> '
+            f'then write the brief, then <code>python infra/send_email.py '
+            f'--brief-only</code>.</em></p>'
+        )
+        brief_name = "pending"
+    else:
+        try:
+            md = brief_path.read_text(encoding="utf-8")
+            body_html = _markdown_to_email_html(md)
+            brief_name = brief_path.name
+        except Exception as e:
+            body_html = (
+                f'<p style="font-size:13px;color:{AMBER};">'
+                f'Brief file found at {brief_path.name} but could not be '
+                f'read: {e}</p>'
+            )
+            brief_name = brief_path.name
+
+    html = f"""<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"></head>
+<body style="margin:0;padding:0;background:{BG};font-family:system-ui,-apple-system,Arial,sans-serif;">
+<table role="presentation" style="width:100%;background:{BG};">
+<tr><td align="center" style="padding:20px 10px;">
+<table role="presentation" style="max-width:720px;width:100%;background:{BG};color:{TEXT};">
+
+<!-- Header -->
+<tr><td style="padding:16px 0 8px 0;border-bottom:1px solid {BORDER};">
+<span style="font-size:20px;font-weight:bold;color:{TEXT};letter-spacing:1px;">GROUNDTRUTH</span>
+<span style="font-size:12px;color:{DIM};padding-left:12px;">{datetime.now().strftime('%B %d, %Y %H:%M ET')}</span>
+<span style="font-size:11px;color:{DIM};float:right;padding-top:4px;">{brief_name}</span>
+</td></tr>
+
+<!-- Brief body -->
+<tr><td style="padding:16px 0;">
+{body_html}
+</td></tr>
+
+<!-- Footer -->
+<tr><td style="padding:24px 0 16px 0;border-top:1px solid {BORDER};text-align:center;">
+<span style="font-size:10px;color:{DIM};">
+GroundTruth V2 | Brief-only delivery | Internal Use Only<br>
+SC Compliance: Public sources only. No client data in system.
+</span>
+</td></tr>
+
+</table>
+</td></tr>
+</table>
+</body>
+</html>"""
+    return html
+
+
+def build_subject_brief_only(brief_path: Path | None = None) -> str:
+    """
+    Subject for brief-only email. Parse the opening headline from the
+    brief for a thematic subject; fall back to generic if not available.
+    """
+    if brief_path is None:
+        brief_path = _find_latest_brief_for_today()
+    date_str = datetime.now().strftime("%b %d")
+    if brief_path is None:
+        return f"GroundTruth | {date_str} | Brief pending"
+    # Pull the first bold sentence from the brief as the theme tag
+    try:
+        md = brief_path.read_text(encoding="utf-8")
+        # Look for the slot/regime line then the One thing opener
+        slot_match = re.search(r"(AM|midday|EOD)", md[:500], re.IGNORECASE)
+        slot = slot_match.group(1).upper() if slot_match else "brief"
+        # Extract "**One thing matters this capture. ...**" first sentence
+        m = re.search(r"\*\*One thing matters[^.]*\.\s*([^*]+?)\.\*\*", md)
+        theme = m.group(1).strip() if m else "brief delivered"
+        # Keep subject tight
+        if len(theme) > 80:
+            theme = theme[:77] + "..."
+        return f"GroundTruth | {date_str} | {slot} | {theme}"
+    except Exception:
+        return f"GroundTruth | {date_str} | {brief_path.name}"
 
 
 def build_subject(signals: list, run_summary: dict) -> str:

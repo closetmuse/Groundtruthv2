@@ -16,6 +16,43 @@ at the repo root and in the git log.
 
 ---
 
+## 2026-04-22 — Encyclopedia E09 added (Infrastructure Overbuild Collapse)
+**Commit:** (this commit)
+**Scope:** schema / content — encyclopedia expansion from 8 → 9 anchor events.
+
+Added `encyclopedia/E09_InfraOverbuild.md` — combined entry covering the
+dot-com fiber overbuild (1998-2002) and the merchant power overbuild
+(1999-2003). Both sub-cases share the same fundamental mechanism
+(demand-projection-driven capex → generic-merchant financing → revenue
+collapse when capacity commissions faster than demand growth) and had
+co-incident peak stress in 2002 (WorldCom Chapter 11 anchors the
+fingerprint date 2002-07-21).
+
+Primary regime R3 (sectoral demand shock); secondary R2 (sector-specific
+credit cascade). Pattern match C-tags: C11, C12, C05, C14, C15.
+
+**Rationale.** Flagged by Sri 2026-04-22 as essential historical
+precedent for reasoning about the current DC-power build-out cycle.
+Woodmac senior bank/IB dinner 2026-04-21 surfaced the parallel. Both
+episodes produced the "generic-merchant is near-unfinanceable" discipline
+that held from ~2003 through the mid-2010s; relevant as a precedent
+when the merchant-DC-hopeful vs hyperscaler-anchored bifurcation (W2)
+is actively sorting credit in real time.
+
+**Downstream effects.**
+- `encyclopedia/E09_InfraOverbuild.md` — new file.
+- `CLAUDE.md` line 152 — "8 anchor events" → "9 anchor events (E09 infrastructure overbuild added 2026-04-22)".
+- Encyclopedia matcher (`gi/encyclopedia.py`) auto-picks up the new file (directory-scan pattern, no code change required).
+- Future captures will score the E09 fingerprint against live market state; Wed AM decoupling-direction prints (metals bounce + JKM firming) partially rhyme with E09 sector-specific-not-broad-credit signature — next capture will be the first E09-scored read.
+
+**Flagged for Sri review.** Section 5 "practitioner notes" contains a
+placeholder pending Sri validation. The core lesson (contracted off-take
+as the binding survive-vs-default sort) is articulated from the
+Moody's default data but the Sri-voice practitioner notes on specific
+1999-2003 desk experience remain to be added.
+
+---
+
 ## 2026-04-21 — Reclassify 2026-04-20 addendums as deep dives
 **Commit:** (this commit)
 **Scope:** convention (retroactive reclassification).

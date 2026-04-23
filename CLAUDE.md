@@ -149,7 +149,7 @@ No SC data in system. Local SQLite before Railway.
 
 ## ARCHITECTURE
 Layer A — CLAUDE.md: methodology, standards, triggers. Updates on method change.
-Layer B — Encyclopedia: immutable historical record, 8 anchor events.
+Layer B — Encyclopedia: immutable historical record, 9 anchor events (E09 infrastructure overbuild added 2026-04-22).
 Live market overlay (regime, active binary events, axis state) is computed
 each capture run from the Encyclopedia matcher + gt_binary_events table +
 user_sector_risk_frameworks.md memory — no standalone overlay file.

@@ -16,6 +16,57 @@ at the repo root and in the git log.
 
 ---
 
+## 2026-04-23 — GPU compute price tape added (Vast.ai spot + Kalshi forward)
+**Commit:** (this commit)
+**Scope:** code / schema — four new price series in `gs_price_snapshots`,
+activating DC Axis 5 (GPU financing) which was previously QUIET by default.
+
+Added `fetch_gpu_prices()` to `gs/prices.py`, wired into `run_price_fetch()`
+after fuel-mix, and added THRESHOLDS entries. Four new SKUs tracked:
+`gpu_h100_sxm_usd_hr`, `gpu_h200_usd_hr`, `gpu_b200_usd_hr`,
+`gpu_a100_sxm_usd_hr`. First-observation Thu AM 2026-04-23 captured
+H100 SXM $1.87, H200 $4.58, B200 $3.94, A100 SXM4 $0.85.
+
+**Sources.** Free public endpoints — no auth, no API key.
+- **Spot:** `console.vast.ai/api/v0/bundles` GET with JSON search query
+  in `?q=` param. Filter `verified=True, rentable=True, rented=False,
+  type=on-demand`. Per-GPU-hr = `dph_total / num_gpus`; record p25 / p50 /
+  p75 across the marketplace for each SKU. p50 is the snapshot `value`.
+- **Forward (ladder midpoint, liquidity flag):** Kalshi monthly-price
+  series KXH100MON / KXH200MON / KXB200MON / KXA100MON. 40 strikes per
+  series in "Above $X" form. Midpoint of the strike range is the
+  recorded forward anchor; volume field captures liquidity state. Volume
+  was 0 across all four markets at first capture — ladder presence is
+  structurally useful even without liquidity because liquidity is
+  expected to develop and the schema is already in place.
+
+**Rationale.** Sri flagged GPU compute lease rates as a missing tape
+2026-04-23 post-AM-brief. Ornn OCPI (Bloomberg, paid) and Silicon Data
+($499/mo base) are the institutional-grade options; access procurement
+deferred pending SC Bloomberg-terminal path. Vast.ai + Kalshi are
+free, API-clean, and reference real marketplace transactions — Vast.ai
+is actual cleared marketplace prices, Kalshi is CFTC-regulated and
+Ornn-OCPI-settlement-referenced. Together they cover spot + forward
+without subscription cost. When Bloomberg/Silicon Data access lands the
+fetcher can be extended in place rather than rewritten.
+
+**Schema extras.** Each GPU row carries extra snapshot fields beyond the
+standard price schema: `vast_p25`, `vast_p50`, `vast_p75`,
+`vast_n_offers`, `kalshi_fwd_mid`, `kalshi_strikes`, `kalshi_volume`.
+These ride the existing JSON `series_data` column — no SQL migration.
+
+**Thresholds.** 10%/20% bands for H100/H200/A100, 15%/25% for B200
+(smaller marketplace, noisier series expected). Same `pct` type as HH /
+JKM / TTF.
+
+**Downstream effects.** `gs/prices.py` (fetcher + wire-in + THRESHOLDS);
+no changes to brief schema, dashboard, or email builder — new fields
+appear in snapshots and will surface in delta/breach detection from
+next capture. Integration tested against temp-DB 2026-04-23; deltas
+return None on first observation as expected, no spurious breaches.
+
+---
+
 ## 2026-04-22 — Encyclopedia E09 added (Infrastructure Overbuild Collapse)
 **Commit:** (this commit)
 **Scope:** schema / content — encyclopedia expansion from 8 → 9 anchor events.

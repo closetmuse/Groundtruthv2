@@ -167,6 +167,13 @@ THRESHOLDS = {
     "jkm_usd_mmbtu":       {"7d": 10.0, "30d": 20.0, "type": "pct"},
     "ttf_eur_mwh":         {"7d": 10.0, "30d": 20.0, "type": "pct"},
     "ttf_usd_mmbtu":       {"7d": 10.0, "30d": 20.0, "type": "pct"},
+    # GPU compute spot (Vast.ai p50). Tight bands — GPU markets move
+    # materially on supply events; SemiAnalysis 1yr index moved 40% in
+    # six months (Oct-25 to Mar-26), spot will be choppier.
+    "gpu_h100_sxm_usd_hr": {"7d": 10.0, "30d": 20.0, "type": "pct"},
+    "gpu_h200_usd_hr":     {"7d": 10.0, "30d": 20.0, "type": "pct"},
+    "gpu_b200_usd_hr":     {"7d": 15.0, "30d": 25.0, "type": "pct"},
+    "gpu_a100_sxm_usd_hr": {"7d": 10.0, "30d": 20.0, "type": "pct"},
 }
 
 # ── DATABASE SETUP ────────────────────────────────────────────────────────────
@@ -852,6 +859,148 @@ METALS_FRED = {
 }
 
 
+# ── GPU COMPUTE PRICES (Vast.ai spot + Kalshi forward) ──────────────────────
+# Added 2026-04-23. DC Axis 5 (GPU financing) anchor tape — previously QUIET.
+# Two free public sources pending Bloomberg (OCPI) or Silicon Data access:
+#
+# Vast.ai (spot marketplace) — GET console.vast.ai/api/v0/bundles with a
+# JSON search query in the ?q= param; returns real rentable on-demand
+# offers with dph_total ($/hr total) and num_gpus. Per-GPU-hr is
+# dph_total / num_gpus. We take the p50 across verified rentable offers
+# per GPU SKU as the spot anchor.
+#
+# Kalshi (CFTC-regulated forward proxy) — events search returns monthly
+# series like KXH100MON / KXH200MON / KXB200MON / KXA100MON. Each series
+# has a 40-strike "Above $X" ladder. When untraded, we record the
+# midpoint of the strike range as a reference level with volume=0 flag.
+# Liquidity is expected to develop — field schema ready in advance.
+#
+# SKU scope: H100 SXM, H200, B200, A100 SXM4 — the four SKUs that map
+# to institutional DC deals and to Ornn's OCPI and Silicon Data
+# coverage, enabling a clean swap later.
+
+VAST_GPU_MAP = {
+    "gpu_h100_sxm_usd_hr":  {"vast_name": "H100 SXM",  "kalshi_series": "KXH100MON"},
+    "gpu_h200_usd_hr":      {"vast_name": "H200",      "kalshi_series": "KXH200MON"},
+    "gpu_b200_usd_hr":      {"vast_name": "B200",      "kalshi_series": "KXB200MON"},
+    "gpu_a100_sxm_usd_hr":  {"vast_name": "A100 SXM4", "kalshi_series": "KXA100MON"},
+}
+
+
+def fetch_gpu_prices():
+    """
+    Fetch GPU compute prices.
+      Spot  — Vast.ai public marketplace (verified rentable on-demand offers).
+      Forward — Kalshi monthly compute-price ladder midpoint + liquidity flag.
+    Returns dict of field_name -> snapshot row (same schema as other fetchers).
+    Silent failure per SKU; never blocks the run.
+    """
+    import requests as _req
+    import urllib.parse as _up
+
+    results = {}
+    today = str(date.today())
+
+    # ---- Vast.ai spot ------------------------------------------------------
+    vast_by_gpu = {}  # gpu_name -> list of dph/gpu
+    try:
+        q = {"verified": {"eq": True}, "rentable": {"eq": True},
+             "rented": {"eq": False}, "type": "on-demand", "limit": 1000}
+        url = ("https://console.vast.ai/api/v0/bundles?q="
+               + _up.quote(json.dumps(q)))
+        r = _req.get(url, timeout=25)
+        if r.status_code != 200:
+            raise ValueError(f"Vast HTTP {r.status_code}")
+        for o in r.json().get("offers", []):
+            name = o.get("gpu_name")
+            dph = o.get("dph_total")
+            ng = o.get("num_gpus") or 1
+            if not name or not dph or ng <= 0:
+                continue
+            vast_by_gpu.setdefault(name, []).append(dph / ng)
+    except Exception as e:
+        print(f"  FAIL Vast.ai fetch: {e}")
+
+    # ---- Kalshi forward ladder ---------------------------------------------
+    kalshi_by_series = {}  # series_ticker -> (mid, n_strikes, total_volume)
+    for field, info in VAST_GPU_MAP.items():
+        series = info["kalshi_series"]
+        try:
+            r = _req.get(
+                "https://api.elections.kalshi.com/trade-api/v2/markets",
+                params={"series_ticker": series, "status": "open", "limit": 100},
+                timeout=15,
+            )
+            if r.status_code != 200:
+                raise ValueError(f"Kalshi HTTP {r.status_code}")
+            mkts = r.json().get("markets", [])
+            strikes = []
+            vol = 0
+            for m in mkts:
+                tkr = m.get("ticker", "")
+                # Strike is the trailing "-X.XXX" suffix
+                tail = tkr.rsplit("-", 1)[-1]
+                try:
+                    strikes.append(float(tail))
+                except ValueError:
+                    continue
+                vol += (m.get("volume") or 0)
+            mid = (min(strikes) + max(strikes)) / 2 if strikes else None
+            kalshi_by_series[series] = (mid, len(strikes), vol)
+        except Exception as e:
+            print(f"  FAIL Kalshi {series}: {e}")
+            kalshi_by_series[series] = (None, 0, 0)
+
+    # ---- Assemble per-SKU snapshot rows -----------------------------------
+    for field, info in VAST_GPU_MAP.items():
+        offers = vast_by_gpu.get(info["vast_name"], [])
+        kmid, kstrikes, kvol = kalshi_by_series.get(info["kalshi_series"],
+                                                    (None, 0, 0))
+        if not offers and kmid is None:
+            print(f"  FAIL {field}: no Vast or Kalshi data")
+            results[field] = None
+            continue
+
+        if offers:
+            offers_sorted = sorted(offers)
+            n = len(offers_sorted)
+            p25 = round(offers_sorted[n // 4], 3)
+            p50 = round(offers_sorted[n // 2], 3)
+            p75 = round(offers_sorted[(3 * n) // 4], 3)
+            value = p50
+            extras = {
+                "vast_p25": p25,
+                "vast_p50": p50,
+                "vast_p75": p75,
+                "vast_n_offers": n,
+            }
+        else:
+            # Fall back to Kalshi midpoint if no Vast offers this pull
+            value = round(kmid, 3) if kmid is not None else None
+            extras = {"vast_n_offers": 0}
+
+        extras.update({
+            "kalshi_fwd_mid": round(kmid, 3) if kmid is not None else None,
+            "kalshi_strikes": kstrikes,
+            "kalshi_volume":  kvol,
+        })
+
+        results[field] = {
+            "value":       value,
+            "unit":        "$/GPU-hr",
+            "category":    "gpu_compute",
+            "series_id":   f"VAST+{info['kalshi_series']}",
+            "series_date": today,
+            "history":     [],
+            **extras,
+        }
+        liq = "LIQ" if kvol > 0 else "nil-vol"
+        print(f"  OK  {field}: spot p50 ${value} (n={extras.get('vast_n_offers',0)}) "
+              f"| Kalshi {info['kalshi_series']} mid ${extras['kalshi_fwd_mid']} {liq}")
+
+    return results
+
+
 def fetch_metals_prices():
     """
     Fetch metals prices from Yahoo Finance API (aluminum, copper)
@@ -1069,8 +1218,11 @@ def run_price_fetch():
     print("\nFetching fuel mix...")
     fuel_data = fetch_fuel_mix()
 
+    print("\nFetching GPU compute prices (Vast.ai spot + Kalshi forward)...")
+    gpu_data = fetch_gpu_prices()
+
     series_data = {**oil_data, **gas_data, **fred_data, **fx_data, **lng_data,
-                   **rto_data, **metals_data, **fuel_data}
+                   **rto_data, **metals_data, **fuel_data, **gpu_data}
 
     print("\nScanning RTO DA for price signals...")
     try:

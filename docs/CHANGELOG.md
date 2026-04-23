@@ -16,6 +16,56 @@ at the repo root and in the git log.
 
 ---
 
+## 2026-04-23 — Encyclopedia E10 + E11 added (SVB + Liberation Day)
+**Commit:** (this commit)
+**Scope:** schema / content — encyclopedia expansion from 9 → 11 anchor events.
+
+Added two entries following the PRD v2.0 five-section standard (E02/E09
+template):
+
+- **`encyclopedia/E10_SVB.md`** — Silicon Valley Bank Collapse (Regional
+  Bank Duration-Mismatch Cascade). Trigger date 2023-03-08; fingerprint
+  date 2023-03-12 (FDIC systemic-risk exception weekend). Primary regime
+  R2 (credit stress, sector-specific cascade); secondary R0 (compound
+  with Fed BTFP immediate policy tailwind). Pattern match C-tags: C01
+  (Rates), C02 (FedReg), C12 (Credit), C14 (Sponsor), C15 (Transmission).
+  2026-relevant for regional-bank construction-lending retrenchment —
+  mid-market DC sponsor dependency on regional-bank syndicates is
+  structurally narrower than pre-SVB; private-credit filled the gap at
+  +75-150bps permanent spread differential.
+
+- **`encyclopedia/E11_LiberationDay.md`** — Trump reciprocal-tariff
+  regime announcement. Trigger date 2025-04-02; fingerprint date
+  2025-04-08 (peak market stress — day before 90-day reciprocal-pause).
+  Primary regime R2 (policy-shock credit stress); secondary R3 (cross-
+  border trade-channel disruption plus commodity-cost transmission).
+  Pattern match C-tags: C02 (FedReg), C04 (Legislation), C08 (Geopolit),
+  C09 (Commodity), C15 (Transmission). Distinguishing feature: rare
+  equity-down + bonds-down + USD-down configuration — flight-FROM-US-
+  assets. 2026-relevant through BE-004 ("April 8 2026 Tariff Deadline"
+  resolved 2026-04-12 as "tentative ceasefire, not full pause") and
+  ongoing tariff-rate-volatility affecting infrastructure construction
+  cost underwriting.
+
+**Rationale.** Flagged by Sri 2026-04-23 as missing historical precedents.
+SVB gives the regional-banking duration-mismatch mechanism — relevant as
+construction-lending channel evolution continues to shape DC and mid-
+market infrastructure financing. Liberation Day gives the first durable-
+tariff-policy precedent — relevant as BE-004 stay-of-execution dynamics
+evolve and as tariff-stack transmission to construction cost remains an
+active underwriting variable.
+
+**Verification.** Both files parse cleanly via `gi.encyclopedia.load_
+encyclopedia()`; matcher now reports "Encyclopedia loaded: 11 entries."
+No integration changes required — matcher picks up new files via
+directory scan.
+
+**Downstream effects.** `encyclopedia/E10_SVB.md`,
+`encyclopedia/E11_LiberationDay.md`; no code change needed. Next
+capture's encyclopedia-match step will consider 11 anchors instead of 9.
+
+---
+
 ## 2026-04-23 — GPU compute price tape added (Vast.ai spot + Kalshi forward)
 **Commit:** (this commit)
 **Scope:** code / schema — four new price series in `gs_price_snapshots`,

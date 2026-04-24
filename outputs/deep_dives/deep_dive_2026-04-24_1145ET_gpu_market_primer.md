@@ -11,6 +11,59 @@ GT has been scoring GPU-hour pricing since Apr 20 as a tape series (H100 SXM, H2
 **Audience:** Sri — a project-finance practitioner who sees GPU-related deals cross the desk but has not worked the GPU asset class directly. The goal is to build enough structural fluency to (a) evaluate deal-class fit when a GPU-financing structure appears, (b) understand what is pricing risk vs technology risk vs commodity risk, (c) calibrate residual-value and depreciation assumptions that drive senior-debt sizing.
 
 ================================================================
+PART 0 — KEY CONCEPTS IN PLAIN ENGLISH
+================================================================
+
+Before the architecture tables and pricing math, a set of plain-language definitions. The rest of the document assumes these.
+
+**FLOPS (Floating-Point Operations Per Second)** — the raw math-speed of the GPU. One "FLOP" is one arithmetic operation (a multiply or an add) on a decimal number. Modern training GPUs advertise trillions (TFLOPS, 10^12) or quadrillions (PFLOPS, 10^15) per second at various precisions. Think of FLOPS as horsepower on an engine spec sheet: the maximum sustained output under perfect conditions. Real-world utilization of advertised FLOPS is typically 35-55% on cluster workloads (see Part 2A). A GPU advertised at "9,000 TFLOPS FP4" is doing nine quadrillion 4-bit math operations per second at peak.
+
+**HBM (High-Bandwidth Memory)** — the GPU's fast-access working memory, where the AI model's weights and intermediate calculations live during a run. HBM is physically stacked right on top of, or right next to, the GPU die (not in separate sticks like the RAM in a PC). It is the single most expensive component on a modern GPU package — often more than the compute die itself. Measured in:
+- **Capacity (GB)** — how big a model fits on one GPU. 80GB (H100) fits a ~40B parameter model in FP16; 288GB (B300) fits ~140B in FP16 or ~560B in FP4.
+- **Bandwidth (TB/s)** — how fast data can move from HBM into the compute cores. Large-model inference is bandwidth-bound, not compute-bound — which is why H200 (4.8 TB/s) is meaningfully faster than H100 (3.35 TB/s) at inference despite identical compute horsepower.
+
+Think of HBM as the workbench right next to the engine: bigger workbench = bigger job fits, faster workbench access = less time the engine sits idle waiting for parts.
+
+**NVLink / NVSwitch** — NVIDIA's high-speed direct-connect wire between GPUs inside a rack. Lets a group of GPUs act as a single virtual "super-GPU" for training purposes, sharing memory and coordinating compute without routing through standard network gear. A GB200 NVL72 rack is 72 GPUs linked by NVLink through NVSwitch chips. NVLink is the reason training clusters can scale to 72 or 144 or 576 GPUs acting as one. Bandwidth is measured in TB/s per GPU (~1.8 TB/s on current generation). Think of NVLink as private high-speed rail between engines inside an industrial complex — engines work independently but the rail lets them lift a load together without waiting for highway traffic.
+
+**InfiniBand and Ethernet fabric** — the slower, longer-distance network that connects NVLink-rack to NVLink-rack. When a training job exceeds a single NVLink rack (1,000+ GPUs), racks talk to each other over InfiniBand (NVIDIA's Quantum, 400-800 Gbps) or high-end Ethernet. Bandwidth drops by an order of magnitude vs NVLink. This is why NVLink domain size (72 → 144 → 576) is commercially important — bigger domain = more work done without the InfiniBand bottleneck.
+
+**CUDA, ROCm, XLA, Neuron — the software stacks.** Each vendor has its own software layer that translates high-level AI code (PyTorch, TensorFlow) into the specific GPU's instructions:
+- **CUDA** — NVIDIA. Industry standard since ~2008. Millions of engineer-hours of tooling built on it.
+- **ROCm** — AMD. Functionally comparable for most models; less mature tooling, smaller community.
+- **XLA** — Google TPU stack.
+- **Neuron SDK** — AWS Trainium/Inferentia.
+- **Others** — Intel oneAPI, Cerebras, Groq compiler, etc.
+
+Software written for one stack does not directly run on another — see Part 2A on stranded FLOPS. This is the single largest source of vendor lock-in in the AI-compute ecosystem.
+
+**Precision (FP32 / FP16 / BF16 / FP8 / FP4)** — how many bits the GPU uses to store each number during a calculation. Lower precision means faster math and less memory, with a small accuracy cost:
+- **FP32** (32-bit) — full precision, rarely used today outside scientific computing.
+- **FP16 / BF16** (16-bit) — training standard through ~2023.
+- **FP8** (8-bit) — Hopper/Blackwell training standard.
+- **FP4** (4-bit) — Blackwell inference standard, Rubin training experimental.
+- **FP2** — Rubin Ultra experimental.
+
+Each halving of precision roughly doubles throughput on the same silicon. Inference tolerates lower precision than training.
+
+**Die, package, rack, pod — the physical hierarchy.** A *die* is one chip wafer cut from a semiconductor manufacturing line (TSMC, Samsung). A *package* is one or more dies plus HBM memory stacks wire-bonded together into a single unit that plugs into a server — the thing that is sold as "a GPU." A *server* (HGX baseboard) holds 8 packages. A *rack* holds 4-9 servers plus networking and cooling — or, in the NVL72 configuration, a single 72-GPU coherent unit. A *pod* or *cluster* holds multiple racks, connected by InfiniBand.
+
+**Training vs inference.** Two fundamentally different workloads:
+- **Training** — the expensive process of building an AI model from scratch. Requires frontier silicon (GB200, GB300, Rubin) with rich NVLink and high precision. Costs hundreds of millions to billions of dollars per frontier model. Takes weeks to months. Peak utilization of the cluster for the duration of the run.
+- **Inference** — using the trained model to serve user queries. Cheaper per query, spreads across many smaller GPUs (or many instances of larger GPUs). H100, H200, B200, L40S all viable. Utilization is uneven — depends on query load.
+
+Most GPU deployments eventually end up running inference, even if purchased for training. This is the primary residual-value mechanism for older generations (A100, now running inference workloads originally targeted at H100).
+
+**KV cache** — the "key-value" cache, intermediate memory used during inference so the model doesn't recompute the attention values for previously-seen tokens. Grows with conversation length. A 1-million-token context can require 50-150 GB of KV cache *in addition* to the model weights. **This is the primary reason long-context inference workloads need high HBM capacity** — and why H200 (141 GB) and B300 (288 GB) are priced at a premium for inference.
+
+**Tensor parallelism, pipeline parallelism, data parallelism.** Three ways to split a large training run across multiple GPUs:
+- **Data parallelism** — each GPU gets a copy of the model, different data slices; gradients combined after each step. Cheap communication.
+- **Tensor parallelism** — each GPU holds part of each layer; heavy communication between GPUs inside a layer. Needs NVLink.
+- **Pipeline parallelism** — each GPU holds different layers; tokens flow through the pipeline. Moderate communication, needs careful balancing.
+
+Real training runs mix all three. **NVLink domain size determines how much tensor parallelism is economically feasible** — beyond the NVLink domain, tensor parallelism has to traverse InfiniBand, killing throughput.
+
+================================================================
 PART 1 — THE GPU LANDSCAPE: WHAT IS ACTUALLY IN THE MARKET
 ================================================================
 
@@ -150,6 +203,70 @@ PART 2 — HOW TO EVALUATE WHICH GPU FOR WHICH USE CASE
 - **"General-purpose inference" cluster** → H100, H200, L40S mix. 20-100MW site, 50-80 kW/rack, air or liquid cooling acceptable. Capex moderate, utilization 60-80% depending on customer mix. Residual value risk higher — inference GPUs commoditize faster on price.
 
 - **"Legacy / budget" cluster** → A100, A10, L4, RTX. 5-30MW site, 10-30 kW/rack, air cooling. Capex already depreciated substantially on secondary market. Utilization variable — often research, academic, or niche-enterprise tenant mix.
+
+================================================================
+PART 2A — STRANDED FLOPS AND WORKLOAD PORTABILITY: THE CUDA MOAT AND WHY DC CAPACITY GETS WASTED
+================================================================
+
+The core observation (per recent commentary from Anj Midha on podcast): **paper FLOPS across different GPU architectures are not fungible from a workload perspective.** A 2,000 TFLOPS AMD MI300X is not a drop-in substitute for a 2,000 TFLOPS NVIDIA H100 for most training or inference pipelines, even though the headline compute number is comparable. This shows up at the DC level as capacity under-utilization — sizable blocks of silicon can sit idle or below-peak because the workloads queued don't map efficiently onto the silicon available. As architectures proliferate, this problem is getting worse, not better.
+
+**Why FLOPS are not portable across architectures:**
+
+1. **Compiler-and-runtime lock-in.** A training run optimized for H100 uses CUDA + cuDNN (compute libraries) + NCCL (collective operations) + TensorRT-LLM or vLLM (inference serving) — all NVIDIA-specific. Porting the same run to MI300X requires AMD's equivalents: ROCm + MIOpen + RCCL + AMD's serving stack. **The model will "run" on both — that is the low bar — but peak-throughput performance on the new architecture typically requires 2-6 months of senior engineering investment per model per target.** Without that investment, effective throughput is often 30-60% of nameplate on the non-native architecture.
+
+2. **Tensor layouts and numerical formats differ.** Blackwell's native FP4 format is not bit-compatible with AMD's MXFP4, which is not bit-compatible with Trainium's numerical formats or TPU's BF16-centric stack. Quantizing a model for one architecture and then re-deploying on another means re-quantizing, re-calibrating, and re-validating — weeks of accuracy and performance work, with occasional surprises where a model behaves differently on the new format.
+
+3. **Collective-operation implementations differ.** When 8 or 72 or 1,000 GPUs coordinate on a single training step, they perform *collective operations* — all-reduce (combine all gradients), all-gather (broadcast activations), reduce-scatter (partition and combine). NVIDIA's NCCL is the reference implementation over NVLink + NVSwitch. AMD's RCCL runs over Infinity Fabric. AWS Trainium uses its own NeuronLink-native collectives. Each has different performance characteristics, different edge-case behavior, and different optimal message sizes. **A training run tuned for NVLink topology will perform predictably worse on Infinity Fabric even with careful porting** — not because AMD is slower, but because the tuning is architecture-specific.
+
+4. **Cluster topology is vendor-locked.** A GB200 NVL72 rack cannot accept MI300X sleds. Trainium UltraClusters cannot mix NVIDIA cards. Even *within* NVIDIA generations: a GB300 NVL72 rack is not field-upgradable to Vera Rubin NVL144 — the chassis, power backplane, NVSwitch generation, and cooling loops are generation-locked. **You cannot purchase DC capacity generically and swap silicon in and out** the way you might with commodity x86 server racks. A rack is a single-generation single-vendor asset for its useful life.
+
+5. **Inference-serving stack lock-in.** A production model deployed on H100 through TensorRT-LLM cannot run on Trainium without recompilation via AWS Neuron SDK; cannot run on TPU without XLA; cannot run on Groq without the Groq compiler. Each target platform is a separate deployment-engineering project, with its own testing, monitoring, and on-call implications. For a company with meaningful inference traffic, multi-platform serving is a strategic choice, not a tactical redeployment.
+
+**How workloads move across architectures — the portability gradient:**
+
+| Level | Portability | Effort to move |
+|---|---|---|
+| **PyTorch / TensorFlow source code** | High | Modest code changes; most models run on NVIDIA, AMD, TPU, Trainium |
+| **Trained-weights checkpoint** | Medium | Quantization re-calibration, tolerance testing |
+| **Peak-throughput production deployment** | Low | 2-6 months senior engineering per model per target |
+| **Multi-GPU training cluster at scale** | Very low | Months-quarters of re-tuning; often impossible without vendor assistance |
+| **Hardware topology (rack → rack)** | None | The rack is the unit; replace, not migrate |
+
+**How this strands DC capacity — the four specific mechanisms:**
+
+1. **Offtake-architecture mismatch.** An operator builds 200 MW of Trainium capacity to serve an Anthropic training anchor. Anthropic's next frontier model migrates to a different silicon stack (NVIDIA, for example). The Trainium capacity is not wasted in absolute terms — it can serve inference — but the frontier-training capacity planned-for is no longer the training capacity needed. The sponsor bears the re-routing cost; inference revenue clears at lower $/hr than training reserved-compute.
+
+2. **Rack-composition lock.** Once a rack is built out as GB200 NVL72, it is a GB200 asset for its useful life. A hyperscaler cannot blend a 20% Rubin / 80% B200 workload inside the same NVLink domain. Refreshing a production cluster to a new generation means building new racks, not upgrading cards. **Refresh capex is 60-80% of original DC capex, not 20-40% on the chip line alone** — this is the single most underestimated number in early GPU-financing underwriting.
+
+3. **Power and cooling design locked to silicon generation.** Liquid cooling loops are sized for specific rack-power envelopes. A shell built to 120 kW/rack GB200 spec cannot host 600 kW/rack Rubin Ultra without gutting the cooling infrastructure and upgrading power distribution. **DC shells are silicon-generation-locked in practice** — not formally, but economically. This is the structural reason the DC shell residual-value table (Part 5) bifurcates hard between "Rubin-Ultra-ready" and "legacy" shells.
+
+4. **Inference-platform fragmentation.** A hyperscaler running three or four accelerator stacks internally (NVIDIA, Trainium, TPU, Maia, plus MI300X) cannot load-balance queries across them transparently. Each workload pre-commits to one stack and is served there. **Spare capacity on one stack does not transparently translate to relief on another stack at peak demand.** Effective aggregate utilization across a multi-architecture pool is always below what a single-architecture pool of equivalent aggregate FLOPS would achieve.
+
+**The stranded-FLOPS numeric.** Industry estimates (informal consensus from public commentary through 2025-26) suggest that at cluster level, effective utilization of rated GPU FLOPS averages 35-55% over a year — the balance lost to:
+- **Software inefficiency** (kernels below peak, memory-bandwidth bound workloads): 15-25%
+- **Network and collective-ops overhead**: 10-15%
+- **Idle time between jobs, maintenance, failures**: 5-15%
+- **Architectural-mismatch reallocation friction** (the Anj Midha observation): 5-15%, and rising
+
+The fourth item is the one that proliferates with architecture diversity. **In 2023, the installed base was dominated by A100 and H100 — effectively one software target. In 2026, the live installed base includes Hopper (H100/H200/H20), Blackwell (B100/B200/GB200), Blackwell Ultra (B300/GB300), AMD (MI300X/MI325X/MI350X), Trainium 2/3, TPU v5p/v6, Maia, Groq — and Rubin ships in 2026H2.** Each additional architecture reduces the effective fungibility of the aggregate compute pool. A cluster operator managing five architectures runs less effective compute than the sum of nameplate FLOPS would suggest, even at high nominal utilization per pool.
+
+**Why this is hard to fix:**
+
+- **CUDA is the deepest moat in the industry.** PyTorch, TensorFlow, and every major ML framework target CUDA first; AMD, Google, and AWS targets second or later. The network-effect advantage compounds: more CUDA-trained engineers → more CUDA-optimized libraries → more PyTorch kernels tuned for NVIDIA → more models built for NVIDIA → more demand for NVIDIA → more hiring of CUDA-trained engineers. Breaking this is a 5-10 year industry project, not a single-product move.
+- **Vendor-neutral abstractions have not worked.** OpenAI's Triton, OpenXLA, MLIR-based approaches, and various cross-vendor compiler projects exist. None have achieved peak-throughput parity across architectures at the pace that would actually make FLOPS fungible. The gap between "code runs" and "code runs at peak" remains the strategic moat.
+- **Hyperscalers have mixed incentives.** Google, AWS, Microsoft all want their custom silicon (TPU, Trainium, Maia) to capture internal workloads — that's why they built them. They are not champions of cross-architecture fungibility. NVIDIA obviously isn't either. The only pure champions are operators that stand to benefit from commoditization — merchant GPU operators, some academic and research institutions, and downstream buyers.
+- **Standardization would require synchronized capex cycles** across NVIDIA, AMD, hyperscalers, and specialty silicon vendors — a coordination problem with no natural convening authority.
+
+**Implications for project finance:**
+
+- **Concentration risk quantifies differently.** A DC deal with 100% Rubin silicon and a hyperscaler anchor is paradoxically less "stranded" than a diversified-silicon DC serving a merchant customer pool — the former has offtake contracted to the architecture, the latter depends on marginal-customer willingness to run on whatever silicon is available. **Single-architecture + hyperscaler-anchor is a feature, not a bug, under this lens.**
+- **Residual value is coupled to software-stack currency.** If NVIDIA drops CUDA-version support for older architectures (typical 5-7 years post-release), older silicon strands economically faster than hardware-physics-based depreciation curves would suggest. **CUDA-lifecycle risk is a first-order input to GPU residual-value underwriting** — not a secondary technology-risk item.
+- **Cluster-scale diversification is value-destructive at production peak.** A merchant DC with 30 MW A100 + 40 MW H100 + 60 MW B200 + 100 MW Rubin is not 230 MW of fungible compute — it is four separate compute pools with narrow workload substitution between them. **Senior-debt sizing should reflect the narrower of (a) aggregate offtake revenue, (b) architecture-pool-by-architecture-pool utilization under realistic mismatch assumptions.**
+- **Refresh-cycle budgeting must include shell and power.** Capex for silicon refresh must budget rack, cooling, and network refresh at each generation change — not incremental-chip replacement. True refresh capex is 60-80% of original DC capex. **Senior-debt amortization schedules that assume "chip refresh only" are under-sizing the re-investment requirement.**
+- **Multi-vendor hedge is operationally expensive.** Traditional infrastructure underwriting benefits from multi-vendor sourcing (two gas-turbine OEMs, multiple inverter suppliers) — it reduces concentration risk. In GPU stacks, multi-vendor is operationally expensive and reduces effective utilization. **The obvious risk-management instinct is actively value-destructive for peak-performance AI-compute operations.** Underwriters need to resist the default "diversification is good" reflex; concentration can be optimal here, offset by hyperscaler-anchor and covenant-level protections.
+- **BTU-to-GPU (integrated) operators benefit disproportionately.** Vertically integrated operators like Nscale can plan silicon generation, DC-shell spec, power delivery, and cooling infrastructure as a single design problem, locked to a single hyperscaler anchor and a single architecture. **The integrated architecture model dramatically reduces the stranded-FLOPS risk** relative to colo or merchant models that have to serve heterogeneous silicon and customers. This is an additional structural advantage layered on the cost-basis arbitrage from the companion Nscale deep dive.
+
+**Forward observation.** If Rubin Ultra ships on schedule in 2027H2 and proves to be materially faster per-dollar than GB300 on frontier training, **a large fraction of GB200/GB300 installed base will transition from training duty to inference duty within 12-18 months of Rubin Ultra broad ship** — the software stack will still work, but frontier-training economics will favor the new silicon. DC shells that were designed for 120-140 kW/rack with 5-7 year intended training horizons may effectively age out of training duty in 2028-29, 2-3 years earlier than design-life. **The silicon obsolescence cascade outruns the shell-design horizon.** This is a real risk to DC-shell senior-debt tenor assumptions that project-finance underwriters have not yet fully internalized.
 
 ================================================================
 PART 3 — GPU PRICING MECHANICS: WHAT DOES $1.56/HR ACTUALLY MEAN

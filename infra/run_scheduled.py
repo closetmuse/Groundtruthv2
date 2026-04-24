@@ -42,7 +42,13 @@ if __name__ == "__main__":
     try:
         from gt.orchestrator import run
         import gt.orchestrator as orch
-        orch.DRY_RUN = False  # Scheduled runs always send email
+        # Brief-only workflow (2026-04-24): scheduled runs capture data but do
+        # NOT send the legacy full-format email. The only email that ships is
+        # the brief-only email fired by infra/finalize_capture.py after the
+        # hand-written sector brief lands. Keeping DRY_RUN=True here suppresses
+        # the orchestrator's build_email/send_digest path while preserving
+        # prices → fetch → classify → score → sheets sync.
+        orch.DRY_RUN = True
 
         summary = run(trigger="scheduled")
 

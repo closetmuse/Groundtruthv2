@@ -16,6 +16,35 @@ at the repo root and in the git log.
 
 ---
 
+## 2026-04-24 — Suppress legacy digest from scheduled runs (brief-only enforced)
+**Commit:** (this commit)
+**Scope:** infra — `infra/run_scheduled.py` flipped from `DRY_RUN = False` to
+`DRY_RUN = True`.
+
+On 2026-04-24 two emails went out in the morning — the 06:00 ET Windows Task
+Scheduler job (`infra/run_scheduled.py`) was running the orchestrator with
+`DRY_RUN = False`, which fired the legacy full-format digest (`build_email` /
+`send_digest`). `infra/finalize_capture.py` then sent the brief-only email
+after the hand-written sector brief landed. Result: duplicate send, with the
+legacy format arriving first.
+
+The 2026-04-23 entry below established brief-only as the intended delivery
+mode, but left the scheduled-task send path active. This commit closes that
+gap. Scheduled runs now capture data (prices → fetch → classify → score →
+sheets sync) but do not send email. The only email that ships per capture
+is the brief-only email from `finalize_capture`.
+
+**Rationale:** user feedback — "I only want the briefs to go out."
+
+**Downstream effects:**
+- `infra/run_scheduled.py` — comment expanded; `orch.DRY_RUN = True`.
+- `logs/scheduler.log` — next scheduled run should log `EMAIL | sent:False`.
+- No change to `infra/finalize_capture.py`, `infra/run_manual.py`, or
+  `gt/email_builder.py` paths.
+- Memory: new feedback file `feedback_single_email_brief_only.md`.
+
+---
+
 ## 2026-04-23 — Email delivery reactivated, brief-only mode, auto-send on commit
 **Commit:** (this commit)
 **Scope:** code / workflow — email is now restarted after hold; uses a brief-only

@@ -29,6 +29,40 @@ The AI-compute accelerator market has three broad architecture families: NVIDIA 
 | GB200 NVL | Blackwell (Grace+Blackwell pair) | 384GB HBM3e (per superchip) | 16 TB/s | ~4500 | ~9000 | ~18000 | 1200-2700 | $60-85k | Top-end frontier training (cluster-native) |
 | GB200 NVL72 rack | Blackwell cluster | 13.5 TB HBM3e (72 GPU rack) | — | ~1.4 EFLOPS FP8 | — | — | ~120 kW/rack | $3-4m/rack | Frontier training rack-scale |
 
+**NVIDIA Blackwell Ultra (GB300 refresh, 2025H2-2026 ship):**
+
+| Name | Arch | Memory | Memory BW | FP16 TFLOPS | FP8 TFLOPS | FP4 TFLOPS | Power (W) | Capex (USD) | Use-case sweet spot |
+|---|---|---|---|---|---|---|---|---|---|
+| B300 | Blackwell Ultra | 288GB HBM3e | ~8.0 TB/s | ~2500 | ~5000 | ~15000 | 1400 | $50-65k | Memory-scaled inference + training refresh |
+| GB300 NVL | Blackwell Ultra (Grace+B300 pair) | 576GB HBM3e (per superchip) | 16 TB/s | ~5000 | ~10000 | ~30000 | 1400-2800 | $70-95k | Long-context frontier workloads |
+| GB300 NVL72 rack | Blackwell Ultra cluster | 20.7 TB HBM3e (72 GPU rack) | — | ~1.1 EFLOPS FP8 / ~3.3 EFLOPS FP4 | — | — | ~140 kW/rack | $3.5-4.5m/rack | Top rack-scale frontier (current flagship) |
+
+**Why GB300 matters vs GB200 specifically.** Blackwell Ultra is a within-generation memory + FP4 refresh rather than a new architecture. Memory capacity per GPU jumps from 192GB (B200) to 288GB (B300), a 50% lift — that is the structural feature driving adoption. Single-GPU 288GB fits a 400-500B parameter model in FP4 without tensor-parallelism, and doubles KV-cache headroom for long-context inference (the 1M-token-context workloads that became operationally common through 2025). FP4 throughput also scales ~1.5x, which is the second commercial vector. Power envelope moves up to 1400W per GPU from 1000W (B200) — liquid cooling is mandatory, not optional, at rack scale. **Practical deployment impact:** existing GB200 NVL72 orders placed in 2025 that have not yet shipped are being converted to GB300 NVL72 where hyperscaler offtake agreements permit; the B200 → B300 substitution is narrowing B200's addressable production window to mostly 2025-delivered units.
+
+**NVIDIA Rubin — next architecture (2026 launch, Vera Rubin platform):**
+
+| Name | Arch | Memory | Memory BW | FP4 TFLOPS (est) | Power (W) | Capex (USD est) | Ship window |
+|---|---|---|---|---|---|---|---|
+| R100 / R200 | Rubin | 288GB HBM4 (initial) | ~13 TB/s | ~20000-25000 | ~1800 | $50-70k | 2026H2 targeted |
+| VR200 / Vera Rubin superchip | Rubin + Vera CPU | 576GB HBM4 (per superchip) | ~26 TB/s | ~40000-50000 | 2000-3600 | $80-110k | 2026H2-2027H1 |
+| Vera Rubin NVL144 rack | Rubin cluster (144 GPUs) | ~75 TB HBM4 (rack) | — | ~3.6 EFLOPS FP4 (est) | ~180-200 kW/rack | $5-6.5m/rack (est) | 2026H2-2027H1 |
+| Rubin Ultra (R300 class) | Rubin Ultra | 1024GB HBM4e (16-stack package per GPU) | ~32 TB/s | ~50000+ | ~3600 | $100-130k (est) | 2027H2 |
+| Vera Rubin Ultra NVL576 rack | Rubin Ultra cluster (576 GPUs) | ~365 TB HBM4e (rack) | — | ~15 EFLOPS FP4 (est) | ~600 kW/rack | $15-20m/rack (est) | 2027H2 |
+
+**Vera CPU — the other half of the platform.** Vera is the Rubin-generation ARM CPU successor to Grace. Grace+Blackwell (GB200/GB300) pairs an ARM-based Grace CPU with two Blackwell GPUs through NVLink-C2C coherent interconnect. Vera+Rubin (VR100/VR200) keeps the same template but moves the CPU to a newer custom ARM core with higher memory bandwidth to the GPU pair. For project-finance purposes the CPU is a small share of rack capex (low-single-digit percent) — the Vera distinction matters for internal bandwidth and for the NVL rack architecture but not for residual-value-bearing silicon content.
+
+**Why Rubin matters — the structural jumps.**
+
+1. **HBM4 memory generation.** HBM4 targets ~2 TB/s per stack (vs HBM3e ~1.25-1.4 TB/s per stack), and Rubin's 8-stack package lifts per-GPU memory bandwidth to ~13 TB/s — the 62% lift vs B200's 8 TB/s. Rubin Ultra's 16-stack package doubles that again. **Memory bandwidth is the inference-latency bottleneck; each HBM generation resets the $/hr inference pricing floor.**
+
+2. **FP4 (and experimental FP2/FP6) throughput.** Rubin FP4 throughput ~20000-25000 TFLOPS is ~2-3x B200, ~1.5-2x B300. Inference cost-per-token compresses further at this level; training flops at higher precision get a more modest lift (~40-60%).
+
+3. **NVL144 → NVL576 rack scaling.** NVL144 (144 GPUs per rack, double GB200/GB300's 72) doubles the NVLink domain size in one generation, enabling single-rack training of much larger monolithic models without dropping to InfiniBand between racks. Rubin Ultra's NVL576 quadruples again — 576-GPU single NVLink-coherent domain is a new architectural regime.
+
+4. **Power and cooling.** NVL144 at ~180-200 kW/rack and NVL576 at ~600 kW/rack push DC-shell requirements further up. **The DC shells being built today (120 kW/rack for GB200 NVL72 spec) are already undersized for Rubin Ultra.** Nscale-class integrated operators with ability to iterate on shell design during construction have a real advantage here over colo tenants locked into pre-Rubin rack specs.
+
+5. **Timing implication for current-gen residual.** Rubin broad availability 2026H2-2027H1 means H100/H200/B200 residual-value curves adjust downward from prior expectation starting late-2026. B300 sits awkwardly — a 6-12 month window between broad B300 ship (2025H2-2026H1) and first Rubin volume (2026H2) means **B300 may have the shortest useful-life top-tier window of any Blackwell SKU**, absent explicit hyperscaler anchor contracts that lock the lifetime utilization.
+
 **NVIDIA inference-optimized GPUs (L-series, T-series, RTX):**
 
 | Name | Arch | Memory | Memory BW | Power (W) | Capex (USD) | Use-case sweet spot |
@@ -162,11 +196,11 @@ PART 4 — WHAT GETS BETTER IN THE FUTURE
 
 Multiple vectors of improvement are in flight, each on a different cadence:
 
-**1. Precision-reduction FLOPS throughput (short-cycle, 1-2 years).** Blackwell brought native FP4 support — inference throughput doubled from H100's FP8-native. Next-gen Rubin (2026-27 roadmap) is expected to add FP3 or FP2 experimental support plus further FP4 efficiency. **Each precision reduction roughly doubles inference throughput at similar silicon.** Impact on $/hr: lower FP4 cost-per-token means inference pricing erodes for the same workloads, while training flops continue to require higher precision and hold pricing.
+**1. Precision-reduction FLOPS throughput (short-cycle, 1-2 years).** Blackwell brought native FP4 support — inference throughput doubled from H100's FP8-native. Blackwell Ultra (GB300) is lifting FP4 throughput another ~1.5x within the same architecture. Rubin (2026H2) adds a further ~2x FP4 lift and is expected to bring experimental FP3 or FP2 paths for inference; Rubin Ultra (2027H2) stacks more memory and packaging changes on top. **Each precision reduction roughly doubles inference throughput at similar silicon.** Impact on $/hr: lower FP4 cost-per-token means inference pricing erodes for the same workloads, while training flops continue to require higher precision and hold pricing.
 
-**2. HBM capacity and bandwidth (medium-cycle, 2-4 years).** HBM3e (B200/H200 current) ships at 192GB per GPU; HBM4 (Rubin, MI400) is expected at 288-384GB per GPU with ~40-50% more bandwidth. **Single-GPU memory at 288-384GB lets a single GPU hold a 400B-parameter model in FP4** — eliminating tensor-parallelism for all but frontier-frontier workloads. Impact on $/hr: memory-bound inference pricing compresses further as per-GPU capacity moves to cover the whole deployed model-size distribution.
+**2. HBM capacity and bandwidth (medium-cycle, 2-4 years).** HBM3e progression already runs from 141GB (H200) → 192GB (B200) → 288GB (B300). HBM4 on Rubin starts at 288GB per GPU with ~13 TB/s per-GPU bandwidth; Rubin Ultra's 16-stack package targets ~1 TB HBM4e per GPU at ~32 TB/s. **Single-GPU memory at 288-1024GB eliminates tensor-parallelism for all but frontier-frontier workloads** — a 1T-parameter model fits in FP4 on a single Rubin Ultra GPU without cross-GPU sharding. Impact on $/hr: memory-bound inference pricing compresses sharply as per-GPU capacity moves to cover the whole deployed model-size distribution; H200-class memory capacity becomes commodity inference fare within 18-24 months.
 
-**3. NVLink domain size and rack density (medium-cycle, 2-4 years).** NVL72 (72-GPU domain) enables 400B+ training without InfiniBand. Future NVL144 or NVL288 architectures would enable 1T+ monolithic training — though by 2028+ foundational models may plateau in parameter count and emphasize compute-per-token rather than parameter-count scaling. Rack-density is moving from 120 kW/rack (GB200 NVL72) toward 240 kW/rack (2027+ roadmap), which is a DC-shell-redesign driver more than a GPU-pricing driver.
+**3. NVLink domain size and rack density (medium-cycle, 2-4 years).** NVL72 (72-GPU domain, GB200/GB300) enables 400B+ training without InfiniBand. **Vera Rubin NVL144 (144-GPU domain, 2026H2-2027H1) doubles that.** Rubin Ultra NVL576 (576-GPU domain, 2027H2) quadruples again — a new architectural regime where single-rack NVLink-coherent training spans 576 GPUs. By Rubin Ultra, training cluster topology shifts from "rack + IB fabric" to "rack is the training unit." Rack-density follows: 120 kW/rack (GB200 NVL72) → ~140 kW/rack (GB300 NVL72) → ~180-200 kW/rack (Vera Rubin NVL144) → ~600 kW/rack (Rubin Ultra NVL576). **DC shells permitted and built in 2025 for GB200 specs are already sub-spec for Rubin Ultra** — a structural DC-shell obsolescence driver for 2027-28 refreshes.
 
 **4. Optical / photonic interconnect (medium-long cycle, 3-6 years).** Switching GPU-to-GPU from copper (NVLink today) to optical would add ~2x bandwidth at ~half the power. Early announcements from multiple vendors (NVIDIA, Ayar Labs, Lightmatter) target 2027-29 integration. Impact on $/hr: modest — improves efficiency but changes capex floor upward in parallel.
 
@@ -222,14 +256,20 @@ Recommended underwriting residual-value assumptions (conservative for PF senior 
 
 | Asset | Useful life | 5-yr residual | 7-yr residual |
 |---|---|---|---|
-| Current-gen B200 | 5-6 years | 30-40% of capex | 10-20% |
-| H100/H200 | 5 years | 20-35% of capex | 5-15% |
+| Rubin Ultra (2027H2 class) | 5-6 years | 35-45% of capex | 15-25% |
+| Rubin R100/R200 (2026H2 class) | 5 years | 30-40% | 10-20% |
+| Blackwell Ultra B300 / GB300 | 4-5 years (shortened by Rubin arrival) | 20-30% | 5-12% |
+| Blackwell B200 / GB200 | 5 years | 25-35% | 8-15% |
+| H100 / H200 | 5 years | 15-30% | 5-12% |
 | A100 | 5 years (already late-cycle) | 10-20% | 0-5% |
-| DC shell (100+ kW rack-ready) | 15-20 years | 60-70% | 50-60% |
-| DC shell (legacy 10-30 kW rack) | 10 years | 40-50% | 20-30% |
+| DC shell (Rubin-Ultra-ready, 600 kW/rack, liquid) | 20-25 years | 65-75% | 55-65% |
+| DC shell (GB200-ready, 120 kW/rack, liquid) | 15-20 years | 55-65% | 45-55% |
+| DC shell (legacy 10-30 kW rack, air) | 10 years | 40-50% | 20-30% |
 | CCGT BTU-to-GPU captive | 25-30 years | 70-80% | 65-75% |
 
-**Key underwriting implication.** Senior debt against a GPU-cluster asset should amortize faster than senior debt against the DC shell housing it; the shell amortizes faster than the CCGT powering it. **Most project-finance GPU-as-a-service deals should be structured with layered amortization** — rapid pay-down on GPU tranche (4-5 yr), standard PF amortization on shell (15-20 yr), long-tenor on power (20-25 yr).
+**B300 residual-value note.** Blackwell Ultra carries a specifically tighter residual-value window because Rubin broad shipment arrives 6-12 months behind B300. **A 2026 H1 B300 purchase has an effective "top-tier" window of only 12-18 months before Rubin displaces it from new-training duty into inference.** For senior-debt sizing, assume a shortened useful life (4-5 years rather than 5-6) on B300 collateral absent hyperscaler-anchor offtake that contractually pins the utilization through year 5.
+
+**Key underwriting implication.** Senior debt against a GPU-cluster asset should amortize faster than senior debt against the DC shell housing it; the shell amortizes faster than the CCGT powering it. **Most project-finance GPU-as-a-service deals should be structured with layered amortization** — rapid pay-down on GPU tranche (4-5 yr, tighter on B300), standard PF amortization on shell (15-20 yr; 20-25 yr on Rubin-Ultra-ready shells), long-tenor on power (20-25 yr).
 
 ================================================================
 US PROJECT-FINANCE IMPLICATIONS — THE SRI DOMAIN SECTION
@@ -292,17 +332,19 @@ WHAT TO WATCH NEXT 30-90 DAYS
 
 2. **Kalshi forward-market liquidity.** Current Kalshi volumes are thin (nil-vol on most reads). If volume builds, the forward curve becomes a genuine price-discovery tool rather than marketplace-maker quote reference.
 
-3. **B200 broad availability.** Primary-market B200 shipment and delivery cadence through 2026Q2-Q3 affects both H100 residual value (displacement) and B200 spot pricing.
+3. **B200 broad availability and B300 ramp.** Primary-market B200 shipment is now tailing off as the GB300 NVL72 production line takes priority; B300 volume-ship cadence through 2026Q1-Q3 affects both H100/H200 residual value (displacement into inference) and B200 spot pricing (early obsolescence vs Rubin).
 
-4. **Rubin-generation announcements.** Rubin (2026) and Rubin Ultra (2027) detailed specifications expected mid-2026. These will set next-generation capex levels and reset H200/B200 residual-value expectations.
+4. **Rubin ramp (2026H2) and Vera Rubin NVL144 first shipments.** Primary signal: first Vera Rubin NVL144 rack delivery to a hyperscaler anchor. Secondary: Rubin primary-market capex level at volume — this sets the reset point for all down-generation residual-value curves. Tertiary: any slip in Rubin ship window (from 2026H2 to 2027H1) tightens B300's useful-life window further.
 
-5. **AMD MI350X/MI400 traction.** If MI400 at 432GB HBM4 ships to hyperscaler anchors (Meta, Microsoft, Oracle continue to show interest), AMD's structural share gain becomes material — pricing pressure on equivalent-tier NVIDIA.
+5. **Rubin Ultra (2027H2) detailed spec disclosure.** NVL576 rack power envelope (~600 kW/rack expected) and HBM4e memory-per-GPU (~1 TB targeted) set the ceiling for the next DC-shell design generation. Sponsors committing to Rubin-Ultra-ready shells in 2026 are making a 5-year infrastructure bet — worth watching which sponsors step forward.
 
-6. **Hyperscaler capex commentary.** Quarterly earnings calls from Microsoft, Google, Meta, AWS discussing GPU useful-life assumptions, capex intensity, and Trainium/Maia/TPU vs NVIDIA mix. These set baseline assumptions for the merchant GPU-operator environment.
+6. **AMD MI350X/MI400 traction.** If MI400 at 432GB HBM4 ships to hyperscaler anchors (Meta, Microsoft, Oracle continue to show interest), AMD's structural share gain becomes material — pricing pressure on equivalent-tier NVIDIA.
 
-7. **GPU-as-a-service private-credit structures.** First publicly disclosed senior-debt or term-loan B on GPU-collateralized assets at scale. Pricing benchmark.
+7. **Hyperscaler capex commentary.** Quarterly earnings calls from Microsoft, Google, Meta, AWS discussing GPU useful-life assumptions, capex intensity, and Trainium/Maia/TPU vs NVIDIA mix. These set baseline assumptions for the merchant GPU-operator environment.
 
-8. **Export-control changes.** China-specific H20 already export-controlled; any expansion to H100 or B200 broad export restrictions would restructure secondary-market supply.
+8. **GPU-as-a-service private-credit structures.** First publicly disclosed senior-debt or term-loan B on GPU-collateralized assets at scale. Pricing benchmark.
+
+9. **Export-control changes.** China-specific H20 already export-controlled; any expansion to H100 or B200 broad export restrictions would restructure secondary-market supply.
 
 ================================================================
 ALPHA-LEDGER POSITIONING

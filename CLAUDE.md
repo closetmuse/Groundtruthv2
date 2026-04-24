@@ -68,7 +68,11 @@ the `.gt_capture_pending` marker at project root; never skip or reorder.
   1. `python infra/run_manual.py` — capture. Writes the marker with the
      exact brief filename. Emits NEXT STEP block.
   2. Write the sector brief to the **exact path** from the NEXT STEP
-     block. No timestamp drift, no alternate filenames.
+     block. No timestamp drift, no alternate filenames. Use the **v2
+     template** — `docs/brief_template_v2.md` — with the executive-card
+     top, inverse-pyramid "what matters" paragraphs, and a `TAPE TONE`
+     line (≤4 words) that becomes the email subject. Jargon resolves
+     via `docs/glossary.md`.
   3. `python infra/finalize_capture.py --headline "<one-line theme>"` —
      verifies brief, git-adds day folder + alpha_ledger (if touched),
      commits, clears marker. Push is deferred to manual.

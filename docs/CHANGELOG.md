@@ -16,6 +16,74 @@ at the repo root and in the git log.
 
 ---
 
+## 2026-04-24 — Brief format v2 (executive card + inverse-pyramid + glossary + tape-tone-as-subject)
+**Commit:** (this commit)
+**Scope:** workflow / convention / code — new brief template, new glossary
+document, new email-subject extraction logic.
+
+Sri requested a more user-friendly brief format after the 2026-04-24
+midday capture. Prior format (v1) was analytically dense but required
+15-25 minutes to read; punchlines buried mid-paragraph; first-time-
+reader context re-stated every brief; jargon (ALF codes, axis numbers,
+substrate vocabulary) never formally defined in-document.
+
+v2 changes:
+
+1. **Executive Card at top of every brief.** Five blocks, 30-60 second
+   read: Tape Tone, Matcher, What Changed (delta-framed bullets),
+   What's Binding Next (specific next data points per ALF), If You
+   Only Read One Thing (single-sentence action takeaway).
+2. **Inverse-pyramid on "what matters" paragraphs.** Each paragraph
+   leads with a bold bottom-line sentence ≤25 words. Evidence follows.
+   Paragraphs ≤120 words, max 5 per brief.
+3. **Glossary-backed jargon.** New `docs/glossary.md` holds persistent
+   definitions for every recurring term. Briefs no longer inline-define
+   first use — they rely on the glossary.
+4. **Fired-axes-only in the framework scan.** QUIET axes collapse to
+   a footer line.
+5. **Reduced prices table.** Rows that moved <0.5% and haven't breached
+   are dropped.
+6. **Sector TL;DR lines.** Each sector opens with 1-2 sentences on what
+   the section establishes this capture.
+7. **Per-ALF paragraph + PENDING status table.** Prose for each ALF
+   with status / what fired / probability shift / next binding data;
+   the full state read lives in the table.
+8. **Footer compression.** System Status + Data Hygiene + Named-deal
+   check + Temporal causality + QUIET axes list collapse to one
+   paragraph; flags get expanded lines only if they fire.
+
+Tape Tone policy change joined with v2:
+
+- Tape Tone now appears on EVERY brief in the Executive Card, not
+  EOD-only. Four words maximum.
+- Tape Tone is the email subject line. `build_subject_brief_only`
+  in `gt/email_builder.py` extracts via regex `r"^\s*TAPE\s*TONE\s*:\s*(.+?)\s*$"`
+  with fallback to the v1 EOD-bolded pattern for legacy briefs.
+- Email subject format: `GroundTruth | <Mon dd> | <SLOT> | <tape tone>`.
+
+**Rationale:** first-read comprehension at Sri's cadence (multiple
+briefs per day, rest of the day on other work) benefits from the
+top-of-brief card more than from length reduction. v2 is only ~10
+lines shorter than v1 but cuts time-to-read from 15-25 min to 5-7 min
+because the decision-relevant signal is front-loaded.
+
+**Downstream effects:**
+
+- New `docs/glossary.md` — load once, referenced from any brief.
+- New `docs/brief_template_v2.md` — template spec.
+- `gt/email_builder.py` — `build_subject_brief_only` rewritten to
+  extract Tape Tone.
+- `docs/workflows.md` — v2 template referenced as the current brief
+  standard; glossary referenced.
+- Memory files: `feedback_brief_format_v2.md` (new),
+  `feedback_tape_tone_label.md` (updated to per-brief from EOD-only),
+  `MEMORY.md` (new index entry).
+- v1 briefs remain committed as-is (no retroactive edits per
+  contemporaneous-record discipline). 2026-04-24 0606ET + 1128ET
+  briefs are v1; next capture onward is v2.
+
+---
+
 ## 2026-04-24 — Suppress legacy digest from scheduled runs (brief-only enforced)
 **Commit:** (this commit)
 **Scope:** infra — `infra/run_scheduled.py` flipped from `DRY_RUN = False` to

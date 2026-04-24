@@ -94,10 +94,17 @@ survives a fresh session with no prior context.
 2. **Hand-write the consolidated sector brief** to the **exact path**
    in the NEXT STEP block — e.g.
    `outputs/daily/2026-04/04-20/sector_briefs_2026-04-20_0522ET.md`.
-   No timestamp drift, no alternate filenames. Follow the standing
-   sector-brief template (see `conventions.md`). Append Alpha findings
-   to `outputs/alpha_ledger.md` in the same step — the finalizer picks
-   up ledger edits automatically.
+   No timestamp drift, no alternate filenames. Follow the **v2 brief
+   template** (`docs/brief_template_v2.md`, in force from 2026-04-24):
+   executive card → inverse-pyramid "what matters" paragraphs →
+   fired-axes-only framework scan → reduced prices table → sector
+   TL;DRs → macro overlay → per-ALF alpha-ledger update → PENDING
+   status table → one-paragraph footer. Jargon resolves via
+   `docs/glossary.md`; do not inline-define recurring terms. Every
+   brief includes a `TAPE TONE : <≤4-word label>` line in the
+   executive card — this is the email subject line. Append Alpha
+   findings to `outputs/alpha_ledger.md` in the same step — the
+   finalizer picks up ledger edits automatically.
 3. **`python infra/finalize_capture.py --headline "<one-line theme>"`** —
    verifies the brief exists and is non-trivial (>2KB unless `--force`),
    git-adds the day folder + `outputs/alpha_ledger.md` (if modified),

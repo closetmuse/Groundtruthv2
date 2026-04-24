@@ -1105,27 +1105,35 @@ SC Compliance: Public sources only. No client data in system.
 
 def build_subject_brief_only(brief_path: Path | None = None) -> str:
     """
-    Subject for brief-only email. Parse the opening headline from the
-    brief for a thematic subject; fall back to generic if not available.
+    Subject for brief-only email. Per the v2 brief template (2026-04-24),
+    the Tape Tone line from the executive card is the email subject.
+
+    Extraction priority:
+      1. v2 executive-card line:  `TAPE TONE : <text>`
+      2. v1 EOD-only line:        `**TAPE TONE (EOD...): <text>**`
+      3. Fallback: generic.
     """
     if brief_path is None:
         brief_path = _find_latest_brief_for_today()
     date_str = datetime.now().strftime("%b %d")
     if brief_path is None:
         return f"GroundTruth | {date_str} | Brief pending"
-    # Pull the first bold sentence from the brief as the theme tag
     try:
         md = brief_path.read_text(encoding="utf-8")
-        # Look for the slot/regime line then the One thing opener
-        slot_match = re.search(r"(AM|midday|EOD)", md[:500], re.IGNORECASE)
+        slot_match = re.search(r"(AM|MIDDAY|midday|PM|EOD)", md[:500])
         slot = slot_match.group(1).upper() if slot_match else "brief"
-        # Extract "**One thing matters this capture. ...**" first sentence
-        m = re.search(r"\*\*One thing matters[^.]*\.\s*([^*]+?)\.\*\*", md)
-        theme = m.group(1).strip() if m else "brief delivered"
-        # Keep subject tight
-        if len(theme) > 80:
-            theme = theme[:77] + "..."
-        return f"GroundTruth | {date_str} | {slot} | {theme}"
+
+        # v2 executive-card tape tone — single line starting with TAPE TONE
+        m = re.search(r"^\s*TAPE\s*TONE\s*:\s*(.+?)\s*$", md, re.MULTILINE)
+        if m is None:
+            # v1 EOD format — bolded tape tone at bottom of brief
+            m = re.search(r"\*\*TAPE TONE[^:]*:\s*(.+?)\.?\*\*", md)
+        tape_tone = m.group(1).strip() if m else "brief delivered"
+        # Trim trailing punctuation other than ? ! for subject aesthetics
+        tape_tone = tape_tone.rstrip(". ")
+        if len(tape_tone) > 100:
+            tape_tone = tape_tone[:97] + "..."
+        return f"GroundTruth | {date_str} | {slot} | {tape_tone}"
     except Exception:
         return f"GroundTruth | {date_str} | {brief_path.name}"
 

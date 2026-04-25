@@ -61,9 +61,48 @@ Post-Iran-war substrate (current, Day 56):
 - **Brent-WTI spread:** widens structurally because the geopolitical premium attaches to Brent more than WTI. The Friday close $4.90 spread is the new normal vs the 2022-2024 $1.50-2.50 average.
 - **US LNG netback:** asymmetric — feedgas costs (HH-linked) do not inherit the geopolitical premium; spot-LNG cargo prices (JKM/TTF) do partially inherit it through the residual oil-indexation in long-term contracts. **HH-JKM and HH-TTF arb gross widens structurally** as a second-order consequence of Thesis A. This is a direct read on ALF-15-4.
 
-**Cross-asset transmission.**
+**Cross-asset transmission — the petrodollar reframe in plain mechanism terms.**
 
-The petrodollar reframe (GS-2088) matters here because it removes a *demand-side* mitigant. Historically, $90 Brent would pull USD higher (petrodollar-recycling effect), and stronger USD would mechanically cap further oil rises. If the petrodollar linkage is mythology, that natural cap is missing — Brent above $95 doesn't trigger the USD-strength feedback that would have pulled it back. The Friday tape (Brent $99.78, USDX 98.51 — USD softer not stronger) is the live confirmation.
+The petrodollar reframe (GS-2088) matters here because it removes a *demand-side* mitigant. The mechanism deserves explicit unpacking because the loss-of-mitigant is what makes the GP premium structurally durable rather than mean-reverting.
+
+*The textbook feedback loop (what the petrodollar story said happens).*
+
+1. Oil priced in USD globally — producers receive USD revenue when oil rises.
+2. Saudi/Gulf producers (historically) recycled most of that surplus into USD-denominated assets: Treasuries, US equities, US real estate. This was the "petrodollar recycling."
+3. Recycling = persistent buy-side flow on USD assets = USD strengthens.
+4. Stronger USD makes USD-priced oil more expensive for non-USD-economy buyers (Europe, Japan, China, EM).
+5. Those buyers cut demand → oil price falls back.
+
+Net effect: oil rising automatically triggered an FX feedback that destroyed oil demand and pulled oil back down. That is the *demand-side mitigant* / *natural ceiling* — a stabilizer that fires without anyone choosing to fire it.
+
+*Why the FT calls it mythology.*
+
+- There was never a formal Saudi-USD pact. The 1974 "agreement" was about military protection in exchange for oil-priced-in-USD, but USD-pricing was already the pre-existing global convention. There was no contract requiring recycling into USD assets.
+- Producer reserve diversification has been running since ~2014. Saudi USD-asset share of reserves has fallen from roughly 80% to 55-60%. PIF and ADIA deploy globally — into EUR, GBP, JPY, gold, EM private equity, not just Treasuries.
+- China-Saudi RMB-settled oil deals are small in volume but symbolically meaningful — they prove the linkage isn't structural, just conventional.
+- The empirical Brent/DXY correlation has weakened significantly since 2020. The recycling channel still exists but is no longer dominant.
+
+The FT's argument isn't that recycling never happened — it's that the linkage between oil-up and USD-up has been weaker than the framework assumed for at least a decade, and we are now seeing the conventional ceiling fail to fire when it "should."
+
+*What removing the mitigant means concretely.*
+
+If the FX feedback no longer fires, the only ceiling left on oil is direct demand destruction — consumers paying more at the pump until they actually cut driving / heating / industrial use. That's a much slower, much less elastic mechanism than the FX channel. Slow-elasticity ceilings are higher ceilings. So oil can run further at any given supply-disruption probability, and the GP premium that builds during a crisis takes longer to mean-revert.
+
+*The Friday tape as live confirmation.*
+
+Textbook prediction: Brent at $99.78 should be pulling USD higher. We should see DXY pushing toward 100-102 if the petrodollar feedback were firing.
+
+What we actually see: DXY at 98.51 — USD *softer*, not stronger. The two prices are moving in directions the textbook says they shouldn't. That divergence is the reframe playing out in real time on a single tape.
+
+*Honest caveats (so the read can be stress-tested).*
+
+- DXY is a basket vs EUR/JPY/GBP/CAD/CHF/SEK. Soft DXY can also reflect EUR strength (ECB-vs-Fed expectations) rather than oil-flow USD weakness. The Friday tape is suggestive, not dispositive.
+- Recycling did happen historically — the loop wasn't pure mythology, just weaker than framework-priced.
+- Fed cut expectations, US fiscal trajectory, and Treasury auction demand are also pulling on USD independently. You cannot attribute all of Friday's DXY softness to oil flow.
+
+But: even with those caveats, **the absence of the textbook USD-strength response to $99.78 Brent is the data point.** A year ago that print would have lifted DXY by 0.3-0.5 intraday on the recycling-flow expectation alone. Friday it didn't. That is the empirical anchor under the FT's "mythology" framing.
+
+Net for Thesis A: the GP premium does not have an automatic stabilizer pulling it back. The floor is more durable than the pre-reframe framework would have priced it.
 
 **What would invalidate Thesis A.**
 - A negotiated Iran ceasefire holding for 90+ days WITHOUT Brent fading below $80. (If it ceasefires AND Brent fades, the premium was episodic.)
